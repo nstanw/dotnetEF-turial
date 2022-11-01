@@ -12,6 +12,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using noteOnlineV01.Models;
 using Microsoft.EntityFrameworkCore;
+using Npgsql;
 
 namespace noteOnlineV01
 {
@@ -27,9 +28,27 @@ namespace noteOnlineV01
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-           services.AddDbContext<ContentContext>(
-               opt => opt.UseInMemoryDatabase("ContentList")
-               );
+            //var cs = "Host=localhost;Username=postgres;Password=1;Database=noteonl";
+
+            //using var con = new NpgsqlConnection(cs);
+
+            //var sql = "SELECT version()";
+
+            //using var cmd = new NpgsqlCommand(sql, con);
+
+            //var version = cmd.ExecuteScalar().ToString();
+            //Console.WriteLine($"PostgreSQL version: {version}");
+
+            NpgsqlConnectionStringBuilder sb = new NpgsqlConnectionStringBuilder();
+            sb.Host = "localhost";
+            sb.Database = "noteonl";
+            sb.Username = "postgres";
+            sb.Password = "1";
+            NpgsqlConnection conn = new NpgsqlConnection(sb.ConnectionString);
+
+            services.AddDbContext<ContentContext>(options => options.UseNpgsql(conn));
+            conn.Open();
+            services.AddHealthChecks();
             services.AddControllers();
         }
 
