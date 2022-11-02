@@ -20,6 +20,15 @@ namespace noteOnlineV01.Controllers
             _context = context;
         }
 
+        private static Random random = new Random();
+
+        public static string RandomString(int length)
+        {
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            return new string(Enumerable.Repeat(chars, length)
+                .Select(s => s[random.Next(s.Length)]).ToArray());
+        }
+
         // GET: api/Contents
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Content>>> GetContents()
@@ -28,10 +37,10 @@ namespace noteOnlineV01.Controllers
         }
 
         // GET: api/Contents/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Content>> GetContent(long id)
+        [HttpGet("{Id}")]
+        public async Task<ActionResult<Content>> GetContent(long Id)
         {
-            var content = await _context.Contents.FindAsync(id);
+            var content = await _context.Contents.FindAsync(Id);
 
             if (content == null)
             {
@@ -41,13 +50,34 @@ namespace noteOnlineV01.Controllers
             return content;
         }
 
+        // GET: api/Contents
+        [HttpGet("Url/{Url}")]
+        public async Task<ActionResult<Content>> GetContentByLink(string Url)
+        {
+            
+            var findURL = from b in _context.Contents
+                          where b.Url.Contains(Url)
+                          select b;
+            await _context.Contents.FirstOrDefaultAsync(c => c.Url.Contains(Url));
+
+            if (findURL == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(findURL);
+
+            
+        }
+
+
         // PUT: api/Contents/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutContent(long id, Content content)
+        public async Task<IActionResult> PutContent(long Id, Content content)
         {
-            if (id != content.Id)
+            if (Id != content.Id)
             {
                 return BadRequest();
             }
@@ -60,7 +90,7 @@ namespace noteOnlineV01.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ContentExists(id))
+                if (!ContentExists(Id))
                 {
                     return NotFound();
                 }
@@ -82,14 +112,14 @@ namespace noteOnlineV01.Controllers
             _context.Contents.Add(content);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetContent", new { id = content.Id }, content);
+            return CreatedAtAction("GetContent", new { Id = content.Id }, content);
         }
 
-        // DELETE: api/Contents/5
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<Content>> DeleteContent(long id)
+        // DELETE: api/Contents/
+        [HttpDelete("{Id}")]
+        public async Task<ActionResult<Content>> DeleteContent(long Id)
         {
-            var content = await _context.Contents.FindAsync(id);
+            var content = await _context.Contents.FindAsync(Id);
             if (content == null)
             {
                 return NotFound();
@@ -101,9 +131,9 @@ namespace noteOnlineV01.Controllers
             return content;
         }
 
-        private bool ContentExists(long id)
+        private bool ContentExists(long Id)
         {
-            return _context.Contents.Any(e => e.Id == id);
+            return _context.Contents.Any(e => e.Id == Id);
         }
     }
 }

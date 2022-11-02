@@ -24,6 +24,7 @@ namespace noteOnlineV01.Controllers
         }
 
         [HttpGet]
+       
         public IEnumerable<WeatherForecast> Get()
         {
             var rng = new Random();

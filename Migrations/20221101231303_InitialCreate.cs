@@ -7,16 +7,18 @@ namespace noteOnlineV01.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
+        migrationBuilder.CreateTable(
                 name: "Contents",
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    url = table.Column<string>(nullable: true),
-                    content = table.Column<string>(nullable: true),
-                    password = table.Column<string>(nullable: true),
-                    setPassword = table.Column<bool>(nullable: false)
+                    DocumentId = table.Column<string>(nullable: false),
+                    Url = table.Column<string>(nullable: false),
+                    NewUrl = table.Column<string>(nullable: true),
+                    Note = table.Column<string>(nullable: true),
+                    Password = table.Column<string>(nullable: true),
+                    SetPassword = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
