@@ -1,252 +1,273 @@
-import React from 'react';
-import FormMain from './FormMain';
+import React, { useState } from 'react';
+import './style.core.css';
+import { useFormik } from "formik";
+import * as Yup from 'yup';
+import { useDispatch, useSelector } from 'react-redux';
+import { actions } from './../../features/formSlice';
 
-import './style.css';
 export default function Core() {
-  console.log(window.innerWidt);
-  const hanldSubmit = (e, value) => {
-    e.preventDefault();
-    // vì ứng dụng nhỏ nên em dùng form thuần để xử lí
-    // tạo ojb để lưu dữ liệu từ form
-    let values = {};
-    alert('ok');
+  const dispatch = useDispatch();
+  const STORE = useSelector(state => state)
 
-    //set values to ojb
-    for (let index = 0; index <= 7; index++) {
-      let value;
 
-      //filter checkbox to get values boolean
-      const filterCheckbox = e.target[index].type === 'checkbox';
-      if (filterCheckbox) {
-        value = e.target[index].checked;
-      } else {
-        //set value
-        value = e.target[index].value;
-      }
-
-      let name = e.target[index].name;
-      values[name] = value;
+  const formik = useFormik({
+    initialValues: {
+      SMTPhost: "",
+      Port: 25,
+      UseSsl: false,
+      UseDefaultCredentials: false,
+      Email: "",
+      Password: "",
+      From: "",
+      To: "",
+    },
+    validationSchema: Yup.object({
+      SMTPhost: Yup.string()
+        .min(3, "Please check your SMTP host")
+        .required("SMTP host is Required!"),
+      Port: Yup.number()
+        .required(" Port Required!"),
+      From: Yup.string()
+        .email("Invalid email format")
+        .required("Email from address is required!"),
+      To: Yup.string()
+        .email("Invalid email format")
+        .required("Email to address is required!"),
+    }),
+    onSubmit: values => {
+      alert(JSON.stringify(values, null, 2));
     }
+  });
 
-    //fetch to BE
-    const url = 'https://localhost:44381/sendmail';
-    const data = values;
-    let options = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json;charset=utf-8',
-      },
-      body: JSON.stringify(data),
-    };
+  const FormSMTP = () => {
+    return (
+      <div className='form-wrapper '>
+        <div className='form-header '>
 
-    async function callAPI() {
-      try {
-        const res = await fetch(url, options);
-        console.log(res);
-        return res;
-      } catch (error) {
-        return console.log(error);
-      }
-    }
-    callAPI();
-  };
-  return (
-    <>
-        <FormMain/>
-     
-
-      {/* <div id='wCore'>
-        <div className='aWindow row'>
-          <div className='aWindow-header col-lg-12 col-sm-12 row'>
-            <div className='col-lg-11 col-sm-11  SMTPer-aligt'>
-              <span className='aWindow-header-title '>
-                <iconify-icon
-                  className='icon-navb'
-                  icon='akar-icons:grid'
-                ></iconify-icon>{' '}
-                SMTPer
-              </span>
-            </div>
-
-            <div className='floatRight col-lg-1 col-sm-1 row'>
-              <div className='d-none d-sm-block'>
-                <iconify-icon icon='carbon:maximize'></iconify-icon>&nbsp;
-              </div>
-              <div className='col-sm-1'>
-                <iconify-icon icon='bi:x-lg'></iconify-icon>
-              </div>
-            </div>
+          {/* form header titlte */}
+          <div className='header-title'>
+            <iconify-icon
+              className='icon-navb'
+              icon='akar-icons:grid'
+            ></iconify-icon>{' '}
+            SMTPer
           </div>
-
-          <div className='aWindow-flex col-lg-12 col-sm-12 container row'>
-            
-            <div
-              id='test-check'
-              className='aWindow-menu col-lg-4 col-sm-2'
-            >
-              <div className='aWindow-menu-item on d-none d-sm-block'>
-                Test &amp; Check
-              </div>
-              <div className=''>
-                <iconify-icon
-                  className='floatRight'
-                  icon='bi:send'
-                ></iconify-icon>
-              </div>
-            </div>
-            <div className='aWin-right-core aWindow-core loo col-lg-8 col-sm-8 row'>
-              <form onSubmit={hanldSubmit}>
-                <div className='row'>
-                  <div className='col-lg-6'>
-                    <label>SMTPhost</label> <br />
-                    <input
-                      name='SMTPhost'
-                      type='text'
-                      placeholder='required'
-                    ></input>
-                  </div>
-                  <div className='col-lg-6 d-none d-sm-block '>
-                    <p>
-                      host or ip address of your smtp server (example:
-                      smtp.company.com)
-                    </p>
-                  </div>
-                </div>
-
-                <div className='row'>
-                  <div className='col-lg-6'>
-                    <label>Port</label> <br />
-                    <input
-                      name='Port'
-                      type='number'
-                      placeholder='required'
-                    ></input>
-                  </div>
-                  <div className='col-lg-6 d-none d-sm-block'>
-                    <p>
-                      the default port is 25, but some smtp servers use a custom
-                      port (example: 587)
-                    </p>
-                  </div>
-                </div>
-
-                <div className='row'>
-                  <div className='col-lg-6'>
-                    <input
-                      value={true}
-                      id='UseSsl'
-                      name='UseSsl'
-                      type='checkbox'
-                    ></input>
-                    <label htmlFor='UseSsl'>Use Secured Connection</label>
-                  </div>
-                  <div className='col-lg-6 d-none d-sm-block'>
-                    <p>
-                      checked it only if the smtp server needs a secured
-                      connection (ssl, tsl)
-                    </p>
-                  </div>
-                </div>
-
-                <div className='row'>
-                  <div className='col-lg-6'>
-                    <input
-                      value={true}
-                      id='UseDefaultCredentials'
-                      name='UseDefaultCredentials'
-                      type='checkbox'
-                    ></input>
-                    <label htmlFor='UseDefaultCredentials'>
-                      Use authentication
-                    </label>
-                  </div>
-                  <div className='col-lg-6 d-none d-sm-block'>
-                    <p>
-                      most of smtp servers need an authentication
-                      (login/password). Check it if required
-                    </p>
-                  </div>
-                </div>
-
-                <div className='row'>
-                  <div className='col-lg-6 '>
-                    <label>Login</label> <br />
-                    <input
-                      name='Email'
-                      type='text'
-                      placeholder='not required'
-                    ></input>
-                  </div>
-                  <div className='col-lg-6 d-none d-sm-block'>
-                    <p>
-                      required if 'Use authentication' is checked (ex: account
-                      or account@foo.com)
-                    </p>
-                  </div>
-                </div>
-
-                <div className='row'>
-                  <div className='col-lg-6'>
-                    <label>Password</label> <br />
-                    <input
-                      name='Password'
-                      type='text'
-                      placeholder='not required'
-                    ></input>
-                  </div>
-                  <div className='col-lg-6 d-none d-sm-block'>
-                    <p>required if 'Use authentication' is checked</p>
-                  </div>
-                </div>
-
-                <div className='row'>
-                  <div className='col-lg-6'>
-                    <label>Email from</label> <br />
-                    <input
-                      name='From'
-                      type='text'
-                      placeholder='required'
-                    ></input>
-                  </div>
-                  <div className='col-lg-6 d-none d-sm-block'>
-                    <p>the sender's email address (example: account@foo.com)</p>
-                  </div>
-                </div>
-
-                <div className='row'>
-                  <div className='col-lg-6'>
-                    <label>Email to</label> <br />
-                    <input
-                      name='To'
-                      type='text'
-                      placeholder='required'
-                    ></input>
-                  </div>
-                  <div className='col-lg-6 d-none d-sm-block'>
-                    very important : the test mail will be sent to this address
-                    (ex: account@foo.com)
-                  </div>
-                </div>
-
-                <label>Test your mail server</label>
-
-                <button
-                  type='submit'
-                  className='floatRight aWindow-button '
-                >
-                  <iconify-icon
-                    className='floatRight'
-                    icon='bi:send'
-                  ></iconify-icon>
-                  Send
-                </button>
-              </form>
-            </div>
+          <div
+            onClick={() => dispatch(actions.hiddenForm())}
+            id='header-item-x'>
+            <iconify-icon icon='bi:x-lg'></iconify-icon>
           </div>
         </div>
-      </div> */}
 
-      
-    </>
+        {/* bodyForm */}
+        <div className='form-body'>
+
+          {/* left */}
+          <div className='form-body-left ' >
+            <svg className='d-md-none d-lg-none' id='sendMenu' xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+
+            <div id='test-check'>
+              <div className=''>Test & Check </div>
+
+              <div id='svgSend '>
+                <svg id='sendIcon' xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-send"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+              </div>
+
+            </div>
+
+          </div>
+
+          {/* right */}
+          <div className='form-body-right loo  '>
+
+            <form onSubmit={formik.handleSubmit}>
+              <div className='element-margin'>
+                <div className=''>
+                  <label className=' lb-host'>SMTPhost</label><div></div>
+                  <input
+                    name='SMTPhost'
+                    type='text'
+                    placeholder='required'
+                    value={formik.values.SMTPhost}
+                    onChange={formik.handleChange}
+                  ></input>
+
+                </div>
+                <div className=' d-none  d-md-none d-lg-block d-sm-none '>
+                  <p>
+                    host or ip address of your smtp server (example:
+                    smtp.company.com)
+                  </p>
+                </div>
+              </div>
+
+              <div className='element-margin'>
+                <div className=''>
+                  <label className='label'>Port</label><div></div>
+                  <input
+                    id='Port'
+                    name='Port'
+                    type='number'
+                    placeholder='required'
+                    value={formik.values.Port}
+                    onChange={formik.handleChange}
+                  ></input>
+                </div>
+                <div className=' d-none  d-md-none d-lg-block d-sm-none '>
+                  <p>
+                    the default port is 25, but some smtp servers use a custom
+                    port (example: 587)
+                  </p>
+                </div>
+              </div>
+
+              <div className='element-margin'>
+                <div className=''>
+                  <input
+                    id='UseSsl'
+                    name='UseSsl'
+                    type='checkbox'
+                    value={formik.values.UseSsl}
+                    onChange={formik.handleChange}
+                  ></input>
+                  <label htmlFor='UseSsl' className='alabel'>Use Secured Connection</label>
+                </div>
+                <div className=' d-none  d-md-none d-lg-block d-sm-none '>
+                  <p>
+                    checked it only if the smtp server needs a secured
+                    connection (ssl, tsl)br
+                  </p>
+                </div>
+              </div>
+
+              <div className='element-margin'>
+                <div className=''>
+                  <input
+                    id='UseDefaultCredentials'
+                    name='UseDefaultCredentials'
+                    type='checkbox'
+                    value={formik.values.UseDefaultCredentials}
+                    onChange={formik.handleChange}
+                  ></input>
+                  <label htmlFor='UseDefaultCredentials' className='alabel'>
+                    Use authentication
+                  </label>
+                </div>
+                <div className=' d-none  d-md-none d-lg-block d-sm-none '>
+                  <p>
+                    most of smtp servers need an authentication
+                    (login/password). Check it if required
+                  </p>
+                </div>
+              </div>
+
+              <div className='authentication element-margin'>
+                <div className=' '>
+                  <label className='label'>Login</label><div></div>
+                  <input
+                    name='Email'
+                    type='text'
+                    placeholder='not required'
+                    value={formik.values.Email}
+                    onChange={formik.handleChange}
+                  ></input>
+                </div>
+                <div className=' d-none  d-md-none d-lg-block d-sm-none '>
+                  <p>
+                    required if 'Use authentication' is checked (ex: account or
+                    account@foo.com)
+                  </p>
+                </div>
+              </div>
+
+              <div className='authentication element-margin'>
+                <div className=''>
+                  <label className='label'>Password</label><div></div>
+                  <input
+                    name='Password'
+                    type='text'
+                    placeholder='not required'
+                    value={formik.values.Password}
+                    onChange={formik.handleChange}
+                  ></input>
+                </div>
+                <div className=' d-none  d-md-none d-lg-block d-sm-none '>
+                  <p>required if 'Use authentication' is checked</p>
+                </div>
+              </div>
+
+              <div className='element-margin'>
+                <div className=''>
+                  <label className=' orange'>Email from</label><div></div>
+                  <input
+                    name='From'
+                    type='text'
+                    placeholder='required'
+                    value={formik.values.From}
+                    onChange={formik.handleChange}
+                  ></input>
+                </div>
+                <div className=' d-none  d-md-none d-lg-block d-sm-none '>
+                  <p>the sender's email address (example: account@foo.com)</p>
+                </div>
+              </div>
+
+              <div className='element-margin'>
+                <div className=''>
+                  <label className=' orange'>Email to</label><div></div>
+                  <input
+                    name='To'
+                    type='text'
+                    placeholder='required'
+                    value={formik.values.To}
+                    onChange={formik.handleChange}
+                  ></input>
+                </div>
+                <div className=' d-none  d-md-none d-lg-block d-sm-none '>
+                  very important : the test mail will be sent to this address
+                  (ex: account@foo.com)
+                </div>
+              </div>
+
+              <div className='submit-btn'>
+                <div id='test-server'>
+
+                  {/* get first error in errors */}
+                  {Object.values(formik.errors)[0]
+                    ?
+                    <label id="errorValidate">
+                      {Object.values(formik.errors)[0]}
+                    </label>
+                    : <label >Test your mail server</label>}
+                </div>
+
+                <div id='Send-server'>
+                  <button
+                    id='btnSubmit-server'
+                    type="submit"
+                    className='floatRight aWindow-button '
+                  >
+                    <iconify-icon
+                      className='floatRight'
+                      icon='bi:send'
+                    ></iconify-icon>
+                    Send
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+
+        </div>
+      </div>
+    )
+  }
+
+  return (
+    <div className='form-main'>
+      {STORE.form.isShowForm && <FormSMTP />}
+
+
+    </div>
   );
 }

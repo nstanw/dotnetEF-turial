@@ -1,0 +1,38 @@
+.form-header {
+  line-height: 32px;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: antiquewhite;
+  background-color: rgba(0, 190, 160, 0.8);
+}
+.header-title {
+  font-weight: 600;
+}
+.form-body {
+  display: flex;
+}
+.form-body-left {
+  border-right: 1px solid black;
+  background-color: #e0e0e0;
+}
+.form-body-right {
+  width: 100%;
+  margin: auto;
+  padding: 12px;
+  background-color: #ffffff;
+  height: calc(100vh - 54px);
+}
+.loo {
+  background-image: url(/public/img/paper-airplane.png);
+  background-repeat: no-repeat;
+  background-position: right bottom -80px;
+}
+#svgSend {
+  height: 2.5em;
+  background-color: #404040;
+}
+.element-margin{
+  
+}

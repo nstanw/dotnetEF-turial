@@ -1,69 +1,102 @@
 import React from "react";
-import "./Style.css"
+import "./StyleHeader.css"
+import { useDispatch, useSelector } from 'react-redux';
+import { actions } from './../../features/formSlice';
+
 function Header() {
-    return (
-        <header className="d-none d-sm-block nanoMenu item">
-            <span className="item on">
-                <iconify-icon className="icon-navb" icon="akar-icons:grid"></iconify-icon>
-                &nbsp;SMTPer
-            </span>
 
-            <span className="dropdown item">
-                <div className="navb-sub">
+    const dispatch = useDispatch();
+    const STORE = useSelector(state => state);
 
-                    <span data-bs-toggle="dropdown" aria-expanded="false">
-                        <iconify-icon className="icon-navb" icon="lucide:feather"></iconify-icon>
-                        &nbsp;More Apps
-                        <iconify-icon className="icon-navb" icon="feather:chevron-down"></iconify-icon>
-                    </span>
-                    <div className="dropdown-menu nanoDropDownMenu w3-container w3-animate-left" >
-                        <span className="dr-down">
-                            <iconify-icon icon="octicon:zap-24"></iconify-icon>
-                            PostMan</span>
-                    </div>
-                </div>
-            </span>
+    const HeaderPage = () => {
+        return (
+            <header className=" nanoMenu item">
+                <div className="header-item">
+                    <span
+                        onClick={() => dispatch(actions.showForm())}
+                        className={`item ${STORE.form.isShowHeader ? null : "on"}`}>
+                        <iconify-icon
 
-            <span className="dropdown item">
-                <span data-bs-toggle="dropdown" aria-expanded="false">
-                    <iconify-icon className="icon-navb" icon="bx:layout" ></iconify-icon>
-                    &nbsp;Themes
-                    <iconify-icon className="icon-navb" icon="feather:chevron-down"></iconify-icon>
-                </span>
-                <div className="dropdown-menu nanoDropDownMenu w3-container w3-animate-left" >
-                    <span className="dr-down">
-                        <iconify-icon icon="ei:chevron-right"></iconify-icon>
-                        Auto
-                    </span>
-                    <span className="dr-down">
-                        <iconify-icon icon="ei:chevron-right"></iconify-icon>Dark mode
-                    </span>
-                    <span className="dr-down">
-                        <iconify-icon icon="ei:chevron-right"></iconify-icon>Light mode
+                            className="icon-navb" icon="akar-icons:grid"></iconify-icon>
+                        &nbsp;SMTPer
                     </span>
                 </div>
-            </span>
 
-            <span className="dropdown item">
-                <span data-bs-toggle="dropdown" aria-expanded="false">
-                    <iconify-icon className="icon-navb" icon="feather:info"></iconify-icon>
-                    <span>
-                        &nbsp;About
-                    </span>
-                    <iconify-icon className="icon-navb" icon="feather:chevron-down"></iconify-icon>
-                </span>
-                <div className="dropdown-menu nanoDropDownMenu w3-container w3-animate-left" >
-                    <span className="dr-down">
-                        <iconify-icon icon="lucide:alert-octagon"></iconify-icon>
-                        &nbsp; Disclaimer
-                    </span>
-                    <span className="dr-down">
-                        <iconify-icon className="icon-navb" icon="feather:info"></iconify-icon>
-                        &nbsp; About SMTPer
+                <div className="header-item">
+                    <span className="dropdown item d-none d-sm-block" >
+                        <div className="navb-sub">
+                            <div>
+                                <span >
+                                    <iconify-icon className="icon-navb" icon="lucide:feather"></iconify-icon>
+                                    &nbsp;More Apps
+                                    <iconify-icon className="icon-navb" icon="feather:chevron-down"></iconify-icon>
+                                </span>
+                            </div>
+
+                            <div className=" nanoDropDownMenu w3-container w3-animate-left" >
+                                <span className="dr-down">
+                                    <iconify-icon icon="octicon:zap-24"></iconify-icon>
+                                    PostMan</span>
+                            </div>
+                        </div>
                     </span>
                 </div>
-            </span>
-        </header>
+
+
+                <div className="header-item">
+                    <span className="dropdown item d-none d-sm-block">
+                        <span data-bs-toggle="dropdown" aria-expanded="false">
+                            <iconify-icon className="icon-navb" icon="bx:layout" ></iconify-icon>
+                            &nbsp;Themes
+                            <iconify-icon className="icon-navb" icon="feather:chevron-down"></iconify-icon>
+                        </span>
+                        <div className="dropdown-menu nanoDropDownMenu w3-container w3-animate-left" >
+                            <span className="dr-down">
+                                <iconify-icon icon="ei:chevron-right"></iconify-icon>
+                                Auto
+                            </span>
+                            <span className="dr-down">
+                                <iconify-icon icon="ei:chevron-right"></iconify-icon>Dark mode
+                            </span>
+                            <span className="dr-down">
+                                <iconify-icon icon="ei:chevron-right"></iconify-icon>Light mode
+                            </span>
+                        </div>
+                    </span>
+                </div>
+
+                <div className="header-item">
+                    <span className="dropdown item">
+                        <span data-bs-toggle="dropdown" aria-expanded="false">
+                            <iconify-icon className="icon-navb" icon="feather:info"></iconify-icon>
+                            <span>
+                                &nbsp;About
+                            </span>
+                            <iconify-icon className="icon-navb" icon="feather:chevron-down"></iconify-icon>
+                        </span>
+                        <div className="dropdown-menu nanoDropDownMenu w3-container w3-animate-left" >
+                            <span className="dr-down">
+                                <iconify-icon icon="lucide:alert-octagon"></iconify-icon>
+                                &nbsp; Disclaimer
+                            </span>
+                            <span className="dr-down">
+                                <iconify-icon className="icon-navb" icon="feather:info"></iconify-icon>
+                                &nbsp; About SMTPer
+                            </span>
+                        </div>
+                    </span>
+
+                </div>
+
+            </header>
+        )
+    }
+    return (<>
+  
+        {STORE.form.headerPC && <HeaderPage />}
+    </>
+
+
     )
 }
 export default Header;
