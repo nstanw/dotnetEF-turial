@@ -28,60 +28,11 @@ body {
   overflow-x: hidden;
   overflow-y: auto;
 }
-@media only screen and (max-width: 569px) {
-  br {
-    height: 10px;
-  }
-  header {
-    width: 100%;
-    _height: 3rem;
-    top: 0;
-    left: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-    color: #e0e0e0;
-    _font-size: 14px;
-    _line-height: 16px;
-    z-index: 1000;
-    transition: all ease 0.3s;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.5);
-    box-shadow: 0 0 12px rgb(0 0 0 / 80%);
-    user-select: none;
-  }
-  header .item {
-    display: inline-block;
-    padding: 1rem;
-    color: #f0f0f0;
-    text-decoration: none;
-    cursor: pointer;
-  }
-  header .item.on {
-    background-color: #00ffd8;
-    background-color: rgba(0, 255, 220, 0.5);
-  }
-  #wSlogan {
-    font-family: Playball;
-    clear: both;
-    padding: 32px;
-    font-family: "Playball";
-    color: #fff;
-    font-size: 2.4em;
-    text-align: center;
-    text-shadow: 0 0 8px #000;
-  }
 
-  #wSlogan .author {
-    margin-left: 15px;
-    font-family: Oswald;
-    font-size: 0.6em;
-    font-weight: lighter;
-  }
-  .icon-grid:before {
-    content: "\e860";
-  }
-}
-@media only screen and (min-width: 569px) {
   /* laptop and pc */
+
   #wSlogan {
+    z-index: -1;
     font-family: Playball;
     clear: both;
     padding: 32px;
@@ -101,4 +52,4 @@ body {
   .icon-grid:before {
     content: "\e860";
   }
-}
+

@@ -1,4 +1,18 @@
+.form-wrapper {
+  border-radius: 5px;
+  max-width: 1200px;
+  min-height: 620px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 90%;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
 .form-header {
+  border-radius: 5px 5px 0px 0px;
+  box-shadow: 0 4px 16px #000;
   line-height: 32px;
   padding: 10px;
   display: flex;
@@ -12,29 +26,154 @@
 }
 .form-body {
   display: flex;
+  height: 100% !important;
+  width: 100%;
+  margin: auto;
 }
 .form-body-left {
+  border-bottom-left-radius: 5px;
   border-right: 1px solid black;
   background-color: #e0e0e0;
+  padding-left: 0px;
+  padding-right: 0px;
 }
 .form-body-right {
+  border-bottom-right-radius: 5px;
   width: 100%;
+  height: 100% !important;
   margin: auto;
   padding: 12px;
   background-color: #ffffff;
-  height: calc(100vh - 54px);
+  /* height: calc(100vh - 54px); */
 }
-.loo {
-  background-image: url(/public/img/paper-airplane.png);
-  background-repeat: no-repeat;
-  background-position: right bottom -80px;
+
+#svgSend {
+  height: 2.5em;
+  padding-right: 10px;
+}
+.contaier-icon {
+  display: flex;
+  flex-wrap: nowrap;
+}
+#test-check {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: white;
+  background-color: #505050;
+  padding: 3px 10px;
+  font-size: 0.9em;
+}
+#header-item-x {
+  color: antiquewhite;
+}
+.authentication {
+  padding-left: 24px;
+  margin-bottom: 4px;
+}
+
+input {
+  outline: 0;
+  margin-bottom: 7px;
+  border-width: 0 0 1px;
+  width: 100%;
+  background: transparent 96%;
+  border-color: rgb(135, 132, 132);
+}
+
+input:focus {
+  outline: 0;
+  margin-bottom: 7px;
+  border-width: 0 0 1px 0;
+  width: 100%;
+  background: transparent 96%;
+  border-color: rgb(135, 132, 132);
+  transition: all 0.3s cubic-bezier(0.64, 0.09, 0.08, 1);
+  background: linear-gradient(to bottom, transparent 96%, #808080 4%);
+}
+#Port {
+  width: 8rem;
+}
+#UseSsl {
+  width: 25px;
+}
+#UseDefaultCredentials {
+  width: 25px;
+}
+.lb-host {
+  color: #ff5880;
+  margin-top: 20px;
+  font-size: 0.8rem;
+  line-height: 0.8rem;
+  display: block;
+  font-weight: 500;
+}
+.form-body-right .label {
+  display: block;
+  color: #a0a0a0;
+  font-size: 0.7rem;
+  line-height: 0.7rem;
+}
+
+.orange {
+  display: block;
+  font-size: 0.7rem;
+  line-height: 0.7rem;
+  color: #e0a000;
+}
+.alabel {
+  font-size: 0.8rem;
+  line-height: 0.8rem;
+  color: #4080a0;
+  cursor: default;
+}
+
+.submit-btn {
+  font-weight: 550;
+  margin: 25px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
 }
 #svgSend {
   height: 2.5em;
   background-color: #404040;
 }
-.element-margin {
+#sendMenu {
+  margin: 12px;
 }
-#wSlogan {
+#sendIcon {
+  margin: 12px;
+  margin-left: 0px;
+}
+erver {
   clear: both;
+  display: inline-block;
+  width: calc(100% - 100px);
+  font-size: 1rem;
+  text-align: left;
+}
+
+.floatRight {
+  float: right;
+}
+
+.loo {
+  background-image: url(/public/img/paper-airplane.png);
+  background-repeat: no-repeat;
+  background-position: right bottom -80px;
+}
+#btnSubmit-server {
+  border-radius: 5px;
+  background-color: #ff4060;
+  border-color: #dd3040;
+  font-size: 1rem;
+  padding: 0.4rem 0.5rem 0.4rem 0.5rem;
+  padding: 0.6rem 0.75rem 0.6rem 0.75rem;
+  line-height: 1rem;
+  color: #fff;
+}
+#errorValidate {
+  font-size: 15px;
+  color: #ff4040;
 }
