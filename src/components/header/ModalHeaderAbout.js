@@ -1,47 +1,51 @@
 import React, { useState } from 'react';
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
+//Reuses Modal components
 function ModalHeaderAbout(props) {
+  //Rename props
+  const propData = props.props;
+
+  //Set Show Modal
   const [show, setShow] = useState(false);
   function toggle() {
     setShow(!show);
   }
   return (
     <div>
-      <Button
-        color='danger'
+      <div className=""
         onClick={toggle}
       >
-     testModal
-      </Button>
+        <iconify-icon icon={propData.header.icon}></iconify-icon>
+        &nbsp; {propData.header.content}
+      </div>
       <Modal
+      // set size Modal
+        size="lg" style={{ width: '85vw !important', height: "400px" }} 
         isOpen={show}
         toggle={toggle}
         className=""
       >
-        <ModalHeader toggle={toggle}>Modal title</ModalHeader>
+        {/* align-center content */}
+        <ModalHeader toggle={toggle} cssModule={{ 'modal-title': 'w-100 text-center' }}>
+          <div className="d-flex justify-content-center">
+            <iconify-icon icon="feather:alert-octagon"></iconify-icon>
+            &nbsp; {propData.header.content}
+          </div>
+        </ModalHeader>
         <ModalBody>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat. Duis aute irure dolor in
-          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-          culpa qui officia deserunt mollit anim id est laborum.
+          {propData.body}
+
+
         </ModalBody>
         <ModalFooter>
-          <Button
-            color='primary'
-            onClick={toggle}
-          >
-            Do Something
-          </Button>{' '}
-          <Button
-            color='secondary'
-            onClick={toggle}
-          >
-            Cancel
-          </Button>
+          <div className=''>
+            {propData.footer}
+          </div>
+          <div className="">
+            <button onClick={toggle} id='closeModal' >Close</button>
+          </div>
+
         </ModalFooter>
       </Modal>
     </div>

@@ -34,8 +34,8 @@ header .item {
   padding: 10px;
 }
 .dr-down {
+  
   display: block;
-  margin-left: -10px;
   padding: 0.8rem;
   color: #303030 !important;
   cursor: pointer;
@@ -51,4 +51,35 @@ header .item {
   width: 100% !important;
   margin-top: 17px !important;
   transform: translate3d(0px, 23px, 0px);
+}
+#closeModal{
+  background-color: #fff;
+    border: 1px solid #303030;
+    border-radius: 3px;
+    box-shadow: 0 0 6px rgb(0 0 0 / 50%);
+    font-family: Raleway,sans-serif;
+    font-size: 14px;
+    padding: 6px 12px 6px 12px;
+    cursor: pointer;
+    opacity: .9;
+}
+.modal-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 1rem 1rem;
+  border-bottom:none;
+  border-top-left-radius: calc(0.3rem - 1px);
+  border-top-right-radius: calc(0.3rem - 1px);
+}
+.modal-footer {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 0.75rem;
+  border-top: 1px solid #dee2e6;
+  border-bottom-right-radius: calc(0.3rem - 1px);
+  border-bottom-left-radius: calc(0.3rem - 1px);
+  flex-direction: row;
 }

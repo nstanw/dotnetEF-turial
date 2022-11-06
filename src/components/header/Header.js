@@ -5,17 +5,62 @@ import { actions } from './../../features/formSlice';
 import ModalHeaderAbout from './ModalHeaderAbout';
 
 function Header() {
+//use Store
   const dispatch = useDispatch();
   const STORE = useSelector((state) => state);
 
-  const props ={
-    Disclaimer:{
-      content: ''
-    }
+//define Props send to component ModalHeaderAbout
+//Content
+  const bodyDisclaimer = [
+    <p> We made this tool for our personal use.
+      If you need to test a smtp server, please feel free to use it at your own risks.</p>,
+    <p>For your information, no data will be persistent or stored on our server.</p>,
+    <p>If you still don't feel confident, we advise you to use a test account.
+      You can also change your password after your test(s).
+    </p>
+
+  ];
+
+  const footerDisclaimer = [
+    <div className=''>
+      For more information, contact us at <i class="lowlight">team (at) nanogenesis.xyz</i>
+    </div>
+  ];
+
+  const bodyAbout = [
+    <p>
+      Author: Song LAN
+      Generated at: 11/6/2022 12:40:17 PM (UTC)
+    </p>,
+    <p>Contact: team (at) nanogenesis.xyz</p>,
+  ];
+
+  const footerAbout = [
+    <div className=''>
+      © SMTPer v0.410 (2010 - 2022)
+    </div>
+  ];
+
+//ojb Props send
+  const Disclaimer = {
+    header: {
+      icon: 'feather:alert-octagon',
+      content: 'Disclaimer'
+    },
+    body: bodyDisclaimer,
+    footer: footerDisclaimer,
+  }
+
+  const About = {
+    header: {
+      icon: 'feather:info',
+      content: 'About'
+    },
+    body: bodyAbout,
+    footer: footerAbout,
   }
 
 
-  
   const HeaderPage = () => {
     return (
       <header className=' nanoMenu item'>
@@ -116,18 +161,13 @@ function Header() {
               ></iconify-icon>
             </span>
             <div className='Submenu dropdown-menu nanoDropDownMenu w3-container w3-animate-left'>
-             
-             <ModalHeaderAbout/>
+
               <span className='dr-down'>
-                <iconify-icon icon='lucide:alert-octagon'></iconify-icon>
-                &nbsp; Disclaimer
+                <ModalHeaderAbout props={Disclaimer} />
               </span>
+
               <span className='dr-down'>
-                <iconify-icon
-                  className='icon-navb'
-                  icon='feather:info'
-                ></iconify-icon>
-                &nbsp; About SMTPer
+                <ModalHeaderAbout props={About} />
               </span>
             </div>
           </span>
@@ -135,6 +175,6 @@ function Header() {
       </header>
     );
   };
-  return <>{STORE.form.headerPC && <HeaderPage />}</>;
+  return <>{STORE.form.show && <HeaderPage />}</>;
 }
 export default Header;
