@@ -1,6 +1,7 @@
 .form-wrapper {
   border-radius: 5px;
   max-width: 1200px;
+  height: 620px;
   min-height: 620px;
   margin-left: auto;
   margin-right: auto;
@@ -176,4 +177,36 @@ erver {
 #errorValidate {
   font-size: 15px;
   color: #ff4040;
+}
+.highlight{
+  color: #32c080;
+  background: transparent;
+  padding: 0;
+}
+.tip{
+  color: #808080;
+    font-size: .8rem;
+    line-height: 1rem;
+}
+form .row{
+  display: flex;
+  align-items: flex-end;
+  margin-bottom: 10px;
+}
+input[type="text"]{
+  background: none;
+    border: none;
+    border-bottom: 1px solid #d0d0d0;
+    color: #606060;
+    font-size: 0.9rem;
+    line-height: 1rem;
+    padding: 2px 0 2px 0;
+    transition: all .3s cubic-bezier(.64,.09,.08,1);
+    background: linear-gradient(to bottom,transparent 96%,#808080 4%);
+    background-position: 0 0;
+    background-size: 0 100%;
+    background-repeat: no-repeat;
+}
+a{
+  color: #303030;
 }

@@ -2,11 +2,20 @@ import React from 'react';
 import './StyleHeader.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { actions } from './../../features/formSlice';
+import ModalHeaderAbout from './ModalHeaderAbout';
 
 function Header() {
   const dispatch = useDispatch();
   const STORE = useSelector((state) => state);
 
+  const props ={
+    Disclaimer:{
+      content: ''
+    }
+  }
+
+
+  
   const HeaderPage = () => {
     return (
       <header className=' nanoMenu item'>
@@ -44,7 +53,14 @@ function Header() {
               <div className=' Submenu dropdown-menu nanoDropDownMenu w3-container w3-animate-left'>
                 <span className='dr-down text-center'>
                   <iconify-icon icon='octicon:zap-24' />
-                  <span>PostMan</span>
+                  <span>
+                    <a
+                      target='_blank'
+                      href='https://www.postman.com/'
+                    >
+                      PostMan
+                    </a>
+                  </span>
                 </span>
               </div>
             </div>
@@ -100,6 +116,8 @@ function Header() {
               ></iconify-icon>
             </span>
             <div className='Submenu dropdown-menu nanoDropDownMenu w3-container w3-animate-left'>
+             
+             <ModalHeaderAbout/>
               <span className='dr-down'>
                 <iconify-icon icon='lucide:alert-octagon'></iconify-icon>
                 &nbsp; Disclaimer

@@ -9,6 +9,7 @@ export default function Core() {
   const dispatch = useDispatch();
   const STORE = useSelector((state) => state);
 
+
   const formik = useFormik({
     initialValues: {
       SMTPhost: '',
@@ -39,7 +40,6 @@ export default function Core() {
 
   return (
     <div className='form-wrapper'>
-
       <div className='form-header'>
         {/* form header titlte */}
         <div className='header-title'>
@@ -52,7 +52,7 @@ export default function Core() {
 
         <div className='contaier-icon'>
           <div
-          className='d-none d-md-block d-lg-block d-sm-block'
+            className='d-none d-md-block d-lg-block d-sm-block'
             // onClick={() => dispatch(actions.hiddenForm())}
             id='header-item-max'
           >
@@ -107,7 +107,9 @@ export default function Core() {
           </div>
 
           <div id='test-check'>
-            <div className='d-none d-md-block d-lg-block d-sm-none'>Test & Check</div>
+            <div className='d-none d-md-block d-lg-block d-sm-none'>
+              Test & Check
+            </div>
             <div id='svgSend '>
               <svg
                 id='sendIcon'
@@ -150,9 +152,9 @@ export default function Core() {
                 ></input>
               </div>
               <div className=' d-none d-md-none d-lg-block d-sm-none col-lg-6'>
-                <p>
+                <p className='tip'>
                   host or ip address of your smtp server (example:
-                  smtp.company.com)
+                  <span class='highlight'>smtp.company.com</span>)
                 </p>
               </div>
             </div>
@@ -171,9 +173,11 @@ export default function Core() {
                 ></input>
               </div>
               <div className=' d-none d-md-none d-lg-block d-sm-none col-lg-6'>
-                <p>
-                  the default port is 25, but some smtp servers use a custom
-                  port (example: 587)
+                <p className='tip'>
+                  the default port is
+                  <span class='highlight'>25</span>, but some smtp servers use a
+                  custom port (example:
+                  <span class='highlight'>587</span>)
                 </p>
               </div>
             </div>
@@ -195,9 +199,9 @@ export default function Core() {
                 </label>
               </div>
               <div className=' d-none  d-md-none d-lg-block d-sm-none col-lg-6'>
-                <p>
+                <p className='tip'>
                   checked it only if the smtp server needs a secured connection
-                  (ssl, tsl)
+                  (<span class='highlight'>ssl, tsl</span>)
                 </p>
               </div>
             </div>
@@ -219,8 +223,8 @@ export default function Core() {
                 </label>
               </div>
               <div className=' d-none  d-md-none d-lg-block d-sm-none col-lg-6'>
-                <p>
-                  most of smtp servers need an authentication (login/password).
+                <p className='tip'>
+                  most of smtp servers need an authentication (<span class='highlight'>login/password</span>).
                   Check it if required
                 </p>
               </div>
@@ -239,9 +243,9 @@ export default function Core() {
                 ></input>
               </div>
               <div className=' d-none  d-md-none d-lg-block d-sm-none col-lg-6'>
-                <p>
-                  required if 'Use authentication' is checked (ex: account or
-                  account@foo.com)
+                <p className='tip'>
+                  required if 'Use authentication' is checked (ex: <span class='highlight'>account </span> or
+                  <span class='highlight'> account@foo.com</span>)
                 </p>
               </div>
             </div>
@@ -259,7 +263,9 @@ export default function Core() {
                 ></input>
               </div>
               <div className=' d-none  d-md-none d-lg-block d-sm-none col-lg-6'>
-                <p>required if 'Use authentication' is checked</p>
+                <p className='tip'>
+                  required if 'Use authentication' is checked
+                </p>
               </div>
             </div>
 
@@ -276,7 +282,9 @@ export default function Core() {
                 ></input>
               </div>
               <div className=' d-none  d-md-none d-lg-block d-sm-none col-lg-6'>
-                <p>the sender's email address (example: account@foo.com)</p>
+                <p className='tip'>
+                  the sender's email address (example: <span class='highlight'>account@foo.com</span>)
+                </p>
               </div>
             </div>
 
@@ -292,16 +300,16 @@ export default function Core() {
                   onChange={formik.handleChange}
                 ></input>
               </div>
-              <div className=' d-none  d-md-none d-lg-block d-sm-none col-lg-6'>
+              <div className='tip d-none  d-md-none d-lg-block d-sm-none col-lg-6'>
                 very important : the test mail will be sent to this address (ex:
-                account@foo.com)
+                <span class='highlight'>account@foo.com</span>)
               </div>
             </div>
 
             <div className='submit-btn'>
               <div id='test-server'>
                 {/* get first error in errors */}
-                {Object.values(formik.errors)[0] ? (
+                {Object.values(formik.errors)[0]  ? (
                   <label id='errorValidate'>
                     {Object.values(formik.errors)[0]}
                   </label>
