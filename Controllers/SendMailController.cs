@@ -20,6 +20,7 @@ namespace sendMail.Controllers
             int Port = sendMail.Port;
             string Password = sendMail.Password;
             string Email = sendMail.Email;
+            string From = sendMail.From;
             string To = sendMail.To;
             bool UseSsl = sendMail.UseSsl;
             bool UseDefaultCredentials = sendMail.UseDefaultCredentials;
@@ -27,17 +28,16 @@ namespace sendMail.Controllers
 
             try
             {
-
                 SmtpClient smtpClient = new SmtpClient(SMTPhost, Port);
 
-                smtpClient.Credentials = new System.Net.NetworkCredential(Email, Password);
                 smtpClient.UseDefaultCredentials = UseDefaultCredentials; // uncomment if you don't want to use the network credentials
+                smtpClient.Credentials = new System.Net.NetworkCredential(Email, Password);
                 smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
                 smtpClient.EnableSsl = UseSsl;
                 MailMessage mail = new MailMessage();
 
                 //Setting From , To and CC
-                mail.From = new MailAddress(Email, "MyWeb Site send");
+                mail.From = new MailAddress(From,"SMTP server");
                 mail.To.Add(new MailAddress(To));
                 smtpClient.Send(mail);
 
@@ -47,7 +47,7 @@ namespace sendMail.Controllers
             {
                 return BadRequest(new
                 {
-                    error = ex.Message
+                    error = ex
                 });
 
             }
