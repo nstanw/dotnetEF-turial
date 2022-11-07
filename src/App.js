@@ -11,10 +11,10 @@ export default function App() {
 
   return (
     <div className=' smtper wallpaper webp' >
-      {STORE.form.show && <Header />}
-      {STORE.form.show && <Slogan />}
+      {STORE.form.show && !STORE.form.showMobile && <Header />}
+      {STORE.form.show && !STORE.form.showMobile && <Slogan />}
       <Core />
-      {STORE.form.show && <Footer />}
+      {STORE.form.show && !STORE.form.showMobile && <Footer />}
     </div>
   );
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-
+import './style.slogan.css'
 export default function Slogan() {
   return (
     <div>

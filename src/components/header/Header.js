@@ -1,16 +1,25 @@
 import React from 'react';
 import './StyleHeader.css';
+import './../../darkMode.css'
 import { useDispatch, useSelector } from 'react-redux';
 import { actions } from './../../features/formSlice';
 import ModalHeaderAbout from './ModalHeaderAbout';
 
 function Header() {
-//use Store
+  //use Store
   const dispatch = useDispatch();
   const STORE = useSelector((state) => state);
 
-//define Props send to component ModalHeaderAbout
-//Content
+  const handeChangeDarkModeTheme = () => {
+    dispatch(actions.darkModeForm());
+  }
+
+  const handeChangeLightModeTheme = () => {
+    dispatch(actions.lightModeForm());
+  }
+
+  //define Props send to component ModalHeaderAbout
+  //Content
   const bodyDisclaimer = [
     <p> We made this tool for our personal use.
       If you need to test a smtp server, please feel free to use it at your own risks.</p>,
@@ -41,7 +50,7 @@ function Header() {
     </div>
   ];
 
-//ojb Props send
+  //ojb Props send
   const Disclaimer = {
     header: {
       icon: 'feather:alert-octagon',
@@ -64,6 +73,7 @@ function Header() {
   const HeaderPage = () => {
     return (
       <header className=' nanoMenu item'>
+
         <div className='header-item'>
           <span
             onClick={() => dispatch(actions.showForm())}
@@ -101,6 +111,7 @@ function Header() {
                   <span>
                     <a
                       target='_blank'
+                      rel="noreferrer"
                       href='https://www.postman.com/'
                     >
                       PostMan
@@ -134,10 +145,15 @@ function Header() {
                 <iconify-icon icon='ei:chevron-right'></iconify-icon>
                 Auto
               </span>
-              <span className='dr-down'>
+              <span
+                id='darkMode'
+                onClick={handeChangeDarkModeTheme}
+                className='dr-down'>
                 <iconify-icon icon='ei:chevron-right'></iconify-icon>Dark mode
               </span>
-              <span className='dr-down'>
+              <span
+                onClick={handeChangeLightModeTheme}
+                className='dr-down'>
                 <iconify-icon icon='ei:chevron-right'></iconify-icon>Light mode
               </span>
             </div>
@@ -175,6 +191,6 @@ function Header() {
       </header>
     );
   };
-  return <>{STORE.form.show && <HeaderPage />}</>;
+  return <>{STORE.form.show && !STORE.form.showMobile && <HeaderPage />}</>;
 }
 export default Header;

@@ -7,7 +7,7 @@ function ModalHeaderAbout(props) {
   const propData = props.props;
 
   //Set Show Modal
-  const [show, setShow] = useState(false);
+  const [show, setShow] = useState( propData.openModal || false );
   function toggle() {
     setShow(!show);
   }
