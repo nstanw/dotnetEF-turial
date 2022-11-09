@@ -1,0 +1,27 @@
+@font-face {
+  font-family: Raleway;
+  src: url(../../../public/Raleway-Regular.ttf);
+}
+
+  #footdog {
+    position: absolute;
+    z-index: -1;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    max-height: 80px;
+    padding: 8px 8px 16px 8px;
+    color: #e0e0e0;
+    font-family: "Raleway";
+    font-size: 1em;
+    text-shadow: 0 0 2px rgb(0 0 0 / 50%);
+    overflow: hidden;
+  }
+  .textAlignCenter {
+    text-align: center;
+  }
+  #footerKeeper {
+    clear: both;
+    height: 80px;
+  }
+

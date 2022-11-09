@@ -1,0 +1,26 @@
+#wSlogan {
+  z-index: -1;
+  font-family: Playball;
+  clear: both;
+  padding: 32px;
+  font-family: "Playball";
+  color: #fff;
+  font-size: 2.4em;
+  text-align: center;
+  text-shadow: 0 0 8px #000;
+}
+
+#wSlogan .author {
+  margin-left: 15px;
+  font-family: Oswald;
+  font-size: 0.6em;
+  font-weight: lighter;
+}
+@font-face {
+  font-family: Playball;
+  src: url(/public/Playball-Regular.ttf);
+}
+@font-face {
+  font-family: Oswald;
+  src: url(/public/Oswald-VariableFont_wght.ttf);
+}

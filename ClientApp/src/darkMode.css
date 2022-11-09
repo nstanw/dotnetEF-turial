@@ -1,0 +1,47 @@
+#portColorWhite {
+  color: white;
+}
+.form-body-right-darkmode {
+  color: #e0e0e0;
+  border-bottom-right-radius: 5px;
+  width: 100%;
+  height: 100% !important;
+  margin: auto;
+  padding: 12px;
+  background: #303030 url(/public//img//backround.png) repeat;
+  border-top: 2px solid #404040 !important;
+}
+.form-header-darkmode {
+  border-radius: 5px 5px 0px 0px;
+  box-shadow: 0 4px 16px #000;
+  line-height: 32px;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: antiquewhite;
+  background: #303030 url(/public//img/backround.png) repeat;
+}
+.form-body-left-darkmode {
+  color: #e0e0e0;
+  border-bottom-left-radius: 5px;
+  border-right: 1px solid black;
+  padding-left: 0px;
+  padding-right: 0px;
+  background: #303030 url(/public//img//backround.png) repeat;
+}
+
+.form-body-right-darkmode form .row input[type="text"] {
+  background: none;
+  border: none;
+  border-bottom: 1px solid #1aff4f;
+  color: #ffffff;
+  font-size: 0.9rem;
+  line-height: 1rem;
+  padding: 2px 0 2px 0;
+  transition: all 0.3s cubic-bezier(0.64, 0.09, 0.08, 1);
+  background: linear-gradient(to bottom, transparent 96%, #808080 4%);
+  background-position: 0 0;
+  background-size: 0 100%;
+  background-repeat: no-repeat;
+}
