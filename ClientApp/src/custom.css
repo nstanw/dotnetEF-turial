@@ -1,0 +1,79 @@
+body {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.42857143;
+  color: #333;
+  background-color: #eee;
+}
+.main-link:first-child {
+  text-align: center;
+  font-size: 1.5em;
+  padding: 5px;
+  margin-bottom: 20px;
+  background-color: #fafafa;
+}
+a {
+  cursor: pointer;
+  color: #337ab7;
+  text-decoration: none;
+  background-color: transparent;
+}
+.main-link:first-child {
+  text-align: center;
+  font-size: 1.5em;
+  padding: 5px;
+  margin-bottom: 20px;
+  background-color: #fafafa;
+}
+.body-container {
+  min-height: 640px;
+  position: relative;
+}
+.document-container {
+  position: absolute;
+  top: 20px;
+  bottom: 50px;
+  left: 15px;
+  right: 15px;
+  border: solid 1px #cecece;
+  background-color: #fff;
+  padding: 10px;
+  font: normal 1em Arial, Helvetica, sans-serif;
+  line-height: 20px;
+  color: #3a3b3c;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+}
+.document-container .inputControl {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 5px;
+  border: none;
+  background-color: Transparent;
+  resize: none;
+  overflow-y: auto;
+  white-space: pre-wrap;
+  font: normal 1.2em Arial, Helvetica, sans-serif;
+  line-height: 20px;
+  color: #3a3b3c;
+  outline: none;
+}
+.options {
+  margin: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.divider {
+  color: #bebebe;
+}
+span {
+  color: #337ab7;
+  text-decoration: none;
+}
+span:hover{
+  cursor: pointer;
+}
