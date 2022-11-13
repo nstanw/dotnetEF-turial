@@ -21,7 +21,8 @@ function Note() {
     }
     if (afterInput) {
       return dispatch(CreateNote(createContent));
-    }
+      }
+      return
   });
 
   return (
@@ -51,8 +52,6 @@ function Note() {
             changUrl={false}
             setPassword={false}
             share={true} />
-
-
 
         </div>
         <div className="col-12 body-container">

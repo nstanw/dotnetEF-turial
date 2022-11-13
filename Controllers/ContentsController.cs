@@ -53,8 +53,50 @@ namespace NoteOnline.Controllers
             {
                 return NotFound();
             }
-            return Ok(findURL);
+
+            var checkSetPassWord = findURL.SetPassword;
+            if (checkSetPassWord)
+            {
+                var needPassWord = new
+                {
+                    UrlNeedPass = findURL.Url,
+                    edit = false
+                };
+                return Ok(needPassWord);
+            }
+            else
+            {
+                return Ok(findURL);
+            }
         }
+
+
+        //Login PassWord
+        // POST: api/Contents
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for
+        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        [HttpPatch("login")]
+        public async Task<ActionResult<Content>> PostLogin(string Url, string Password)
+        {
+            Console.WriteLine(Url, Password);
+            var findNoteMatchURL = await _context.Contents.FirstOrDefaultAsync(c => c.Url.Contains(Url));
+
+            if (findNoteMatchURL == null)
+            {
+                return NotFound();
+            }
+
+            // check pass
+            var checkMatchPassword = (findNoteMatchURL.Password == Password);
+            if (checkMatchPassword)
+            {
+                return Ok();
+            }
+
+            return BadRequest();
+        }
+
+
 
         //Update NOTE
         // PUT: api/Contents/5
@@ -100,7 +142,7 @@ namespace NoteOnline.Controllers
 
             return NoContent();
         }
-
+        #region API change 
 
         //Change URL
         // PATCH: api/Contents/5
@@ -144,7 +186,109 @@ namespace NoteOnline.Controllers
             return NoContent();
         }
 
+        // SetPassWord
+        // PATCH: api/Contents/password
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for
+        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        [HttpPatch("password")]
+        public async Task<IActionResult> PatchPassword(string Url, string Password)
+        {
+            var NoteFromDb = await _context.Contents.FirstOrDefaultAsync(c => c.Url.Contains(Url));
+
+            if (NoteFromDb == null)
+            {
+                return NotFound();
+            }
+
+            if (Url != NoteFromDb.Url)
+            {
+                return BadRequest();
+            }
+
+            var checkSetPassWork = NoteFromDb.SetPassword;
+            if (checkSetPassWork)
+            {
+                return BadRequest();
+            }
+            else
+            {
+                NoteFromDb.Password = Password;
+                NoteFromDb.SetPassword = true;
+                _context.Contents.Update(NoteFromDb);
+            }
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!ContentExists(Url))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+
+        //RemovePassword
+        // PATCH: api/Contents/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for
+        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        [HttpPatch("remove")]
+        public async Task<IActionResult> PatchRemovePassword(string Url, bool RemovePassword)
+        {
+            var NoteFromDb = await _context.Contents.FirstOrDefaultAsync(c => c.Url.Contains(Url));
+
+            if (NoteFromDb == null)
+            {
+                return NotFound();
+            }
+
+            if (Url != NoteFromDb.Url)
+            {
+                return BadRequest();
+            }
+
+            var checkPasswordIsSet = NoteFromDb.SetPassword;
+            if (checkPasswordIsSet)
+            {
+                NoteFromDb.SetPassword = false;
+                _context.Contents.Update(NoteFromDb);
+            }
+            else
+            {
+                return BadRequest();
+            }
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!ContentExists(Url))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+
+        #endregion
+
         // GET: api/Contents
+        // GET all Note
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Content>>> GetContents()
         {

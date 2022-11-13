@@ -47,14 +47,14 @@ export const UpdateNote = createAsyncThunk(
 
 export const ThunkChangeUrl = createAsyncThunk(
     "NOTE/PATCH_UPDATE_NOTE",
-    async (url) => {
-        const endpoint = "api/Contents/" + url
+    async (dataUrl) => {
+        const endpoint = "api/Contents/" + dataUrl.oldUrl;
         const response = await fetch(endpoint, {
             method: "PATCH",
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({Url :url}),
+            body: JSON.stringify({ Url: dataUrl.newUrl })
         })
         const data = response.json();
         return data;

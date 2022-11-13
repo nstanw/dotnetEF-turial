@@ -19,7 +19,14 @@ function ModalShow(props) {
     setValueInput(url);
     console.log("valueInput", valueInput);
 
-    const payload = valueInput;
+      //convert " " to "-" on url contain space
+      const newUrl = valueInput.split(' ').join("-");
+      const oldUrl = url;
+
+      const payload = {
+          newUrl: newUrl,
+          oldUrl: oldUrl
+      }
     dispatch(ThunkChangeUrl(payload))
   }
 
@@ -76,7 +83,8 @@ function ModalShow(props) {
             <input
               value={dataModal.value}
               placeholder={url}
-              onChange={e => setValueInput(e.target.value)}
+                          onChange={e => setValueInput(e.target.value)}
+                          onFocus
             />
 
           </ModalBody>

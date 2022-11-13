@@ -1,13 +1,11 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NoteOnline.Models;
-using Npgsql;
 
 namespace NoteOnline
 {
@@ -27,15 +25,8 @@ namespace NoteOnline
                  options.UseNpgsql(
                      Configuration.GetConnectionString("DefaultConnection")));
 
-            ////connect to pg database
-            //NpgsqlConnectionStringBuilder sb = new NpgsqlConnectionStringBuilder();
-            //sb.Host = "localhost";
-            //sb.Database = "noteonl";
-            //sb.Username = "postgres";
-            //sb.Password = "1";
-            //NpgsqlConnection conn = new NpgsqlConnection(sb.ConnectionString);
-            //conn.Open();
-            //services.AddDbContext<ContentContext>(options => options.UseNpgsql(conn));
+
+
 
             services.AddHealthChecks();
             services.AddControllers();
