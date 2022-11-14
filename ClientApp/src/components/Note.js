@@ -15,7 +15,7 @@ function Note() {
 
   //Check URL random is used ?
   useEffect(() => {
-    dispatch(checkURL(STORE.note.url))
+    dispatch(checkURL())
   }, []);
 
 
@@ -37,7 +37,7 @@ function Note() {
         <div className=" main-link">
           <span>
             <p>{afterInput}</p>
-            <a>http://localhost:44863/{STORE.note.url}</a>
+            {/* <a>http://localhost:44863/{STORE.checkURL.url}</a> */}
           </span>
         </div>
         <div className="options">

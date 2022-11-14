@@ -29,6 +29,24 @@ namespace NoteOnline.Controllers
                 .Select(s => s[random.Next(s.Length)]).ToArray());
         }
 
+
+        // GET: api/Contents
+        // GET all Note
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Content>>> GetHome()
+        {
+            var newURL = RandomString(8);
+            var noteFromDB = await _context.Contents.FirstOrDefaultAsync( c => c.Url.Contains(newURL));
+           while (noteFromDB != null)
+           {
+            newURL = RandomString(8);
+            noteFromDB = await _context.Contents.FirstOrDefaultAsync( c => c.Url.Contains(newURL));
+           }
+           
+            return Ok(new {Url = newURL});
+        }
+
+
         //ADD Note
         // POST: api/Contents
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
@@ -290,7 +308,7 @@ namespace NoteOnline.Controllers
 
         // GET: api/Contents
         // GET all Note
-        [HttpGet]
+        [HttpGet("all")]
         public async Task<ActionResult<IEnumerable<Content>>> GetContents()
         {
             return await _context.Contents.ToListAsync();

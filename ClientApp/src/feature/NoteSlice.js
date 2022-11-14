@@ -1,17 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { fetchGet, PREFIX } from '../util/fetchData';
 
-const makeRandomUrl = (length) => {
-    var result = '';
-    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    var charactersLength = characters.length;
-    for (var i = 0; i < length; i++) {
-        result += characters.charAt(Math.floor(Math.random() * charactersLength));
-    }
-    const newUrl = result;
-    return newUrl;
-}
-
 export const CreateNote = createAsyncThunk(
     "NOTE/POST_CREATE_NOTE",
     async (content) => {
@@ -71,16 +60,18 @@ export const GetNote = createAsyncThunk(
 )
 
 export const checkURL = createAsyncThunk(
-    'NOTE/GET_CHECK_URL',async (Url) => {
-        const endpoint = PREFIX + Url;
-         const data = await  fetchGet(endpoint);
-          console.log(data.json());
+    'NOTE/GET_CHECK_URL', async () => {
+        const endpoint = PREFIX;
+        const response = await fetch(endpoint)
+        const data = response.json();
+        return data;
     }
 )
 const initialState = {
+    checkURL: null,
     GetNote: null,
     CreateNote: null,
-    url: makeRandomUrl(8),
+   
 }
 
 export const noteSlice = createSlice({
@@ -104,6 +95,12 @@ export const noteSlice = createSlice({
         },
         [GetNote.rejected]: (state, action) => {
             state.GetNote = action.payload;
+        },
+        [checkURL.fulfilled]: (state, action) => {
+            state.checkURL = action.payload;
+        },
+        [checkURL.rejected]: (state, action) => {
+            state.checkURL = action.payload;
         },
     }
 })
