@@ -4,7 +4,6 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { noteActions, UpdateNote, ThunkChangeUrl } from '../feature/NoteSlice';
 
 function ModalShow(props) {
-  console.log("prop", props);
 
   let dataModal;
 
@@ -19,14 +18,14 @@ function ModalShow(props) {
     setValueInput(url);
     console.log("valueInput", valueInput);
 
-      //convert " " to "-" on url contain space
-      const newUrl = valueInput.split(' ').join("-");
-      const oldUrl = url;
+    //convert " " to "-" on url contain space
+    const newUrl = valueInput.split(' ').join("-");
+    const oldUrl = url;
 
-      const payload = {
-          newUrl: newUrl,
-          oldUrl: oldUrl
-      }
+    const payload = {
+      newUrl: newUrl,
+      oldUrl: oldUrl
+    }
     dispatch(ThunkChangeUrl(payload))
   }
 
@@ -78,15 +77,23 @@ function ModalShow(props) {
         <form onSubmit={handleSubmit}>
           <ModalHeader toggle={toggle}>{dataModal.header}</ModalHeader>
           <ModalBody>
-            <p>{dataModal.link}</p>
+            <p className='urlFrefix'>{dataModal.link}</p>
 
-            <input
-              value={dataModal.value}
-              placeholder={url}
-                          onChange={e => setValueInput(e.target.value)}
-                          onFocus
-            />
+            {props.setPassword
+              ? <input
+                className='big '
+                onChange={e => setValueInput(e.target.value)}
+              />
+              :
+              <input
+                className={`${props.share ? 'inputShare big' : 'big'}`}
 
+                value={dataModal.value}
+                placeholder={url}
+                onChange={e => setValueInput(e.target.value)}
+                autoFocus
+              />
+            }
           </ModalBody>
           <ModalFooter>
             <Button color="light" onClick={toggle}>Close</Button>

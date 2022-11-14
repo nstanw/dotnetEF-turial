@@ -151,6 +151,7 @@ namespace NoteOnline.Controllers
         [HttpPatch("{Url}")]
         public async Task<IActionResult> PatchContent(string Url, Content content)
         {
+            Console.Write(Url, content);
             var NoteFromDb = await _context.Contents.FirstOrDefaultAsync(c => c.Url.Contains(Url));
 
             if (NoteFromDb == null)

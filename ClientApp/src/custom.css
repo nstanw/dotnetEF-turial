@@ -66,14 +66,32 @@ a {
   align-items: center;
   justify-content: center;
 }
-
+.urlFrefix{
+  margin-bottom: 15px;
+  color: #66af66;
+}
+.input{
+  border-color: #0084f7;
+  border-radius: 5px;
+}
+.inputShare{
+  border-color: #0084f7;
+  border-radius: 5px;
+  border: none;
+}
+.big {
+  width: 100%;
+  font-size: 2em;
+}
 .divider {
   color: #bebebe;
+  padding-right: 15px;
+  padding-left: 15px;
 }
 span {
   color: #337ab7;
   text-decoration: none;
 }
-span:hover{
+span:hover {
   cursor: pointer;
 }

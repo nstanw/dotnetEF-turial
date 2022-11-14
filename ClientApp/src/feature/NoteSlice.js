@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import { fetchGet, PREFIX } from '../util/fetchData';
 
 const makeRandomUrl = (length) => {
     var result = '';
@@ -10,8 +11,6 @@ const makeRandomUrl = (length) => {
     const newUrl = result;
     return newUrl;
 }
-
-
 
 export const CreateNote = createAsyncThunk(
     "NOTE/POST_CREATE_NOTE",
@@ -64,14 +63,22 @@ export const ThunkChangeUrl = createAsyncThunk(
 export const GetNote = createAsyncThunk(
     "NOTE/GET_NOTE",
     async (Url) => {
-        const endpoint =  "api/Contents/" + Url;
+        const endpoint = "api/Contents/" + Url;
         const response = await fetch(endpoint)
         const data = response.json();
         return data;
     }
 )
 
+export const checkURL = createAsyncThunk(
+    'NOTE/GET_CHECK_URL',async (Url) => {
+        const endpoint = PREFIX + Url;
+         const data = await  fetchGet(endpoint);
+          console.log(data.json());
+    }
+)
 const initialState = {
+    GetNote: null,
     CreateNote: null,
     url: makeRandomUrl(8),
 }
@@ -92,10 +99,15 @@ export const noteSlice = createSlice({
         [CreateNote.rejected]: (state, action) => {
             state.CreateNote = action.payload;
         },
+        [GetNote.fulfilled]: (state, action) => {
+            state.GetNote = action.payload;
+        },
+        [GetNote.rejected]: (state, action) => {
+            state.GetNote = action.payload;
+        },
     }
 })
 
 // Action creators are generated for each case reducer function
 export const noteActions = noteSlice.actions
-
 export default noteSlice.reducer

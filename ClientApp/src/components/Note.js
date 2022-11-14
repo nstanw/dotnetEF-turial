@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useFormik } from 'formik';
 import "../custom.css";
-import { noteActions, CreateNote } from "../feature/NoteSlice";
+import { noteActions, CreateNote, GetNote ,checkURL } from "../feature/NoteSlice";
 import ModalShow from "./ModalShow";
 
 function Note() {
@@ -13,6 +13,12 @@ function Note() {
   const dispatch = useDispatch();
   const STORE = useSelector(state => state)
 
+  //Check URL random is used ?
+  useEffect(() => {
+    dispatch(checkURL(STORE.note.url))
+  }, []);
+
+
   useEffect(() => {
     setAfterInput(query);
     const createContent = {
@@ -21,8 +27,8 @@ function Note() {
     }
     if (afterInput) {
       return dispatch(CreateNote(createContent));
-      }
-      return
+    }
+    return
   });
 
   return (
