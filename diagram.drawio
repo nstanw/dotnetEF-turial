@@ -1,1 +1,74 @@
-<mxfile host="www.draw.io" modified="2022-11-14T02:54:11.245Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36" etag="9MpcsXfxlm9R5gvqCVRe" version="20.5.1" type="device"><diagram id="bE0H3dGYEixhc-SuH7u-" name="Trang-1">5VnbbuM2EP2WPghoH7zQzZb8aNlJ0yLdBk2Lbh5pibZYU6JK0bf9+g5F0ro5XgdxLt0AQUwNh0PyzMwZirK8abb7maMi/Y0lmFqunewsb2a5rmN7IfxIyV5JhqEWLDlJtFItuCdfsRmppWuS4LKlKBijghRtYczyHMeiJUOcs21bbcFoe9YCLXFPcB8j2pf+TRKRKmnoBrX8BpNlamZ2RmPVkyGjrHdSpihh24bIu7K8KWdMqFa2m2IqwTO4qHHXj/QeFsZxLs4ZcJ+ufil/H+Br9yF5WN39+iWJxcBTVjaIrvWG9WLF3iCAEwBEPzIuUrZkOaJXtTTibJ0nWE5jw1Otc8tYAUIHhP9gIfbau2gtGIhSkVHdq+aUEz26Ny0q2ZrH+MSGTIwgvsTihJ578ACELmYZFnwP4zimSJBNex1Ix9DyoFfDDA2N9BNQd3qof8ZbEHxmAvfwb6O7TYnA9wWqQNhCzh1DcoO5wLvTWPb3rgd4Yx2wOmPdUD9v6/h3TFCnjdgf2S8E1/B7C1L3zCD1nxmk1dAJ52jfUCgYyUXZsHwnBbX/R2Hb/57T4ZWn6UNDraD2/2Erz8igDxsTznOD4lmp6PZh964td0RhydEcGkvZWHNqZDDLQdyntpRl83X5bVprO+oCJDcMOiQX9EkuPMJx4UtxXPi9xbN/ZjwHbxnOfg/1lFhXjhVFVujlcvmpeQRs7L/+uJXa1tSzJrbsVcoTK7qWyqnqyFNoW1PfGjumOxCH0XHK4H9eVXo709bHEem5+7VTIvDfW90f9bwzBYhHVmQjCaREO/IMsJqC+KNkA8iINoSIkmUO7RgQwhwEEj8CZ/+J7shIkqjEwiX5iuaVKQm3rqFgdxhZw5m0BblUqrSSpkvB2QpPGWVgd5azXFpZEEo7ogv4bXSO3+wjfvNeym9O/3z7Pyez4NzibB931euwWdCD/Y6VknmsIBpUNRns2gNDP8HszTln/O44Z9zDME81i09mhYwBSSMfl23C7sHpiMeCVyUbux/1kz+nNxDzID1EfcwA9VwnQ12Aj3gymMo/iUlZntbgOGMbbFQhnd5BRjnOu0spp//S0M0pUp2cJsWHSSPHHg07bhq+cR71rwInsYBtd11SpqiQzXVGlULtgls0xxRqDhGESVfMmRAsO+IjwTp5wNaCkhywN7e4F0oHbzz+ZjZ4r5oMwVschQAtvv8ix3/yD88PsvOT7QdGMNvpGdTTvvl0hzkBBGTGNXxzmSvbc18VL3Id1ru/Cu02YfpOx/dqXXpUx/2XuMrqv4QKw44OMzXsXb0qdm9PfPvNa8yx+xNVuMsC5S24Rv+u5TeXKFasPpEhtJz/aKuDgvn5qYLKXsC5YbBAGaF7pXqD6QZLMmv0qxoiex232DU71KST6sDBM0QbfRvECYJfoEQk1lx+5DqpF6PiMZWthlh2Sl9UPRQYAfMBbD8m+bI/kvEiRbk26SqZLLcDXWGl+FBkTR+BQMr1TLbZatUjOBhbgH0zky6VMiaqr3CNabaMJ+2FHWzBXuYrAuakTVWQBzqqWnpzFK+WVWAPOn50/VC50PXHujE03qysJjhmHMkSNRApiVc5LvXySA6Vy+DT1W348qReYzktvQVlSHTBSUhZULQ36rIGQuMHkhXA8ihXrxYmYM0B9OjNB6SNivTTLyQv//1o5LTJwRsdIQfnCDn4TycHeKw/oCpCrj9De1f/AQ==</diagram></mxfile>
+<mxfile host="65bd71144e">
+    <diagram id="bE0H3dGYEixhc-SuH7u-" name="Trang-1">
+        <mxGraphModel dx="708" dy="514" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="ShkIsO-eF2YdYkPJXdct-3" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="ShkIsO-eF2YdYkPJXdct-1" target="ShkIsO-eF2YdYkPJXdct-2" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="ShkIsO-eF2YdYkPJXdct-1" value="New Note" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="390" y="280" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="ShkIsO-eF2YdYkPJXdct-5" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="ShkIsO-eF2YdYkPJXdct-2" target="ShkIsO-eF2YdYkPJXdct-4" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="680" y="310"/>
+                            <mxPoint x="680" y="310"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="ShkIsO-eF2YdYkPJXdct-15" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="ShkIsO-eF2YdYkPJXdct-2" target="ShkIsO-eF2YdYkPJXdct-14" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="3" value="" style="edgeStyle=none;html=1;" edge="1" parent="1" source="ShkIsO-eF2YdYkPJXdct-2" target="2">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="ShkIsO-eF2YdYkPJXdct-2" value="?&lt;b&gt;url&lt;/b&gt;" style="rhombus;whiteSpace=wrap;html=1;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="570" y="270" width="80" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="ShkIsO-eF2YdYkPJXdct-8" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="ShkIsO-eF2YdYkPJXdct-4" target="ShkIsO-eF2YdYkPJXdct-7" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="ShkIsO-eF2YdYkPJXdct-4" value="hiển thị URL và tiến hành đặt URL cho note mới" style="whiteSpace=wrap;html=1;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="740" y="280" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="ShkIsO-eF2YdYkPJXdct-6" value="Chưa có URL&lt;br&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
+                    <mxGeometry x="640" y="280" width="100" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="ShkIsO-eF2YdYkPJXdct-11" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="ShkIsO-eF2YdYkPJXdct-7" target="ShkIsO-eF2YdYkPJXdct-10" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="ShkIsO-eF2YdYkPJXdct-7" value="Post {-url, - note}" style="whiteSpace=wrap;html=1;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="940" y="280" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="ShkIsO-eF2YdYkPJXdct-9" value="nhập text&lt;br&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
+                    <mxGeometry x="870" y="280" width="70" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="ShkIsO-eF2YdYkPJXdct-10" value="PATCH{ url, content { note &lt;br&gt;|| pass &lt;br&gt;|| remove pass}}" style="whiteSpace=wrap;html=1;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="1140" y="280" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="ShkIsO-eF2YdYkPJXdct-12" value="nhập tiêp" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
+                    <mxGeometry x="1065" y="285" width="70" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="ShkIsO-eF2YdYkPJXdct-13" value="Actor" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" parent="1" vertex="1">
+                    <mxGeometry x="399" y="280" width="30" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="ShkIsO-eF2YdYkPJXdct-17" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.41;entryY=1.047;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="ShkIsO-eF2YdYkPJXdct-14" target="ShkIsO-eF2YdYkPJXdct-4" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="800" y="410" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="ShkIsO-eF2YdYkPJXdct-14" value="tạo url mới" style="whiteSpace=wrap;html=1;rounded=0;" parent="1" vertex="1">
+                    <mxGeometry x="570" y="400" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="ShkIsO-eF2YdYkPJXdct-18" value="&lt;span style=&quot;color: rgb(0, 0, 0); font-family: Helvetica; font-size: 12px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: center; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(248, 249, 250); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; float: none; display: inline !important;&quot;&gt;có URL&lt;/span&gt;" style="text;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="610" y="360" width="110" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="2" value="BE create random URL" style="whiteSpace=wrap;html=1;rounded=0;" vertex="1" parent="1">
+                    <mxGeometry x="550" y="160" width="120" height="60" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

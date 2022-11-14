@@ -160,3 +160,4 @@ D:\NET\REDSAND\NoteOnline\obj\Debug\netcoreapp3.1\Razor\Views\Contents\Edit.csht
 D:\NET\REDSAND\NoteOnline\obj\Debug\netcoreapp3.1\Razor\Views\Contents\Index.cshtml.g.cs
 D:\NET\REDSAND\NoteOnline\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_ValidationScriptsPartial.cshtml.g.cs
 D:\NET\REDSAND\NoteOnline\bin\Debug\netcoreapp3.1\package-lock.json
+D:\NET\REDSAND\NoteOnline\bin\Debug\netcoreapp3.1\package.json
