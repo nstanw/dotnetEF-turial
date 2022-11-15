@@ -126,6 +126,12 @@ namespace NoteOnline.Controllers
 
             var NoteFromDb = await _context.Contents.FirstOrDefaultAsync(c => c.Url.Contains(content.Url));
 
+
+            if (content.newUrl != null)
+            {
+                content.Url = content.newUrl;
+            }
+
             if (NoteFromDb == null)
             {
                 _context.Contents.Add(content);

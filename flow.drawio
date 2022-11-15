@@ -1,0 +1,49 @@
+<mxfile host="65bd71144e">
+    <diagram id="P3JAaZjUcmT-iTAm8GYp" name="Page-1">
+        <mxGraphModel dx="609" dy="358" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="2" value="chage link" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="34" y="69" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="6" style="edgeStyle=none;html=1;" edge="1" parent="1" source="3" target="5">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="3" value="TH1: Load trang no path" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="1">
+                    <mxGeometry x="22" y="154" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="8" value="" style="edgeStyle=none;html=1;" edge="1" parent="1" source="5">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="412" y="184" as="targetPoint"/>
+                        <Array as="points"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="5" value="get trang chủ&lt;br&gt;trang chủ nhận về link&lt;br&gt;lưu trong redux&lt;br&gt;" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="1">
+                    <mxGeometry x="190" y="155" width="165" height="59" as="geometry"/>
+                </mxCell>
+                <mxCell id="7" value="thay đổi nội dung" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="1">
+                    <mxGeometry x="384.25" y="265" width="187.5" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="10" value="thay đổii link&lt;br&gt;&lt;div style=&quot;color: rgb(212 , 212 , 212)&quot;&gt;&amp;nbsp; &amp;nbsp;&lt;span style=&quot;color: rgb(156 , 220 , 254)&quot;&gt;&quot;url&quot;&lt;/span&gt;&lt;span style=&quot;color: rgb(220 , 220 , 220)&quot;&gt;:&lt;/span&gt;&amp;nbsp;&lt;span style=&quot;color: rgb(206 , 145 , 120)&quot;&gt;&quot;newLink&quot;&lt;/span&gt;&lt;span style=&quot;color: rgb(220 , 220 , 220)&quot;&gt;,&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;font color=&quot;#d4d4d4&quot;&gt;&amp;nbsp; &amp;nbsp;&lt;/font&gt;&lt;span style=&quot;color: rgb(156 , 220 , 254)&quot;&gt;&quot;note&quot;&lt;/span&gt;&lt;span style=&quot;color: rgb(220 , 220 , 220)&quot;&gt;:&lt;/span&gt;&lt;font color=&quot;#d4d4d4&quot;&gt;&amp;nbsp;&lt;/font&gt;&lt;font color=&quot;#ce9178&quot;&gt;null&lt;/font&gt;&lt;span style=&quot;color: rgb(220 , 220 , 220)&quot;&gt;,&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;color: rgb(212 , 212 , 212)&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;span style=&quot;color: rgb(156 , 220 , 254)&quot;&gt;&quot;password&quot;&lt;/span&gt;&lt;span style=&quot;color: rgb(220 , 220 , 220)&quot;&gt;:&lt;/span&gt;&amp;nbsp;&lt;span style=&quot;color: rgb(206 , 145 , 120)&quot;&gt;null&lt;/span&gt;&lt;span style=&quot;color: rgb(220 , 220 , 220)&quot;&gt;,&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;color: rgb(212 , 212 , 212)&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;span style=&quot;color: rgb(156 , 220 , 254)&quot;&gt;&quot;setPassword&quot;&lt;/span&gt;&lt;span style=&quot;color: rgb(220 , 220 , 220)&quot;&gt;:&lt;/span&gt;&amp;nbsp;&lt;span style=&quot;color: rgb(206 , 145 , 120)&quot;&gt;false&lt;/span&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;align=left;" vertex="1" parent="1">
+                    <mxGeometry x="144" y="262" width="188" height="86" as="geometry"/>
+                </mxCell>
+                <mxCell id="13" style="edgeStyle=none;html=1;exitX=0;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="11" target="10">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="14" style="edgeStyle=none;html=1;" edge="1" parent="1" source="11" target="7">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="16" style="edgeStyle=none;html=1;exitX=1;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="11" target="15">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="11" value="tạo 1 trang thái note lưu trong redux&lt;br&gt;&lt;div style=&quot;background-color: rgb(30 , 30 , 30) ; line-height: 18px&quot;&gt;&lt;div style=&quot;color: rgb(212 , 212 , 212)&quot;&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &lt;span style=&quot;color: rgb(156 , 220 , 254)&quot;&gt;&quot;url&quot;&lt;/span&gt;&lt;span style=&quot;color: rgb(220 , 220 , 220)&quot;&gt;:&lt;/span&gt;&amp;nbsp;&lt;span style=&quot;color: rgb(206 , 145 , 120)&quot;&gt;&quot;randomURL&quot;&lt;/span&gt;&lt;span style=&quot;color: rgb(220 , 220 , 220)&quot;&gt;,&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;font color=&quot;#d4d4d4&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;/font&gt;&lt;span style=&quot;color: rgb(156 , 220 , 254)&quot;&gt;&quot;note&quot;&lt;/span&gt;&lt;span style=&quot;color: rgb(220 , 220 , 220)&quot;&gt;:&lt;/span&gt;&lt;font color=&quot;#d4d4d4&quot;&gt;&amp;nbsp;&lt;/font&gt;&lt;font color=&quot;#ce9178&quot;&gt;null&lt;/font&gt;&lt;span style=&quot;color: rgb(220 , 220 , 220)&quot;&gt;,&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;color: rgb(212 , 212 , 212)&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;span style=&quot;color: #9cdcfe&quot;&gt;&quot;password&quot;&lt;/span&gt;&lt;span style=&quot;color: #dcdcdc&quot;&gt;:&lt;/span&gt;&amp;nbsp;&lt;span style=&quot;color: #ce9178&quot;&gt;null&lt;/span&gt;&lt;span style=&quot;color: #dcdcdc&quot;&gt;,&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;color: rgb(212 , 212 , 212)&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;span style=&quot;color: #9cdcfe&quot;&gt;&quot;setPassword&quot;&lt;/span&gt;&lt;span style=&quot;color: #dcdcdc&quot;&gt;:&lt;/span&gt;&amp;nbsp;&lt;span style=&quot;color: #ce9178&quot;&gt;false&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;rounded=1;align=left;" vertex="1" parent="1">
+                    <mxGeometry x="413" y="141" width="263" height="98" as="geometry"/>
+                </mxCell>
+                <mxCell id="15" value="thêm pass" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="1">
+                    <mxGeometry x="593" y="265" width="187.5" height="60" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

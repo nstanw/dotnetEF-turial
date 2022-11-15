@@ -3,9 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 import '../custom.css';
 import {
-
   UpdateNote,
-
   noteActions,
   CreateNote,
   GetNote,
@@ -19,6 +17,7 @@ function Note() {
 
   const dispatch = useDispatch();
   const UrlFromStore = useSelector((state) => state.note.checkURL);
+  const NOTE = useSelector((state) => state.note.note);
 
   //Check URL random is used ?
   useEffect(() => {
@@ -31,37 +30,43 @@ function Note() {
     if (UrlFromStore) {
       const newTimer = setTimeout(() => {
         console.log(afterInput);
-        const payload = {
-          url: UrlFromStore.url,
+        const payload = { 
+          ...NOTE,
           note: afterInput,
-          password: null,
-          setPassword: false
         }
         dispatch(UpdateNote(payload))
       }, 1000);
 
       return () => clearTimeout(newTimer);
     }
-  },[afterInput])
+  }, [afterInput])
 
   return (
     <div className='noteOnline'>
       <div className=''>
         <div className=' main-link'>
           <span>
-            <p>{afterInput}</p>
             {UrlFromStore == null ? (
-              <a>http://localhost:44863/</a>
+              <a>http://localhost:44863/{afterInput}</a>
             ) : (
-              <a>http://localhost:44863/{UrlFromStore.url}</a>
+              <a>http://localhost:44863/{NOTE.url}</a>
             )}
           </span>
         </div>
         <div className='options'>
           <ModalShow
-            changeUrl={true}
+            changeUrl={
+              {
+                title: 'Change Url ',
+                header: 'Enter the new url',
+                link: "https://wordpad.cc/" + NOTE.url,
+                value: NOTE.url,
+              }
+            }
+
             setPassword={false}
             share={false}
+
           />
           <span className='divider'>|</span>
 

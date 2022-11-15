@@ -1,49 +1,30 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { noteActions, UpdateNote, ThunkChangeUrl } from '../feature/NoteSlice';
 
 function ModalShow(props) {
 
+  console.log(props);
+
   let dataModal;
-
+  const UrlFromStore = useSelector((state) => state.note.checkURL);
+  const NoteFromRedux = useSelector((state) => state.note.note);
   const dispatch = useDispatch();
-  const url = useSelector((state) => state.note.url);
+
   const [show, setShow] = useState(false);
-  const [valueInput, setValueInput] = useState(url);
+  const [valueInput, setValueInput] = useState();
 
-  const handleSubmit = (e) => {
-
-    e.preventDefault();
-    setValueInput(url);
-    console.log("valueInput", valueInput);
-
-    //convert " " to "-" on url contain space
-    const newUrl = valueInput.split(' ').join("-");
-    const oldUrl = url;
-
-    const payload = {
-      newUrl: newUrl,
-      oldUrl: oldUrl
+  useEffect(() => {
+    if (UrlFromStore) {
+      setValueInput(UrlFromStore.url)
     }
-    dispatch(ThunkChangeUrl(payload))
-  }
+  }, [UrlFromStore === null])
+  console.log(valueInput);
 
-  const toggle = () => {
-    setShow(!show);
-  }
-
-
+  //#region check open modal
   if (props.changeUrl) {
-    const changeUrl = {
-      title: 'Change Url ',
-      header: 'Enter the new url',
-      link: "https://wordpad.cc/" + valueInput,
-      value: valueInput,
-      share: false,
-    }
-    dataModal = changeUrl;
-
+    dataModal = props.changeUrl;
   }
 
   if (props.setPassword) {
@@ -63,12 +44,38 @@ function ModalShow(props) {
       title: 'Share',
       header: 'Share this page',
       link: null,
-      value: "https://wordpad.cc/" + valueInput,
+      // value: "https://wordpad.cc/" + valueInput,
       share: true,
     }
 
     dataModal = share;
   }
+  //#endregion
+  //#region  function handle
+  const handleSubmit = (e) => {
+
+    e.preventDefault();
+    setValueInput(valueInput);
+    console.log("valueInput", valueInput);
+
+    //convert " " to "-" on url contain space
+    const newUrl = valueInput.split(' ').join("-");
+
+
+    const payload = {
+      ...NoteFromRedux,
+      newUrl: newUrl,
+    }
+    delete payload.id;
+    console.log("payload", payload);
+    dispatch(noteActions.setNote(payload))
+    dispatch(UpdateNote(payload))
+  }
+
+  const toggle = () => {
+    setShow(!show);
+  }
+  //#endregion
 
   return (
     <div>
@@ -77,7 +84,7 @@ function ModalShow(props) {
         <form onSubmit={handleSubmit}>
           <ModalHeader toggle={toggle}>{dataModal.header}</ModalHeader>
           <ModalBody>
-            <p className='urlFrefix'>{dataModal.link}</p>
+            <p className='urlFrefix'>{'https://localhost:5001/' + valueInput}</p>
 
             {props.setPassword
               ? <input
@@ -87,9 +94,7 @@ function ModalShow(props) {
               :
               <input
                 className={`${props.share ? 'inputShare big' : 'big'}`}
-
-                value={dataModal.value}
-                placeholder={url}
+                defaultValue={valueInput}
                 onChange={e => setValueInput(e.target.value)}
                 autoFocus
               />

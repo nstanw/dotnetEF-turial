@@ -68,10 +68,17 @@ export const checkURL = createAsyncThunk(
     }
 )
 const initialState = {
+    note: {
+        url: null,
+        note: null,
+        password: null,
+        setPassword: false
+    },
+    UpdateNote: null,
     checkURL: null,
     GetNote: null,
     CreateNote: null,
-   
+
 }
 
 export const noteSlice = createSlice({
@@ -79,28 +86,41 @@ export const noteSlice = createSlice({
     initialState,
     reducers: {
         storeUrl: (state, action) => {
-
             state.url = action.payload;
-        }
+        },
+        setNote: (state, action) => {
+            state.note = action.payload;
+        },
     },
     extraReducers: {
         [CreateNote.fulfilled]: (state, action) => {
             state.CreateNote = action.payload;
         },
         [CreateNote.rejected]: (state, action) => {
-            state.CreateNote = action.payload;
+            state.CreateNote = action.error;
         },
+
         [GetNote.fulfilled]: (state, action) => {
             state.GetNote = action.payload;
         },
         [GetNote.rejected]: (state, action) => {
-            state.GetNote = action.payload;
+            state.GetNote = action.error;
         },
+
         [checkURL.fulfilled]: (state, action) => {
+            state.note.url = action.payload.url;
             state.checkURL = action.payload;
         },
         [checkURL.rejected]: (state, action) => {
             state.checkURL = action.payload;
+        },
+
+        [UpdateNote.fulfilled]: (state, action) => {
+            state.UpdateNote = action.payload;
+            state.note = action.payload;
+        },
+        [UpdateNote.rejected]: (state, action) => {
+            state.UpdateNote = action.error;
         },
     }
 })
