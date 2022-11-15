@@ -9,10 +9,10 @@ export default function App() {
   return (
     <>
       <Routes>
-        {/* <Route
+        <Route
           path='/:url'
           element={<Note />}
-        /> */}
+        />
         <Route
           path='/'
           element={<Note />}

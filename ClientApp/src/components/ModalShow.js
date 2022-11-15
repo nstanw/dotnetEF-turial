@@ -1,26 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Alert } from 'reactstrap';
 import { noteActions, UpdateNote, ThunkChangeUrl } from '../feature/NoteSlice';
 
 function ModalShow(props) {
 
-  console.log(props);
-
   let dataModal;
   const UrlFromStore = useSelector((state) => state.note.checkURL);
-  const NoteFromRedux = useSelector((state) => state.note.note);
+  const GetNoteFromRedux = useSelector((state) => state.note.GetNote);
   const dispatch = useDispatch();
 
   const [show, setShow] = useState(false);
   const [valueInput, setValueInput] = useState();
 
   useEffect(() => {
-    if (UrlFromStore) {
-      setValueInput(UrlFromStore.url)
+    if (GetNoteFromRedux) {
+      setValueInput(GetNoteFromRedux.url)
     }
-  }, [UrlFromStore === null])
-  console.log(valueInput);
+  }, [GetNoteFromRedux === null])
 
   //#region check open modal
   if (props.changeUrl) {
@@ -56,14 +53,13 @@ function ModalShow(props) {
 
     e.preventDefault();
     setValueInput(valueInput);
-    console.log("valueInput", valueInput);
 
     //convert " " to "-" on url contain space
     const newUrl = valueInput.split(' ').join("-");
 
 
     const payload = {
-      ...NoteFromRedux,
+      ...GetNoteFromRedux,
       newUrl: newUrl,
     }
     delete payload.id;

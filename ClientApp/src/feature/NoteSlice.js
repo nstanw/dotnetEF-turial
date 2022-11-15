@@ -52,7 +52,7 @@ export const ThunkChangeUrl = createAsyncThunk(
 export const GetNote = createAsyncThunk(
     "NOTE/GET_NOTE",
     async (Url) => {
-        const endpoint = "api/Contents/" + Url;
+        const endpoint = PREFIX + Url;
         const response = await fetch(endpoint)
         const data = response.json();
         return data;
@@ -102,6 +102,7 @@ export const noteSlice = createSlice({
 
         [GetNote.fulfilled]: (state, action) => {
             state.GetNote = action.payload;
+            state.note = action.payload;
         },
         [GetNote.rejected]: (state, action) => {
             state.GetNote = action.error;
@@ -110,6 +111,7 @@ export const noteSlice = createSlice({
         [checkURL.fulfilled]: (state, action) => {
             state.note.url = action.payload.url;
             state.checkURL = action.payload;
+            state.GetNote = action.payload;
         },
         [checkURL.rejected]: (state, action) => {
             state.checkURL = action.payload;

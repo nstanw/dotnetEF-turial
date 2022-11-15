@@ -13,24 +13,36 @@ import ModalShow from './ModalShow';
 
 function Note() {
 
+  const lastPath = window.location.href.split('/')[3];
+  // console.log(lastPath === "");
+
+  //Check URL random is used ?
+  useEffect(() => {
+    if (lastPath === "") {
+      dispatch(checkURL());
+    } else {
+      dispatch(GetNote(lastPath));
+    }
+
+  }, []);
+
   const [afterInput, setAfterInput] = useState('');
 
   const dispatch = useDispatch();
   const UrlFromStore = useSelector((state) => state.note.checkURL);
   const NOTE = useSelector((state) => state.note.note);
 
-  //Check URL random is used ?
+  //if get link exists
   useEffect(() => {
-    dispatch(checkURL());
-  }, []);
-
+        setAfterInput(NOTE.note)
+  }, [NOTE.note != null])
 
   // send note post request
   useEffect(() => {
-    if (UrlFromStore) {
+    if (NOTE.note) {
       const newTimer = setTimeout(() => {
         console.log(afterInput);
-        const payload = { 
+        const payload = {
           ...NOTE,
           note: afterInput,
         }
@@ -46,7 +58,7 @@ function Note() {
       <div className=''>
         <div className=' main-link'>
           <span>
-            {UrlFromStore == null ? (
+            {NOTE == null ? (
               <a>http://localhost:44863/{afterInput}</a>
             ) : (
               <a>http://localhost:44863/{NOTE.url}</a>
@@ -86,7 +98,7 @@ function Note() {
         <div className='col-12 body-container'>
           <div className='document-container'>
             <textarea
-              value={afterInput}
+              defaultValue={afterInput}
               onChange={e => setAfterInput(e.target.value)}
 
               placeholder='Type something, it will autosave as you type...'

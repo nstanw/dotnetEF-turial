@@ -46,21 +46,7 @@ namespace NoteOnline.Controllers
             return Ok(new { Url = newURL });
         }
 
-
-        //ADD Note
-        // POST: api/Contents
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        [HttpPost]
-        public async Task<ActionResult<Content>> PostContent(Content content)
-        {
-            _context.Contents.Add(content);
-            await _context.SaveChangesAsync();
-
-            return Ok(content);
-        }
-
-        //GET NOTE follow url
+        //GET flow Url
         // GET: api/Contents/Url
         [HttpGet("{Url}")]
         public async Task<ActionResult<Content>> GetContentByLink(string Url)
@@ -69,7 +55,7 @@ namespace NoteOnline.Controllers
 
             if (findURL == null)
             {
-                return NotFound();
+                return Ok(Url);
             }
 
             var checkSetPassWord = findURL.SetPassword;
@@ -88,6 +74,27 @@ namespace NoteOnline.Controllers
             }
         }
 
+        // GET: api/Contents
+        // GET all Note
+        [HttpGet("all")]
+        public async Task<ActionResult<IEnumerable<Content>>> GetContents()
+        {
+            return await _context.Contents.ToListAsync();
+        }
+
+        #region API change 
+        //ADD Note
+        // POST: api/Contents
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for
+        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        [HttpPost]
+        public async Task<ActionResult<Content>> PostContent(Content content)
+        {
+            _context.Contents.Add(content);
+            await _context.SaveChangesAsync();
+
+            return Ok(content);
+        }
 
         //Login PassWord
         // POST: api/Contents
@@ -113,8 +120,6 @@ namespace NoteOnline.Controllers
 
             return BadRequest();
         }
-
-
 
         //Update/create NOTE
         // PUT: api/Contents/
@@ -179,8 +184,6 @@ namespace NoteOnline.Controllers
 
             }
         }
-
-        #region API change 
 
         //Change URL
         // PATCH: api/Contents/5
@@ -326,13 +329,6 @@ namespace NoteOnline.Controllers
 
         #endregion
 
-        // GET: api/Contents
-        // GET all Note
-        [HttpGet("all")]
-        public async Task<ActionResult<IEnumerable<Content>>> GetContents()
-        {
-            return await _context.Contents.ToListAsync();
-        }
 
         // DELETE: api/Contents/
         [HttpDelete("{Id}")]

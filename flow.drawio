@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="P3JAaZjUcmT-iTAm8GYp" name="Page-1">
-        <mxGraphModel dx="609" dy="358" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+        <mxGraphModel dx="1082" dy="478" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -42,6 +42,29 @@
                 </mxCell>
                 <mxCell id="15" value="thêm pass" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="1">
                     <mxGeometry x="593" y="265" width="187.5" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="19" value="" style="edgeStyle=none;html=1;" edge="1" parent="1" source="17">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="207" y="430" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="17" value="path" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="7" y="400" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="22" value="" style="edgeStyle=none;html=1;" edge="1" parent="1" source="20" target="21">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="24" value="" style="edgeStyle=none;html=1;" edge="1" parent="1" source="20" target="23">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="20" value="&#10;&#10;&lt;span style=&quot;color: rgb(240, 240, 240); font-family: helvetica; font-size: 12px; font-style: normal; font-weight: 400; letter-spacing: normal; text-align: center; text-indent: 0px; text-transform: none; word-spacing: 0px; background-color: rgb(42, 42, 42); display: inline; float: none;&quot;&gt;dung path goi lên server&lt;/span&gt;&#10;&#10;" style="rhombus;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="204" y="360" width="178" height="140" as="geometry"/>
+                </mxCell>
+                <mxCell id="21" value="có thì trả về nội dung" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="491" y="400" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="23" value="lưu vao trong redux" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="233" y="566" width="120" height="60" as="geometry"/>
                 </mxCell>
             </root>
         </mxGraphModel>
