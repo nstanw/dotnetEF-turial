@@ -36,14 +36,14 @@ namespace NoteOnline.Controllers
         public async Task<ActionResult<IEnumerable<Content>>> GetHome()
         {
             var newURL = RandomString(8);
-            var noteFromDB = await _context.Contents.FirstOrDefaultAsync( c => c.Url.Contains(newURL));
-           while (noteFromDB != null)
-           {
-            newURL = RandomString(8);
-            noteFromDB = await _context.Contents.FirstOrDefaultAsync( c => c.Url.Contains(newURL));
-           }
-           
-            return Ok(new {Url = newURL});
+            var noteFromDB = await _context.Contents.FirstOrDefaultAsync(c => c.Url.Contains(newURL));
+            while (noteFromDB != null)
+            {
+                newURL = RandomString(8);
+                noteFromDB = await _context.Contents.FirstOrDefaultAsync(c => c.Url.Contains(newURL));
+            }
+
+            return Ok(new { Url = newURL });
         }
 
 
@@ -116,39 +116,44 @@ namespace NoteOnline.Controllers
 
 
 
-        //Update NOTE
-        // PUT: api/Contents/5
+        //Update/create NOTE
+        // PUT: api/Contents/
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        [HttpPut("{Url}")]
-        public async Task<IActionResult> PutContent(string Url, Content content)
+        [HttpPut]
+        public async Task<IActionResult> PutContent(Content content)
         {
-            var NoteFromDb = await _context.Contents.FirstOrDefaultAsync(c => c.Url.Contains(Url));
+
+            var NoteFromDb = await _context.Contents.FirstOrDefaultAsync(c => c.Url.Contains(content.Url));
 
             if (NoteFromDb == null)
             {
-                return NotFound();
-            }
+                _context.Contents.Add(content);
+                await _context.SaveChangesAsync();
+                return Ok(content);
 
-            if (Url != NoteFromDb.Url)
+            }
+            else
             {
-                return BadRequest();
+                NoteFromDb.Note = content.Note;
+                NoteFromDb.Password = content.Password;
+                NoteFromDb.SetPassword = content.SetPassword;
+                NoteFromDb.Url = content.Url;
+
+                _context.Contents.Update(NoteFromDb);
+                  return Ok(NoteFromDb);
             }
-
-            NoteFromDb.Note = content.Note;
-            NoteFromDb.Password = content.Password;
-            NoteFromDb.SetPassword = content.SetPassword;
-            NoteFromDb.Url = content.Url;
-
-            _context.Contents.Update(NoteFromDb);
-
+            // if (Url != NoteFromDb.Url)
+            // {
+            //     return BadRequest();
+            // }
             try
             {
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ContentExists(Url))
+                if (!ContentExists(content.Url))
                 {
                     return NotFound();
                 }

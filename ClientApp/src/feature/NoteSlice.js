@@ -20,7 +20,7 @@ export const CreateNote = createAsyncThunk(
 export const UpdateNote = createAsyncThunk(
     "NOTE/PUT_UPDATE_NOTE",
     async (content) => {
-        const endpoint = "api/Contents"
+        const endpoint = "api/Contents/";
         const response = await fetch(endpoint, {
             method: "PUT",
             headers: {
