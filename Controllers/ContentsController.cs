@@ -55,7 +55,7 @@ namespace NoteOnline.Controllers
 
             if (findURL == null)
             {
-                return Ok(Url);
+                return NotFound();
             }
 
             var checkSetPassWord = findURL.SetPassword;

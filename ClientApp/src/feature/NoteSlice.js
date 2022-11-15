@@ -54,6 +54,14 @@ export const GetNote = createAsyncThunk(
     async (Url) => {
         const endpoint = PREFIX + Url;
         const response = await fetch(endpoint)
+        if (response.status === 404) {
+            return {
+                url: Url,
+                note: null,
+                password: null,
+                setPassword: false
+            };
+        }
         const data = response.json();
         return data;
     }

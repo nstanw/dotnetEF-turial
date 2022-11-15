@@ -13,17 +13,16 @@ import ModalShow from './ModalShow';
 
 function Note() {
 
-  const lastPath = window.location.href.split('/')[3];
-  // console.log(lastPath === "");
+  const pathname = window.location.pathname.split('/')[1];
+  const origin = window.location.origin;
 
   //Check URL random is used ?
   useEffect(() => {
-    if (lastPath === "") {
+    if (pathname === "") {
       dispatch(checkURL());
     } else {
-      dispatch(GetNote(lastPath));
+      dispatch(GetNote(pathname));
     }
-
   }, []);
 
   const [afterInput, setAfterInput] = useState('');
@@ -34,12 +33,12 @@ function Note() {
 
   //if get link exists
   useEffect(() => {
-        setAfterInput(NOTE.note)
+    setAfterInput(NOTE.note)
   }, [NOTE.note != null])
 
   // send note post request
   useEffect(() => {
-    if (NOTE.note) {
+    if (NOTE.note || NOTE.url) {
       const newTimer = setTimeout(() => {
         console.log(afterInput);
         const payload = {
@@ -59,9 +58,9 @@ function Note() {
         <div className=' main-link'>
           <span>
             {NOTE == null ? (
-              <a>http://localhost:44863/{afterInput}</a>
+              <a >{origin + '/' + afterInput}</a>
             ) : (
-              <a>http://localhost:44863/{NOTE.url}</a>
+              <a>{origin + '/' + NOTE.url}</a>
             )}
           </span>
         </div>

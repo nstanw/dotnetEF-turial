@@ -6,8 +6,9 @@ import { noteActions, UpdateNote, ThunkChangeUrl } from '../feature/NoteSlice';
 function ModalShow(props) {
 
   let dataModal;
-  const UrlFromStore = useSelector((state) => state.note.checkURL);
+  const origin = window.location.origin;
   const GetNoteFromRedux = useSelector((state) => state.note.GetNote);
+  const UpdateNoteRedux = useSelector((state) => state.note.UpdateNote);
   const dispatch = useDispatch();
 
   const [show, setShow] = useState(false);
@@ -59,7 +60,7 @@ function ModalShow(props) {
 
 
     const payload = {
-      ...GetNoteFromRedux,
+      ...UpdateNoteRedux,
       newUrl: newUrl,
     }
     delete payload.id;
@@ -80,7 +81,7 @@ function ModalShow(props) {
         <form onSubmit={handleSubmit}>
           <ModalHeader toggle={toggle}>{dataModal.header}</ModalHeader>
           <ModalBody>
-            <p className='urlFrefix'>{'https://localhost:5001/' + valueInput}</p>
+            <p className='urlFrefix'>{origin + '/' + valueInput}</p>
 
             {props.setPassword
               ? <input
