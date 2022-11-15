@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="P3JAaZjUcmT-iTAm8GYp" name="Page-1">
-        <mxGraphModel dx="1082" dy="478" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+        <mxGraphModel dx="1000" dy="624" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -65,6 +65,35 @@
                 </mxCell>
                 <mxCell id="23" value="lưu vao trong redux" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
                     <mxGeometry x="233" y="566" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="27" value="" style="edgeStyle=none;html=1;" edge="1" parent="1" source="25" target="26">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="25" value="add password" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="11" y="703" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="29" value="" style="edgeStyle=none;html=1;" edge="1" parent="1" source="26">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="411" y="733" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="26" value="put vao csdl" style="whiteSpace=wrap;html=1;rounded=1;" vertex="1" parent="1">
+                    <mxGeometry x="211" y="703" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="32" value="" style="edgeStyle=none;html=1;" edge="1" parent="1" source="30" target="31">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="30" value="get về&lt;br&gt;1) lưu cooki trong máy&amp;nbsp;&lt;br&gt;2) chưa lưu cookie" style="rhombus;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="409" y="675" width="177" height="116" as="geometry"/>
+                </mxCell>
+                <mxCell id="34" value="" style="edgeStyle=none;html=1;" edge="1" parent="1" source="31" target="33">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="31" value="gơ pass&lt;br&gt;nêu lưu trong&amp;nbsp; máy thì gõ được" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="632" y="693.5" width="184.5" height="79" as="geometry"/>
+                </mxCell>
+                <mxCell id="33" value="delete pass&lt;br&gt;kha nang tao bang moi" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="658.63" y="824" width="131.25" height="60" as="geometry"/>
                 </mxCell>
             </root>
         </mxGraphModel>

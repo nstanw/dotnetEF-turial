@@ -1,18 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Alert } from 'reactstrap';
-import { noteActions, UpdateNote, ThunkChangeUrl } from '../feature/NoteSlice';
+import { GetNote, noteActions, UpdateNote, ThunkChangeUrl } from '../feature/NoteSlice';
 
 function ModalShow(props) {
 
   let dataModal;
-  const origin = window.location.origin;
   const GetNoteFromRedux = useSelector((state) => state.note.GetNote);
+  const Note = useSelector((state) => state.note.note);
   const UpdateNoteRedux = useSelector((state) => state.note.UpdateNote);
   const dispatch = useDispatch();
 
   const [show, setShow] = useState(false);
   const [valueInput, setValueInput] = useState();
+  const [pass, setPassword] = useState();
 
   useEffect(() => {
     if (GetNoteFromRedux) {
@@ -26,15 +27,19 @@ function ModalShow(props) {
   }
 
   if (props.setPassword) {
-    const setPassword = {
-      title: ' Set Password ',
-      header: 'Enter the password',
-      link: null,
-      value: null,
-      share: false,
+    let title;
+    if (Note) {
+      Note.setPassword 
+      ? title = 'remove password'
+      : title = ' Set Password ';
     }
-
+  
+    const setPassword = {
+      title: title,
+      header: 'Enter the password',
+    }
     dataModal = setPassword;
+
   }
 
   if (props.share) {
@@ -51,25 +56,46 @@ function ModalShow(props) {
   //#endregion
   //#region  function handle
   const handleSubmit = (e) => {
-
     e.preventDefault();
-    setValueInput(valueInput);
 
-    //convert " " to "-" on url contain space
-    const newUrl = valueInput.split(' ').join("-");
-
-
-    const payload = {
-      ...UpdateNoteRedux,
-      newUrl: newUrl,
+    if (props.changeUrl) {
+      setValueInput(valueInput);
+      //convert " " to "-" on url contain space
+      const newUrl = valueInput.split(' ').join("-");
+      const payload = {
+        ...UpdateNoteRedux,
+        newUrl: newUrl,
+      }
+      delete payload.id;
+      console.log("payload", payload);
+      dispatch(noteActions.setNote(payload))
+      dispatch(UpdateNote(payload))
     }
-    delete payload.id;
-    console.log("payload", payload);
-    dispatch(noteActions.setNote(payload))
-    dispatch(UpdateNote(payload))
+
+    if (props.setPassword) {
+      const payload = {
+        ...Note,
+        password: pass,
+        setPassword: true,
+      }
+      console.log(payload);
+      dispatch(UpdateNote(payload))
+    }
   }
 
+
   const toggle = () => {
+  
+    if (dataModal.title === 'remove password') {
+      const payload = {
+        ...Note,
+        password: pass,
+        setPassword: false,
+      }
+      console.log(payload);
+      dispatch(UpdateNote(payload))
+      return  setShow(false);
+    }
     setShow(!show);
   }
   //#endregion
@@ -81,12 +107,14 @@ function ModalShow(props) {
         <form onSubmit={handleSubmit}>
           <ModalHeader toggle={toggle}>{dataModal.header}</ModalHeader>
           <ModalBody>
-            <p className='urlFrefix'>{origin + '/' + valueInput}</p>
 
+            {!props.setPassword && <p className='urlFrefix'>{origin + '/' + valueInput}</p>}
             {props.setPassword
               ? <input
+                type="password"
                 className='big '
-                onChange={e => setValueInput(e.target.value)}
+                onChange={e => setPassword(e.target.value)}
+                autoFocus={true}
               />
               :
               <input
