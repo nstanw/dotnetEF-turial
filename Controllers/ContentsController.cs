@@ -29,7 +29,6 @@ namespace NoteOnline.Controllers
                 .Select(s => s[random.Next(s.Length)]).ToArray());
         }
 
-
         // GET: api/Contents
         // GET all Note
         [HttpGet]
@@ -42,7 +41,6 @@ namespace NoteOnline.Controllers
                 newURL = RandomString(8);
                 noteFromDB = await _context.Contents.FirstOrDefaultAsync(c => c.Url.Contains(newURL));
             }
-
             return Ok(new { Url = newURL });
         }
 
@@ -63,8 +61,8 @@ namespace NoteOnline.Controllers
             {
                 var needPassWord = new
                 {
-                    UrlNeedPass = findURL.Url,
-                    edit = false
+                    SetPassword = findURL.SetPassword,
+                    Url = findURL.Url,
                 };
                 return Ok(needPassWord);
             }
@@ -100,10 +98,10 @@ namespace NoteOnline.Controllers
         // POST: api/Contents
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        [HttpPatch("login")]
+        [HttpGet("login")]
         public async Task<ActionResult<Content>> PostLogin(string Url, string Password)
         {
-            Console.WriteLine(Url, Password);
+            //Console.WriteLine(Url, Password);
             var findNoteMatchURL = await _context.Contents.FirstOrDefaultAsync(c => c.Url.Contains(Url));
 
             if (findNoteMatchURL == null)

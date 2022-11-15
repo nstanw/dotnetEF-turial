@@ -10,26 +10,40 @@ import {
   checkURL,
 } from '../feature/NoteSlice';
 import ModalShow from './ModalShow';
+import { useNavigate } from "react-router-dom";
 
 function Note() {
+  const navigate = useNavigate()
+  const dispatch = useDispatch();
 
+  //get path
   const pathname = window.location.pathname.split('/')[1];
   const origin = window.location.origin;
+  //get Note in Store
+  const NOTE = useSelector((state) => state.note.note);
 
   //Check URL random is used ?
   useEffect(() => {
+    //GET '/'
     if (pathname === "") {
       dispatch(checkURL());
+
     } else {
-      dispatch(GetNote(pathname));
+      //GET '/:url'
+      dispatch(GetNote(pathname))
+      //onfulfilled
+        .then((respose) => {
+          console.log(respose);
+          if (respose.payload.setPassword) {
+            navigate('/' + respose.meta.arg + '/login')
+          }
+        })
     }
   }, []);
 
   const [afterInput, setAfterInput] = useState('');
 
-  const dispatch = useDispatch();
-  const UrlFromStore = useSelector((state) => state.note.checkURL);
-  const NOTE = useSelector((state) => state.note.note);
+
 
   //if get link exists
   useEffect(() => {
@@ -57,6 +71,10 @@ function Note() {
       <div className=''>
         <div className=' main-link'>
           <span>
+            {NOTE.setPassword &&
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="20" fill="currentColor" className="bi bi-lock-fill" viewBox="0 0 16 16">
+                <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z" />
+              </svg>}
             {NOTE == null ? (
               <a >{origin + '/' + afterInput}</a>
             ) : (

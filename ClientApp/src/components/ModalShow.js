@@ -29,11 +29,11 @@ function ModalShow(props) {
   if (props.setPassword) {
     let title;
     if (Note) {
-      Note.setPassword 
-      ? title = 'remove password'
-      : title = ' Set Password ';
+      Note.setPassword
+        ? title = 'remove password'
+        : title = ' Set Password ';
     }
-  
+
     const setPassword = {
       title: title,
       header: 'Enter the password',
@@ -85,7 +85,7 @@ function ModalShow(props) {
 
 
   const toggle = () => {
-  
+
     if (dataModal.title === 'remove password') {
       const payload = {
         ...Note,
@@ -94,7 +94,7 @@ function ModalShow(props) {
       }
       console.log(payload);
       dispatch(UpdateNote(payload))
-      return  setShow(false);
+      return setShow(false);
     }
     setShow(!show);
   }
@@ -102,12 +102,13 @@ function ModalShow(props) {
 
   return (
     <div>
+      
       <span onClick={toggle}>{dataModal.title}</span>
       <Modal isOpen={show} toggle={toggle}>
         <form onSubmit={handleSubmit}>
           <ModalHeader toggle={toggle}>{dataModal.header}</ModalHeader>
           <ModalBody>
-
+            
             {!props.setPassword && <p className='urlFrefix'>{origin + '/' + valueInput}</p>}
             {props.setPassword
               ? <input
