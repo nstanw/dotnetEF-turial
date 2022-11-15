@@ -129,9 +129,22 @@ namespace NoteOnline.Controllers
             if (NoteFromDb == null)
             {
                 _context.Contents.Add(content);
-                await _context.SaveChangesAsync();
-                return Ok(content);
-
+                try
+                {
+                    await _context.SaveChangesAsync();
+                    return Ok(content);
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!ContentExists(content.Url))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
             }
             else
             {
@@ -141,30 +154,26 @@ namespace NoteOnline.Controllers
                 NoteFromDb.Url = content.Url;
 
                 _context.Contents.Update(NoteFromDb);
-                  return Ok(NoteFromDb);
-            }
-            // if (Url != NoteFromDb.Url)
-            // {
-            //     return BadRequest();
-            // }
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ContentExists(content.Url))
+                try
                 {
-                    return NotFound();
+                    await _context.SaveChangesAsync();
+                    return Ok(NoteFromDb);
                 }
-                else
+                catch (DbUpdateConcurrencyException)
                 {
-                    throw;
+                    if (!ContentExists(content.Url))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
                 }
-            }
 
-            return NoContent();
+            }
         }
+
         #region API change 
 
         //Change URL
@@ -320,7 +329,7 @@ namespace NoteOnline.Controllers
         }
 
         // DELETE: api/Contents/
-        [HttpDelete("{Url}")]
+        [HttpDelete("{Id}")]
         public async Task<ActionResult<Content>> DeleteContent(string Url)
         {
             var content = await _context.Contents.FirstOrDefaultAsync(c => c.Url.Contains(Url));

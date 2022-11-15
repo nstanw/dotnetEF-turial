@@ -3,10 +3,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 import '../custom.css';
 import {
-<<<<<<< HEAD
+
   UpdateNote,
-=======
->>>>>>> 6ad36a673b2e2eafac552ebd1a07937dd8460633
+
   noteActions,
   CreateNote,
   GetNote,
@@ -15,15 +14,8 @@ import {
 import ModalShow from './ModalShow';
 
 function Note() {
-<<<<<<< HEAD
 
   const [afterInput, setAfterInput] = useState('');
-  const [url, setURL] = useState('');
-=======
-  const [query, setQuery] = useState('');
-  const [afterInput, setAfterInput] = useState('');
-  const [timer, setTimer] = useState(null);
->>>>>>> 6ad36a673b2e2eafac552ebd1a07937dd8460633
 
   const dispatch = useDispatch();
   const UrlFromStore = useSelector((state) => state.note.checkURL);
@@ -33,7 +25,7 @@ function Note() {
     dispatch(checkURL());
   }, []);
 
-<<<<<<< HEAD
+
   // send note post request
   useEffect(() => {
     if (UrlFromStore) {
@@ -50,19 +42,7 @@ function Note() {
 
       return () => clearTimeout(newTimer);
     }
-
-=======
-// send note post request
-  useEffect(() => {
-
-    const newTimer = setTimeout(() => {
-      console.log(afterInput);
-      dispatch()
-    }, 1000);
-
-   return ()=> clearTimeout(newTimer);
->>>>>>> 6ad36a673b2e2eafac552ebd1a07937dd8460633
-  }, [afterInput]);
+  },[afterInput])
 
   return (
     <div className='noteOnline'>
@@ -102,11 +82,8 @@ function Note() {
           <div className='document-container'>
             <textarea
               value={afterInput}
-<<<<<<< HEAD
               onChange={e => setAfterInput(e.target.value)}
-=======
-              onChange={e =>  setAfterInput(e.target.value)}
->>>>>>> 6ad36a673b2e2eafac552ebd1a07937dd8460633
+
               placeholder='Type something, it will autosave as you type...'
               className='inputControl  col-12'
               name=''

@@ -1,24 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Administrator\\Documents\\CODE\\dotnetEF-turial\\NoteOnline.csproj": {}
+    "D:\\NET\\REDSAND\\NoteOnline\\NoteOnline.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Administrator\\Documents\\CODE\\dotnetEF-turial\\NoteOnline.csproj": {
+    "D:\\NET\\REDSAND\\NoteOnline\\NoteOnline.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Administrator\\Documents\\CODE\\dotnetEF-turial\\NoteOnline.csproj",
+        "projectUniqueName": "D:\\NET\\REDSAND\\NoteOnline\\NoteOnline.csproj",
         "projectName": "NoteOnline",
-        "projectPath": "C:\\Users\\Administrator\\Documents\\CODE\\dotnetEF-turial\\NoteOnline.csproj",
+        "projectPath": "D:\\NET\\REDSAND\\NoteOnline\\NoteOnline.csproj",
         "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Administrator\\Documents\\CODE\\dotnetEF-turial\\obj\\",
+        "outputPath": "D:\\NET\\REDSAND\\NoteOnline\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
           "C:\\Users\\Administrator\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -79,11 +75,16 @@
             "net47",
             "net471",
             "net472",
-            "net48",
-            "net481"
+            "net48"
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.NETCore.App.Host.win-x64",
+              "version": "[3.1.21, 3.1.21]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.AspNetCore.App": {
               "privateAssets": "none"
@@ -92,7 +93,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.402\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.100\\RuntimeIdentifierGraph.json"
         }
       }
     }
