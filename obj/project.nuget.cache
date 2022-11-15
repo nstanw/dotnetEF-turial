@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "ndfARz8T5EgE3gPzoYAds+zdsolj8TaWD+PbORd2Ro5oI5Mlj7STTkiUZjT1nXKYkycKXy9KXW7XXOd8KR2z7g==",
+  "dgSpecHash": "TzhRQQcrlgp1V3ShZiBXMI5Siy+b9tdckQRbQNTuul2UwbNPzOLod8N3TOZnOQeRdrP7FbNGbqI7SMYR/l5IOA==",
   "success": true,
-  "projectFilePath": "D:\\NET\\REDSAND\\NoteOnline\\NoteOnline.csproj",
+  "projectFilePath": "C:\\Users\\Administrator\\Documents\\CODE\\dotnetEF-turial\\NoteOnline.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Administrator\\.nuget\\packages\\microsoft.aspnetcore.html.abstractions\\2.2.0\\microsoft.aspnetcore.html.abstractions.2.2.0.nupkg.sha512",
     "C:\\Users\\Administrator\\.nuget\\packages\\microsoft.aspnetcore.nodeservices\\3.1.30\\microsoft.aspnetcore.nodeservices.3.1.30.nupkg.sha512",
@@ -173,8 +173,7 @@
     "C:\\Users\\Administrator\\.nuget\\packages\\system.xml.readerwriter\\4.3.0\\system.xml.readerwriter.4.3.0.nupkg.sha512",
     "C:\\Users\\Administrator\\.nuget\\packages\\system.xml.xdocument\\4.3.0\\system.xml.xdocument.4.3.0.nupkg.sha512",
     "C:\\Users\\Administrator\\.nuget\\packages\\system.xml.xmldocument\\4.3.0\\system.xml.xmldocument.4.3.0.nupkg.sha512",
-    "C:\\Users\\Administrator\\.nuget\\packages\\system.xml.xmlserializer\\4.3.0\\system.xml.xmlserializer.4.3.0.nupkg.sha512",
-    "C:\\Users\\Administrator\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\3.1.21\\microsoft.netcore.app.host.win-x64.3.1.21.nupkg.sha512"
+    "C:\\Users\\Administrator\\.nuget\\packages\\system.xml.xmlserializer\\4.3.0\\system.xml.xmlserializer.4.3.0.nupkg.sha512"
   ],
   "logs": []
 }
