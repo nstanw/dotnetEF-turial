@@ -31,7 +31,10 @@ function Note() {
   useEffect(() => {
     //GET '/'
     if (pathname === "") {
-      dispatch(checkURL());
+      dispatch(checkURL())
+      .then(res =>{
+        window.location.pathname = res.payload.url;
+      });
 
     } else {
       //GET '/:url'
@@ -55,11 +58,13 @@ function Note() {
   useEffect(() => {
     if (NOTE.note || NOTE.url) {
       const newTimer = setTimeout(() => {
-        console.log(afterInput);
+    
         const payload = {
           ...NOTE,
           note: afterInput,
         }
+        delete payload.id;
+        console.log(payload);
         dispatch(UpdateNote(payload))
       }, 1000);
 
@@ -77,9 +82,9 @@ function Note() {
                 <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z" />
               </svg>}
             {NOTE == null ? (
-              <a >{origin + '/' + afterInput}</a>
+              <a href={window.location.href} >{window.location.href}</a>
             ) : (
-              <a>{origin + '/' + NOTE.url}</a>
+              <a href={window.location.href} >{window.location.href}</a>
             )}
           </span>
         </div>
