@@ -23,10 +23,9 @@ namespace NoteOnline
         {
             services.AddDbContext<ContentContext>(options =>
                  options.UseNpgsql(
-                     Configuration.GetConnectionString("DefaultConnection")));
-
-
-
+                     Configuration.GetConnectionString("DefaultConnection")
+                )
+            );
 
             services.AddHealthChecks();
             services.AddControllers();

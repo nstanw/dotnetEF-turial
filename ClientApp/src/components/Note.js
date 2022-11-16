@@ -13,14 +13,19 @@ import ModalShow from './ModalShow';
 import { useNavigate } from "react-router-dom";
 
 function Note() {
+
   const navigate = useNavigate()
   const dispatch = useDispatch();
 
   //get path
   const pathname = window.location.pathname.split('/')[1];
   const origin = window.location.origin;
+  console.log(window.location);
+
   //get Note in Store
+  const [afterInput, setAfterInput] = useState('');
   const NOTE = useSelector((state) => state.note.note);
+  const editNote = useSelector((state) => state.note.editNote);
 
   //Check URL random is used ?
   useEffect(() => {
@@ -31,19 +36,15 @@ function Note() {
     } else {
       //GET '/:url'
       dispatch(GetNote(pathname))
-      //onfulfilled
+        //onfulfilled
         .then((respose) => {
           console.log(respose);
-          if (respose.payload.setPassword) {
-            navigate('/' + respose.meta.arg + '/login')
+          if (respose.payload.setPassword && !editNote) {
+            navigate('/' + respose.meta.arg + '/login');
           }
         })
     }
   }, []);
-
-  const [afterInput, setAfterInput] = useState('');
-
-
 
   //if get link exists
   useEffect(() => {
@@ -95,7 +96,6 @@ function Note() {
 
             setPassword={false}
             share={false}
-
           />
           <span className='divider'>|</span>
 

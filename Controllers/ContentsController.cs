@@ -98,11 +98,11 @@ namespace NoteOnline.Controllers
         // POST: api/Contents
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        [HttpGet("login")]
-        public async Task<ActionResult<Content>> PostLogin(string Url, string Password)
+        [HttpPatch("login")]
+        public async Task<ActionResult<Content>> PostLogin(Content content)
         {
             //Console.WriteLine(Url, Password);
-            var findNoteMatchURL = await _context.Contents.FirstOrDefaultAsync(c => c.Url.Contains(Url));
+            var findNoteMatchURL = await _context.Contents.FirstOrDefaultAsync(c => c.Url.Contains(content.Url));
 
             if (findNoteMatchURL == null)
             {
@@ -110,10 +110,10 @@ namespace NoteOnline.Controllers
             }
 
             // check pass
-            var checkMatchPassword = (findNoteMatchURL.Password == Password);
+            var checkMatchPassword = (findNoteMatchURL.Password == content.Password);
             if (checkMatchPassword)
             {
-                return Ok();
+                return Ok(findNoteMatchURL);
             }
 
             return BadRequest();
@@ -128,8 +128,12 @@ namespace NoteOnline.Controllers
         {
 
             var NoteFromDb = await _context.Contents.FirstOrDefaultAsync(c => c.Url.Contains(content.Url));
+            var checkNewURL = await _context.Contents.FirstOrDefaultAsync(c => c.Url.Contains(content.newUrl));
 
-
+            if (content.newUrl == checkNewURL.Url)
+            {
+                return BadRequest();
+            }
             if (content.newUrl != null)
             {
                 content.Url = content.newUrl;

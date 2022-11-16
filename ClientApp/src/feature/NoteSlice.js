@@ -49,6 +49,22 @@ export const ThunkChangeUrl = createAsyncThunk(
     }
 )
 
+export const loginNote = createAsyncThunk(
+    "NOTE/PATCH_Login_NOTE",
+    async (urlAndPass) => {
+        const endpoint = "api/Contents/" + "login";
+        const response = await fetch(endpoint, {
+            method: "PATCH",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(urlAndPass)
+        })
+        const data = response.json();
+        return data;
+    }
+)
+
 export const GetNote = createAsyncThunk(
     "NOTE/GET_NOTE",
     async (Url) => {
@@ -82,10 +98,12 @@ const initialState = {
         password: null,
         setPassword: false
     },
+    loginNote: null,
     UpdateNote: null,
     checkURL: null,
     GetNote: null,
     CreateNote: null,
+    editNote: false,
 
 }
 
@@ -93,6 +111,13 @@ export const noteSlice = createSlice({
     name: 'note',
     initialState,
     reducers: {
+
+        editNoteOn: (state) => {
+            state.editNote = true;
+        },
+        editNoteOff: (state) => {
+            state.editNote = false;
+        },
         storeUrl: (state, action) => {
             state.url = action.payload;
         },
@@ -131,6 +156,14 @@ export const noteSlice = createSlice({
         },
         [UpdateNote.rejected]: (state, action) => {
             state.UpdateNote = action.error;
+        },
+       
+        [loginNote.fulfilled]: (state, action) => {
+            state.loginNote = action.payload;
+            state.note = action.payload;
+        },
+        [loginNote.rejected]: (state, action) => {
+            state.loginNote = action.error;
         },
     }
 })

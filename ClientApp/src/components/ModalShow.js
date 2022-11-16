@@ -14,6 +14,7 @@ function ModalShow(props) {
   const [show, setShow] = useState(false);
   const [valueInput, setValueInput] = useState();
   const [pass, setPassword] = useState();
+  const [errorChangeUrl, setErrorChangeUrl] = useState(false);
 
   useEffect(() => {
     if (GetNoteFromRedux) {
@@ -70,9 +71,16 @@ function ModalShow(props) {
       console.log("payload", payload);
       dispatch(noteActions.setNote(payload))
       dispatch(UpdateNote(payload))
+        .then(res => {
+          console.log(res);
+          if (res.payload.status === 400) {
+            setErrorChangeUrl(true)
+          }
+        })
     }
 
     if (props.setPassword) {
+
       const payload = {
         ...Note,
         password: pass,
@@ -83,10 +91,9 @@ function ModalShow(props) {
     }
   }
 
-
   const toggle = () => {
-
     if (dataModal.title === 'remove password') {
+      setShow(false);
       const payload = {
         ...Note,
         password: pass,
@@ -94,24 +101,25 @@ function ModalShow(props) {
       }
       console.log(payload);
       dispatch(UpdateNote(payload))
-      return setShow(false);
+      return;
     }
     setShow(!show);
+
   }
   //#endregion
 
   return (
     <div>
-      
+
       <span onClick={toggle}>{dataModal.title}</span>
       <Modal isOpen={show} toggle={toggle}>
         <form onSubmit={handleSubmit}>
           <ModalHeader toggle={toggle}>{dataModal.header}</ModalHeader>
           <ModalBody>
-            
             {!props.setPassword && <p className='urlFrefix'>{origin + '/' + valueInput}</p>}
             {props.setPassword
               ? <input
+                required
                 type="password"
                 className='big '
                 onChange={e => setPassword(e.target.value)}
@@ -124,11 +132,13 @@ function ModalShow(props) {
                 onChange={e => setValueInput(e.target.value)}
                 autoFocus
               />
+
             }
+            {errorChangeUrl && <div>This path is already in use. Please choose again</div>}
           </ModalBody>
           <ModalFooter>
             <Button color="light" onClick={toggle}>Close</Button>
-            {!dataModal.share && <Button type='submit' color="primary" onClick={toggle}>Save</Button>}
+            {!dataModal.share && <Button type='submit' color="primary">Save</Button>}
           </ModalFooter>
         </form>
       </Modal>

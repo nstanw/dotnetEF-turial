@@ -1,11 +1,35 @@
-import React from "react";
-
+import React, { useEffect, useState } from "react";
+import { loginNote, noteActions, GetNote } from '../feature/NoteSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from "react-router-dom";
 
 function Login() {
-    const handleSubmit = (e) =>{
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const [error, setError] = useState(false);
+
+    const Url = window.location.pathname.split('/')[1];
+
+    const handleSubmit = (e) => {
         e.preventDefault();
         const value = e.target[0].value;
         console.log(value);
+        const urlAndPass = {
+            url: Url,
+            password: value
+        }
+        console.log(urlAndPass);
+        dispatch(loginNote(urlAndPass))
+            .then((res) => {
+                console.log(res);
+                if (res.payload.status === 400) {
+                    console.log(res.payload.status);
+                    setError(true);
+                } else {
+                    dispatch(noteActions.editNoteOn());
+                    navigate('/' + Url)
+                }
+            });
         //call api check passs. if match to run host/link 
         // else incorect
 
@@ -17,13 +41,15 @@ function Login() {
                 <label htmlFor="txtPassword">
                     Password required to edit this document
                 </label>
-                <input required="required"
+                <input
+                    required="required"
                     placeholder="Password"
                     className="form-control input-lg"
                     type="password"
                     id="txtPassword" />
+                {error && <p>Wrong password</p>}
                 <button
-                    class="btn btn-primary"
+                    className="btn btn-primary"
                     type="submit"
                     id="btnLogin">
                     Submit
