@@ -22,8 +22,7 @@ function Login() {
         dispatch(loginNote(urlAndPass))
             .then((res) => {
                 console.log(res);
-                if (res.payload.status === 400) {
-                    console.log(res.payload.status);
+                if (res.payload == undefined) {
                     setError(true);
                 } else {
                     dispatch(noteActions.editNoteOn());

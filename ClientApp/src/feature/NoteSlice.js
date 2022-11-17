@@ -20,7 +20,7 @@ export const CreateNote = createAsyncThunk(
 export const UpdateNote = createAsyncThunk(
     "NOTE/PUT_UPDATE_NOTE",
     async (content) => {
-        const endpoint = "api/Contents/";
+        const endpoint = "api/Notes/update";
         const response = await fetch(endpoint, {
             method: "PUT",
             headers: {
@@ -33,16 +33,32 @@ export const UpdateNote = createAsyncThunk(
     }
 )
 
-export const ThunkChangeUrl = createAsyncThunk(
-    "NOTE/PATCH_UPDATE_NOTE",
-    async (dataUrl) => {
-        const endpoint = "api/Contents/" + dataUrl.oldUrl;
+export const UpdatePassWord = createAsyncThunk(
+    "NOTE/PUT_UPDATE_NOTE",
+    async (content) => {
+        const endpoint = "api/Notes/UpdatePassWord";
+        const response = await fetch(endpoint, {
+            method: "PUT",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(content),
+        })
+        const data = response.json();
+        return data;
+    }
+)
+
+export const resetPassword = createAsyncThunk(
+    "NOTE/PATCH_reset-password",
+    async (content) => {
+        const endpoint = "api/Notes/" + 'reset-password';
         const response = await fetch(endpoint, {
             method: "PATCH",
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ Url: dataUrl.newUrl })
+            body: JSON.stringify(content)
         })
         const data = response.json();
         return data;
@@ -52,7 +68,7 @@ export const ThunkChangeUrl = createAsyncThunk(
 export const loginNote = createAsyncThunk(
     "NOTE/PATCH_Login_NOTE",
     async (urlAndPass) => {
-        const endpoint = "api/Contents/" + "login";
+        const endpoint = "api/Notes/" + "login";
         const response = await fetch(endpoint, {
             method: "PATCH",
             headers: {
@@ -85,13 +101,14 @@ export const GetNote = createAsyncThunk(
 
 export const checkURL = createAsyncThunk(
     'NOTE/GET_CHECK_URL', async () => {
-        const endpoint = PREFIX;
+        const endpoint = PREFIX + "newPath" ;
         const response = await fetch(endpoint)
         const data = response.json();
         return data;
     }
 )
 const initialState = {
+    err:null,
     note: {
         url: null,
         note: null,
@@ -104,6 +121,7 @@ const initialState = {
     GetNote: null,
     CreateNote: null,
     editNote: false,
+    loginNote: null,
 
 }
 
@@ -128,6 +146,7 @@ export const noteSlice = createSlice({
     extraReducers: {
         [CreateNote.fulfilled]: (state, action) => {
             state.CreateNote = action.payload;
+            state.note = action.payload;
         },
         [CreateNote.rejected]: (state, action) => {
             state.CreateNote = action.error;
@@ -148,6 +167,7 @@ export const noteSlice = createSlice({
         },
         [checkURL.rejected]: (state, action) => {
             state.checkURL = action.payload;
+            state.err = action.error;
         },
 
         [UpdateNote.fulfilled]: (state, action) => {
@@ -155,7 +175,7 @@ export const noteSlice = createSlice({
             state.note = action.payload;
         },
         [UpdateNote.rejected]: (state, action) => {
-            state.UpdateNote = action.error;
+            state.err = action.error;
         },
        
         [loginNote.fulfilled]: (state, action) => {
@@ -164,6 +184,14 @@ export const noteSlice = createSlice({
         },
         [loginNote.rejected]: (state, action) => {
             state.loginNote = action.error;
+            state.err = action.error;
+        },
+       
+        [resetPassword.fulfilled]: (state, action) => {
+            state.resetPassword = action.payload;
+        },
+        [resetPassword.rejected]: (state, action) => {
+            state.err = action.error;
         },
     }
 })

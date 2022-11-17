@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from "react-router-dom";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Alert } from 'reactstrap';
-import { GetNote, noteActions, UpdateNote, ThunkChangeUrl } from '../feature/NoteSlice';
+import { resetPassword,updateLink, noteActions, UpdateNote, UpdatePassWord } from '../feature/NoteSlice';
 
 function ModalShow(props) {
 
@@ -10,11 +11,13 @@ function ModalShow(props) {
   const Note = useSelector((state) => state.note.note);
   const UpdateNoteRedux = useSelector((state) => state.note.UpdateNote);
   const dispatch = useDispatch();
+  const origin = window.location.origin + '/';
 
   const [show, setShow] = useState(false);
   const [valueInput, setValueInput] = useState();
-  const [pass, setPassword] = useState();
+  const [passUser, setPasswordUser] = useState();
   const [errorChangeUrl, setErrorChangeUrl] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (GetNoteFromRedux) {
@@ -64,30 +67,35 @@ function ModalShow(props) {
       //convert " " to "-" on url contain space
       const newUrl = valueInput.split(' ').join("-");
       const payload = {
-        ...UpdateNoteRedux,
+        ...GetNoteFromRedux,
         newUrl: newUrl,
       }
       delete payload.id;
       console.log("payload", payload);
-      dispatch(noteActions.setNote(payload))
       dispatch(UpdateNote(payload))
         .then(res => {
+          navigate("/" + res.payload.url)
           console.log(res);
           if (res.payload.status === 400) {
             setErrorChangeUrl(true)
           }
         })
+      setShow(false);
     }
 
     if (props.setPassword) {
-
       const payload = {
         ...Note,
         password: pass,
         setPassword: true,
       }
       console.log(payload);
-      dispatch(UpdateNote(payload))
+
+      dispatch(UpdatePassWord(payload))
+        .then((res) => {
+          setShow(!show);
+          console.log(res);
+        })
     }
   }
 
@@ -95,12 +103,11 @@ function ModalShow(props) {
     if (dataModal.title === 'remove password') {
       setShow(false);
       const payload = {
-        ...Note,
-        password: pass,
+        password: passUser,
         setPassword: false,
       }
       console.log(payload);
-      dispatch(UpdateNote(payload))
+      dispatch(resetPassword(payload))
       return;
     }
     setShow(!show);
@@ -122,7 +129,7 @@ function ModalShow(props) {
                 required
                 type="password"
                 className='big '
-                onChange={e => setPassword(e.target.value)}
+                onChange={e => setPasswordUser(e.target.value)}
                 autoFocus={true}
               />
               :

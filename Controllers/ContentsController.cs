@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace NoteOnline.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/Notes")]
 
     public class ContentsController : ControllerBase
     {
@@ -29,25 +29,35 @@ namespace NoteOnline.Controllers
                 .Select(s => s[random.Next(s.Length)]).ToArray());
         }
 
-        // GET: api/Contents
-        // GET all Note
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Content>>> GetHome()
+        #region GET API
+
+        // GET: api/Notes/newPath
+        // GET newUrl
+        [HttpGet("newPath")]
+        public async Task<ActionResult<IEnumerable<Content>>> GetNewPath()
         {
-            var newURL = RandomString(8);
-            var noteFromDB = await _context.Contents.FirstOrDefaultAsync(c => c.Url.Contains(newURL));
+            //create random path
+            var newPath = RandomString(8);
+
+            //check note form database
+            var noteFromDB = await _context.Contents.FirstOrDefaultAsync(c => c.Url.Contains(newPath));
+
+            //loop for findURL not match in database
             while (noteFromDB != null)
             {
-                newURL = RandomString(8);
-                noteFromDB = await _context.Contents.FirstOrDefaultAsync(c => c.Url.Contains(newURL));
+                newPath = RandomString(8);
+                noteFromDB = await _context.Contents.FirstOrDefaultAsync(c => c.Url.Contains(newPath));
             }
-            return Ok(new { Url = newURL });
+            return Ok(new
+            {
+                Url = newPath
+            });
         }
 
         //GET flow Url
-        // GET: api/Contents/Url
+        // GET: api/Notes/URL
         [HttpGet("{Url}")]
-        public async Task<ActionResult<Content>> GetContentByLink(string Url)
+        public async Task<ActionResult<Content>> GetContentByUrl(string Url)
         {
             var findURL = await _context.Contents.FirstOrDefaultAsync(c => c.Url.Contains(Url));
 
@@ -56,11 +66,12 @@ namespace NoteOnline.Controllers
                 return NotFound();
             }
 
-            var checkSetPassWord = findURL.SetPassword;
-            if (checkSetPassWord)
+            var checkSetPassWordOfNoteInDataBase = findURL.SetPassword;
+            if (checkSetPassWordOfNoteInDataBase)
             {
                 var needPassWord = new
                 {
+                    //return status set password for check FE
                     SetPassword = findURL.SetPassword,
                     Url = findURL.Url,
                 };
@@ -72,75 +83,28 @@ namespace NoteOnline.Controllers
             }
         }
 
-        // GET: api/Contents
-        // GET all Note
-        [HttpGet("all")]
+        // GET: api/Notes
+        // GET all Note in database
+        [HttpGet]
         public async Task<ActionResult<IEnumerable<Content>>> GetContents()
         {
             return await _context.Contents.ToListAsync();
         }
 
-        #region API change 
-        //ADD Note
-        // POST: api/Contents
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        [HttpPost]
-        public async Task<ActionResult<Content>> PostContent(Content content)
+        #endregion
+
+        #region UPDATE API
+
+        // PUT /api/notes/update
+        // update content
+        [HttpPut("UPDATE")]
+        public async Task<IActionResult> PutUpdate(Content content)
         {
-            _context.Contents.Add(content);
-            await _context.SaveChangesAsync();
+            var exit = await _context.Contents.FirstOrDefaultAsync(c => c.Url.Contains(content.Url));
 
-            return Ok(content);
-        }
-
-        //Login PassWord
-        // POST: api/Contents
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        [HttpPatch("login")]
-        public async Task<ActionResult<Content>> PostLogin(Content content)
-        {
-            //Console.WriteLine(Url, Password);
-            var findNoteMatchURL = await _context.Contents.FirstOrDefaultAsync(c => c.Url.Contains(content.Url));
-
-            if (findNoteMatchURL == null)
+            if (exit == null)
             {
-                return NotFound();
-            }
-
-            // check pass
-            var checkMatchPassword = (findNoteMatchURL.Password == content.Password);
-            if (checkMatchPassword)
-            {
-                return Ok(findNoteMatchURL);
-            }
-
-            return BadRequest();
-        }
-
-        //Update/create NOTE
-        // PUT: api/Contents/
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        [HttpPut]
-        public async Task<IActionResult> PutContent(Content content)
-        {
-
-            var NoteFromDb = await _context.Contents.FirstOrDefaultAsync(c => c.Url.Contains(content.Url));
-        //    var checkNewURL = await _context.Contents.FirstOrDefaultAsync(c => c.Url.Contains(content.newUrl));
-
-            // if (content.newUrl == checkNewURL.Url)
-            // {
-            //     return BadRequest();
-            // }
-            // if (content.newUrl != null)
-            // {
-            //     content.Url = content.newUrl;
-            // }
-
-            if (NoteFromDb == null)
-            {
+                //Create new Content if URL not exits in database
                 _context.Contents.Add(content);
                 try
                 {
@@ -161,16 +125,18 @@ namespace NoteOnline.Controllers
             }
             else
             {
-                NoteFromDb.Note = content.Note;
-                NoteFromDb.Password = content.Password;
-                NoteFromDb.SetPassword = content.SetPassword;
-                NoteFromDb.Url = content.Url;
+                //Update new Content if URL exits  in database
+                exit.Note = content.Note;
+                exit.Password = content.Password;
+                exit.SetPassword = content.SetPassword;
+                exit.Url = content.Url;
+                exit.newUrl = content.newUrl;
 
-                _context.Contents.Update(NoteFromDb);
+                _context.Contents.Update(exit);
                 try
                 {
                     await _context.SaveChangesAsync();
-                    return Ok(NoteFromDb);
+                    return Ok(exit);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -183,157 +149,13 @@ namespace NoteOnline.Controllers
                         throw;
                     }
                 }
-
             }
-        }
-
-        //Change URL
-        // PATCH: api/Contents/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        [HttpPatch("{Url}")]
-        public async Task<IActionResult> PatchContent(string Url, Content content)
-        {
-            Console.Write(Url, content);
-            var NoteFromDb = await _context.Contents.FirstOrDefaultAsync(c => c.Url.Contains(Url));
-
-            if (NoteFromDb == null)
-            {
-                return NotFound();
-            }
-
-            if (Url != NoteFromDb.Url)
-            {
-                return BadRequest();
-            }
-
-            NoteFromDb.Url = content.Url;
-
-            _context.Contents.Update(NoteFromDb);
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ContentExists(Url))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
-        // SetPassWord
-        // PATCH: api/Contents/password
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        [HttpPatch("password")]
-        public async Task<IActionResult> PatchPassword(string Url, string Password)
-        {
-            var NoteFromDb = await _context.Contents.FirstOrDefaultAsync(c => c.Url.Contains(Url));
-
-            if (NoteFromDb == null)
-            {
-                return NotFound();
-            }
-
-            if (Url != NoteFromDb.Url)
-            {
-                return BadRequest();
-            }
-
-            var checkSetPassWork = NoteFromDb.SetPassword;
-            if (checkSetPassWork)
-            {
-                return BadRequest();
-            }
-            else
-            {
-                NoteFromDb.Password = Password;
-                NoteFromDb.SetPassword = true;
-                _context.Contents.Update(NoteFromDb);
-            }
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ContentExists(Url))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
-        //RemovePassword
-        // PATCH: api/Contents/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        [HttpPatch("remove")]
-        public async Task<IActionResult> PatchRemovePassword(string Url, bool RemovePassword)
-        {
-            var NoteFromDb = await _context.Contents.FirstOrDefaultAsync(c => c.Url.Contains(Url));
-
-            if (NoteFromDb == null)
-            {
-                return NotFound();
-            }
-
-            if (Url != NoteFromDb.Url)
-            {
-                return BadRequest();
-            }
-
-            var checkPasswordIsSet = NoteFromDb.SetPassword;
-            if (checkPasswordIsSet)
-            {
-                NoteFromDb.SetPassword = false;
-                _context.Contents.Update(NoteFromDb);
-            }
-            else
-            {
-                return BadRequest();
-            }
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ContentExists(Url))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
         }
 
         #endregion
 
-
-        // DELETE: api/Contents/
-        [HttpDelete("{Id}")]
+        // DELETE: api/Notes/delete/url
+        [HttpDelete("delete/{Url}")]
         public async Task<ActionResult<Content>> DeleteContent(string Url)
         {
             var content = await _context.Contents.FirstOrDefaultAsync(c => c.Url.Contains(Url));

@@ -1,4 +1,4 @@
-export const PREFIX = 'https://localhost:5001/api/Contents/'
+export const PREFIX = 'https://localhost:5001/api/Notes/'
 
 export const fetchGet = (
     async (Url) => {

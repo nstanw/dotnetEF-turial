@@ -10,21 +10,23 @@ import {
   checkURL,
 } from '../feature/NoteSlice';
 import ModalShow from './ModalShow';
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom'
 
 function Note() {
 
   const navigate = useNavigate()
   const dispatch = useDispatch();
 
-  //get path
+
+  //get path thanh andress
   const pathname = window.location.pathname.split('/')[1];
-  const origin = window.location.origin;
+  const origin = window.location.origin + '/';
   console.log(window.location);
 
   //get Note in Store
   const [afterInput, setAfterInput] = useState('');
   const NOTE = useSelector((state) => state.note.note);
+  const getNOTE = useSelector((state) => state.note.GetNote);
   const editNote = useSelector((state) => state.note.editNote);
 
   //Check URL random is used ?
@@ -32,17 +34,17 @@ function Note() {
     //GET '/'
     if (pathname === "") {
       dispatch(checkURL())
-      .then(res =>{
-        window.location.pathname = res.payload.url;
-      });
+        .then(res => {
+          navigate(res.payload.url);
+        });
 
     } else {
       //GET '/:url'
       dispatch(GetNote(pathname))
-        //onfulfilled
+        //check onfulfilled and isSetpassword. if setPassword = true then navigate to login page
         .then((respose) => {
-          console.log(respose);
           if (respose.payload.setPassword && !editNote) {
+            // navigate to login page
             navigate('/' + respose.meta.arg + '/login');
           }
         })
@@ -51,14 +53,15 @@ function Note() {
 
   //if get link exists
   useEffect(() => {
+    // save link to store use late
     setAfterInput(NOTE.note)
   }, [NOTE.note != null])
 
-  // send note post request
+  // UPDATE NOTE CONTENT AFTER TYING NOTE 1 seconds
   useEffect(() => {
+
     if (NOTE.note || NOTE.url) {
       const newTimer = setTimeout(() => {
-    
         const payload = {
           ...NOTE,
           note: afterInput,
@@ -82,9 +85,9 @@ function Note() {
                 <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z" />
               </svg>}
             {NOTE == null ? (
-              <a href={window.location.href} >{window.location.href}</a>
+              <a href={origin} >{origin}</a>
             ) : (
-              <a href={window.location.href} >{window.location.href}</a>
+              <a href={origin + NOTE.url} >{origin + NOTE.url}</a>
             )}
           </span>
         </div>
@@ -94,7 +97,7 @@ function Note() {
               {
                 title: 'Change Url ',
                 header: 'Enter the new url',
-                link: "https://wordpad.cc/" + NOTE.url,
+                link: origin + NOTE.url,
                 value: NOTE.url,
               }
             }
