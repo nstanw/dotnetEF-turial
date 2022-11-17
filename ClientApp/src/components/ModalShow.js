@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from "react-router-dom";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Alert } from 'reactstrap';
-import { resetPassword,updateLink, noteActions, UpdateNote, UpdatePassWord } from '../feature/NoteSlice';
+import { resetPassword, UpdateUrl, noteActions, UpdateNote, UpdatePassWord } from '../feature/NoteSlice';
 
 function ModalShow(props) {
 
@@ -66,32 +66,38 @@ function ModalShow(props) {
       setValueInput(valueInput);
       //convert " " to "-" on url contain space
       const newUrl = valueInput.split(' ').join("-");
-      const payload = {
-        ...GetNoteFromRedux,
+
+      const payloadUpdateUrl = {
+        ...Note,
         newUrl: newUrl,
       }
-      delete payload.id;
-      console.log("payload", payload);
-      dispatch(UpdateNote(payload))
+      // delete payload.id;
+
+      console.log("payload", payloadUpdateUrl);
+
+      dispatch(UpdateUrl(payloadUpdateUrl))
         .then(res => {
-          navigate("/" + res.payload.url)
+
           console.log(res);
-          if (res.payload.status === 400) {
+          navigate("/" + Note.url)
+          if (res.payload == undefined) {
             setErrorChangeUrl(true)
           }
         })
+
+
       setShow(false);
     }
 
     if (props.setPassword) {
       const payload = {
         ...Note,
-        password: pass,
-        setPassword: true,
+        Password: passUser,
+        SetPassword: true,
       }
       console.log(payload);
 
-      dispatch(UpdatePassWord(payload))
+      dispatch(UpdateNote(payload))
         .then((res) => {
           setShow(!show);
           console.log(res);
@@ -102,12 +108,13 @@ function ModalShow(props) {
   const toggle = () => {
     if (dataModal.title === 'remove password') {
       setShow(false);
-      const payload = {
-        password: passUser,
-        setPassword: false,
+      const payloadRemovePassword = {
+        ...Note,
+        Password: passUser,
+        SetPassword: false,
       }
-      console.log(payload);
-      dispatch(resetPassword(payload))
+      console.log(payloadRemovePassword);
+      dispatch(UpdateNote(payloadRemovePassword))
       return;
     }
     setShow(!show);
@@ -123,24 +130,34 @@ function ModalShow(props) {
         <form onSubmit={handleSubmit}>
           <ModalHeader toggle={toggle}>{dataModal.header}</ModalHeader>
           <ModalBody>
-            {!props.setPassword && <p className='urlFrefix'>{origin + '/' + valueInput}</p>}
-            {props.setPassword
-              ? <input
+            {!props.setPassword && !props.share && <p className='urlFrefix'>{origin + valueInput}</p>}
+            {props.setPassword &&
+              <input
                 required
                 type="password"
                 className='big '
                 onChange={e => setPasswordUser(e.target.value)}
                 autoFocus={true}
               />
-              :
+            }
+            {props.changeUrl &&
               <input
                 className={`${props.share ? 'inputShare big' : 'big'}`}
                 defaultValue={valueInput}
                 onChange={e => setValueInput(e.target.value)}
                 autoFocus
               />
-
             }
+            {props.share &&
+              <input
+                className={`${props.share ? 'inputShare big' : 'big'}`}
+                defaultValue={origin +'share/' + Note.url}
+                onChange={e => setValueInput(e.target.value)}
+                autoFocus
+              />
+            }
+
+
             {errorChangeUrl && <div>This path is already in use. Please choose again</div>}
           </ModalBody>
           <ModalFooter>

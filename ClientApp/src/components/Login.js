@@ -16,7 +16,7 @@ function Login() {
         console.log(value);
         const urlAndPass = {
             url: Url,
-            password: value
+            Password: value
         }
         console.log(urlAndPass);
         dispatch(loginNote(urlAndPass))

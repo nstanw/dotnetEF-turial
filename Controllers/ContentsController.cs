@@ -40,13 +40,13 @@ namespace NoteOnline.Controllers
             var newPath = RandomString(8);
 
             //check note form database
-            var noteFromDB = await _context.Contents.FirstOrDefaultAsync(c => c.Url.Contains(newPath));
+            var noteFromDB = await _context.Contents.FirstOrDefaultAsync(c => c.url.Contains(newPath));
 
             //loop for findURL not match in database
             while (noteFromDB != null)
             {
                 newPath = RandomString(8);
-                noteFromDB = await _context.Contents.FirstOrDefaultAsync(c => c.Url.Contains(newPath));
+                noteFromDB = await _context.Contents.FirstOrDefaultAsync(c => c.url.Contains(newPath));
             }
             return Ok(new
             {
@@ -59,21 +59,21 @@ namespace NoteOnline.Controllers
         [HttpGet("{Url}")]
         public async Task<ActionResult<Content>> GetContentByUrl(string Url)
         {
-            var findURL = await _context.Contents.FirstOrDefaultAsync(c => c.Url.Contains(Url));
+            var findURL = await _context.Contents.FirstOrDefaultAsync(c => c.url.Contains(Url));
 
             if (findURL == null)
             {
                 return NotFound();
             }
 
-            var checkSetPassWordOfNoteInDataBase = findURL.SetPassword;
+            var checkSetPassWordOfNoteInDataBase = findURL.setPassword;
             if (checkSetPassWordOfNoteInDataBase)
             {
                 var needPassWord = new
                 {
                     //return status set password for check FE
-                    SetPassword = findURL.SetPassword,
-                    Url = findURL.Url,
+                    SetPassword = findURL.setPassword,
+                    Url = findURL.url,
                 };
                 return Ok(needPassWord);
             }
@@ -96,11 +96,11 @@ namespace NoteOnline.Controllers
         #region UPDATE API
 
         // PUT /api/notes/update
-        // update content
+        // update NOTE content
         [HttpPut("UPDATE")]
         public async Task<IActionResult> PutUpdate(Content content)
         {
-            var exit = await _context.Contents.FirstOrDefaultAsync(c => c.Url.Contains(content.Url));
+            var exit = await _context.Contents.FirstOrDefaultAsync(c => c.url.Contains(content.url));
 
             if (exit == null)
             {
@@ -113,7 +113,7 @@ namespace NoteOnline.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ContentExists(content.Url))
+                    if (!ContentExists(content.url))
                     {
                         return NotFound();
                     }
@@ -126,10 +126,10 @@ namespace NoteOnline.Controllers
             else
             {
                 //Update new Content if URL exits  in database
-                exit.Note = content.Note;
-                exit.Password = content.Password;
-                exit.SetPassword = content.SetPassword;
-                exit.Url = content.Url;
+                exit.note = content.note;
+                exit.password = content.password;
+                exit.setPassword = content.setPassword;
+                exit.url = content.url;
                 exit.newUrl = content.newUrl;
 
                 _context.Contents.Update(exit);
@@ -140,7 +140,7 @@ namespace NoteOnline.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ContentExists(content.Url))
+                    if (!ContentExists(content.url))
                     {
                         return NotFound();
                     }
@@ -152,13 +152,75 @@ namespace NoteOnline.Controllers
             }
         }
 
+
+        // PUT /api/notes/UpdatePassword
+        // update UpdateUrl
+        [HttpPut("UpdateUrl")]
+        public async Task<IActionResult> UpdateUrl(Content content)
+        {
+            var exit = await _context.Contents.FirstOrDefaultAsync(c => c.url.Contains(content.url));
+
+            if (exit == null)
+            {
+                //Create new Content if URL not exits in database
+                content.url = content.newUrl;
+                _context.Contents.Add(content);
+                try
+                {
+                    await _context.SaveChangesAsync();
+                    return Ok(content);
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!ContentExists(content.url))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+            }
+            else
+            {
+                //Update new Content if URL exits  in database
+                exit.note = content.note;
+                exit.password = content.password;
+                exit.setPassword = content.setPassword;
+                exit.url =content.newUrl;
+                exit.newUrl = content.newUrl;
+
+                _context.Contents.Update(exit);
+                try
+                {
+                    await _context.SaveChangesAsync();
+                    return Ok(exit);
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!ContentExists(content.url))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+            }
+        }
+
+
+
         #endregion
+
 
         // DELETE: api/Notes/delete/url
         [HttpDelete("delete/{Url}")]
         public async Task<ActionResult<Content>> DeleteContent(string Url)
         {
-            var content = await _context.Contents.FirstOrDefaultAsync(c => c.Url.Contains(Url));
+            var content = await _context.Contents.FirstOrDefaultAsync(c => c.url.Contains(Url));
             if (content == null)
             {
                 return NotFound();
@@ -172,7 +234,7 @@ namespace NoteOnline.Controllers
 
         private bool ContentExists(string Url)
         {
-            return _context.Contents.Any(e => e.Url == Url);
+            return _context.Contents.Any(e => e.url == Url);
         }
     }
 }

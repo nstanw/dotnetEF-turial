@@ -33,10 +33,26 @@ export const UpdateNote = createAsyncThunk(
     }
 )
 
-export const UpdatePassWord = createAsyncThunk(
-    "NOTE/PUT_UPDATE_NOTE",
+export const UpdateUrl = createAsyncThunk(
+    "NOTE/PUT_UPDATE_URL",
     async (content) => {
-        const endpoint = "api/Notes/UpdatePassWord";
+        const endpoint = "api/Notes/UpdateUrl";
+        const response = await fetch(endpoint, {
+            method: "PUT",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(content),
+        })
+        const data = response.json();
+        return data;
+    }
+)
+
+export const UpdatePassword = createAsyncThunk(
+    "NOTE/PUT_UPDATE_PASSWORD",
+    async (content) => {
+        const endpoint = "api/Notes/UpdatePassword";
         const response = await fetch(endpoint, {
             method: "PUT",
             headers: {
@@ -91,7 +107,8 @@ export const GetNote = createAsyncThunk(
                 url: Url,
                 note: null,
                 password: null,
-                setPassword: false
+                setPassword: false,
+                newUrl: null,
             };
         }
         const data = response.json();
@@ -113,7 +130,8 @@ const initialState = {
         url: null,
         note: null,
         password: null,
-        setPassword: false
+        setPassword: false,
+        newUrl: null,
     },
     loginNote: null,
     UpdateNote: null,
@@ -122,6 +140,7 @@ const initialState = {
     CreateNote: null,
     editNote: false,
     loginNote: null,
+    Updateurl: null,
 
 }
 
@@ -136,7 +155,7 @@ export const noteSlice = createSlice({
         editNoteOff: (state) => {
             state.editNote = false;
         },
-        storeUrl: (state, action) => {
+        storeurl: (state, action) => {
             state.url = action.payload;
         },
         setNote: (state, action) => {
@@ -175,6 +194,14 @@ export const noteSlice = createSlice({
             state.note = action.payload;
         },
         [UpdateNote.rejected]: (state, action) => {
+            state.err = action.error;
+        },
+
+        [UpdateUrl.fulfilled]: (state, action) => {
+            state.UpdateUrl = action.payload;
+            state.note = action.payload;
+        },
+        [UpdateUrl.rejected]: (state, action) => {
             state.err = action.error;
         },
        

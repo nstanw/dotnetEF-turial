@@ -10,17 +10,17 @@ import {
   checkURL,
 } from '../feature/NoteSlice';
 import ModalShow from './ModalShow';
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from "react-router-dom";
 
 function Note() {
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
 
   //get path thanh andress
   const pathname = window.location.pathname.split('/')[1];
-  const origin = window.location.origin + '/';
+  const origin = window.location.origin;
   console.log(window.location);
 
   //get Note in Store
@@ -35,6 +35,7 @@ function Note() {
     if (pathname === "") {
       dispatch(checkURL())
         .then(res => {
+          console.log(res);
           navigate(res.payload.url);
         });
 
@@ -43,13 +44,24 @@ function Note() {
       dispatch(GetNote(pathname))
         //check onfulfilled and isSetpassword. if setPassword = true then navigate to login page
         .then((respose) => {
+          console.log(respose);
+          console.log(respose.payload.setPassword);
+          console.log(editNote);
           if (respose.payload.setPassword && !editNote) {
-            // navigate to login page
-            navigate('/' + respose.meta.arg + '/login');
+            // navigate("/" + NOTE.url + "/login");
           }
         })
     }
   }, []);
+
+  //change location pathname
+  useEffect(() => {
+    // update address url 
+    NOTE.url ? navigate('/' + NOTE.url) : null;
+
+    //if note setPassword then navigate to login page
+    NOTE.setPassword ?  navigate("/" + NOTE.url + "/login") : null;
+  }, [NOTE])
 
   //if get link exists
   useEffect(() => {
@@ -87,7 +99,7 @@ function Note() {
             {NOTE == null ? (
               <a href={origin} >{origin}</a>
             ) : (
-              <a href={origin + NOTE.url} >{origin + NOTE.url}</a>
+              <a href={origin + '/' + NOTE.url} >{origin + '/' + NOTE.url}</a>
             )}
           </span>
         </div>
@@ -96,7 +108,7 @@ function Note() {
             changeUrl={
               {
                 title: 'Change Url ',
-                header: 'Enter the new url',
+                header: 'Enter the new Url',
                 link: origin + NOTE.url,
                 value: NOTE.url,
               }
