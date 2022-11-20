@@ -198,9 +198,14 @@ const initialState = {
     CreateNote: null,
     editNote: false,
     loginNote: null,
-    Updateurl: null,
+    UpdateUrl: {
+        loading: false,
+        url: null,
+        use: false,
+    },
     checkPassword: null,
     GetEditNoteStatus: null,
+    pending: null,
 }
 
 export const noteSlice = createSlice({
@@ -266,8 +271,12 @@ export const noteSlice = createSlice({
         },
 
         [UpdateUrl.fulfilled]: (state, action) => {
-            state.note = action.payload;
             state.UpdateUrl = action.payload;
+            state.note = action.payload;
+        },
+        [UpdateUrl.pending]: (state, action) => {
+            state.UpdateUrl.loading = true;
+            // state.note = action.payload;
         },
         [UpdateUrl.rejected]: (state, action) => {
             state.err = action.error;
@@ -287,6 +296,10 @@ export const noteSlice = createSlice({
                 localStorage.setItem('token', action.payload.token);
             }
             state.UpdatePassword = action.payload;
+            state.pending = false;
+        },
+        [UpdatePassword.pending]: (state, action) => {
+            state.pending = true;
         },
         [UpdatePassword.rejected]: (state, action) => {
             state.err = action.error;
@@ -302,7 +315,7 @@ export const noteSlice = createSlice({
         [checkPassword.rejected]: (state, action) => {
             state.err = action.error;
         },
-      
+
         [resetPassword.fulfilled]: (state, action) => {
             state.resetPassword = action.payload;
             state.note = action.payload;

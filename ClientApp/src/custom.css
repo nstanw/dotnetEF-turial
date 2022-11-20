@@ -81,13 +81,13 @@ a {
   border-radius: 5px;
 }
 .inputShare {
-  border-color: #0084f7;
   border-radius: 5px;
   border: none;
 }
 .big {
   width: 100%;
-  font-size: 2em;
+  font-size: 1.5em;
+  
 }
 .divider {
   color: #bebebe;
@@ -100,4 +100,34 @@ span {
 }
 span:hover {
   cursor: pointer;
+}
+input{
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.modal-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem;
+  border-top: 1px solid #dee2e6;
+  border-bottom-right-radius: calc(0.3rem - 1px);
+  border-bottom-left-radius: calc(0.3rem - 1px);
+}
+iconify-icon{
+  vertical-align: inherit;
+}
+.input-lg {
+  height: 46px;
+  padding: 10px 16px;
+  font-size: 18px;
+  line-height: 1.3333333;
+  border-radius: 6px;
+}
+.btnLogin{
+  margin-top: 14px;
+}
+#txtPassword{
+  margin-bottom: 15px;
 }

@@ -200,6 +200,7 @@ namespace NoteOnline.Controllers
         public async Task<IActionResult> UpdateUrl(string url, Content content)
         {
             var exit = await _context.Contents.FirstOrDefaultAsync(c => c.url.Contains(url));
+            var ExitNewUrl = await _context.Contents.FirstOrDefaultAsync(c => c.url.Contains(content.newUrl));
 
             if (exit == null)
             {
@@ -224,16 +225,16 @@ namespace NoteOnline.Controllers
                     }
                 }
             }
-            else
+            if (ExitNewUrl == null)
             {
-                //Update new Content if URL exits  in database
-                exit.url = content.newUrl;
-                _context.Update(exit);
-                // _context.Contents.Update(exit);
+                //Create new Content if newUrl not exits in database
+                content.url = content.newUrl;
+                content.newUrl = null;
+                _context.Contents.Add(content);
                 try
                 {
                     await _context.SaveChangesAsync();
-                    return Ok(exit);
+                    return Ok(content);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -246,6 +247,15 @@ namespace NoteOnline.Controllers
                         throw;
                     }
                 }
+            }
+
+            else
+            {
+                return BadRequest(new
+                {
+                    Url = exit.url,
+                    use = true
+                });
             }
         }
 
@@ -265,9 +275,6 @@ namespace NoteOnline.Controllers
                 {
                     new Claim(ClaimTypes.Uri, url),
                     new Claim(ClaimTypes.Hash, password),
-
-
-
                 }),
                 Expires = DateTime.UtcNow.AddMilliseconds(double.Parse(_expDate)),
                 SigningCredentials = new SigningCredentials(

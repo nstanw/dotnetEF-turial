@@ -1,0 +1,119 @@
+
+body {
+  background: #eee;
+  margin: 0;
+}
+
+.body-container {
+  min-height: 640px;
+  position: relative;
+}
+
+.document-container {
+  position: absolute;
+  top: 20px;
+  bottom: 50px;
+  left: 15px;
+  right: 15px;
+  border: solid 1px #cecece;
+
+  background-color: #fff;
+  padding: 10px;
+  font: normal 1em Arial, Helvetica, sans-serif;
+  line-height: 20px;
+  color: #3a3b3c;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+}
+
+.document-container .inputControl {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 5px;
+  border: none;
+  background-color: Transparent;
+  resize: none;
+  overflow-y: auto;
+  white-space: pre-wrap;
+  font: normal 1.2em Arial, Helvetica, sans-serif;
+  line-height: 20px;
+  color: #3a3b3c;
+  outline: none;
+}
+
+.big {
+  width: 100%;
+  font-size: 2em;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.share-link-text {
+  border: none;
+  outline: none;
+}
+
+.main-link:first-child {
+  text-align: center;
+  font-size: 1.5em;
+  padding: 5px;
+  margin-bottom: 20px;
+  background-color: #fafafa;
+}
+
+a.logout {
+  margin-right: 10px;
+  color: #333;
+}
+
+a {
+  cursor: pointer;
+}
+
+.options a {
+  margin: 5px;
+}
+
+html pre {
+  border: none;
+}
+
+.divider {
+  color: #bebebe;
+}
+
+.loading {
+  position: absolute;
+  left: 20px;
+}
+
+.loading i {
+  margin-right: 5px;
+}
+
+.url-prefix {
+  width: 100%;
+  margin-bottom: 15px;
+  color: #66af66;
+}
+
+.container .form-group:first-child {
+  margin-top: 20px;
+}
+
+.error {
+  height: 46px;
+  padding: 10px 0;
+  font-size: 18px;
+  line-height: 1.3333333;
+  border-radius: 6px;
+  color: #aa0000;
+}
+
+.busy {
+  color: #669966;
+}

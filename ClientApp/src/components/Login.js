@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { GetEditNoteStatus, GetNote, noteActions, checkPassword } from '../feature/NoteSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from "react-router-dom";
+import './loginStyle.css';
 
 function Login() {
 
@@ -15,9 +16,9 @@ function Login() {
     const Url = window.location.pathname.split('/')[1];
 
     useEffect(() => {
-       if (Store.GetEditNoteStatus) {
-        navigate('/' + Url)
-       }
+        if (Store.GetEditNoteStatus) {
+            navigate('/' + Url)
+        }
     }, [Store.GetEditNoteStatus == null])
 
     const handleSubmit = (e) => {
@@ -28,7 +29,7 @@ function Login() {
         const payloadPassCheck = {
             url: Url,
             Password: value,
-           
+
         }
 
         console.log(value);
@@ -36,7 +37,7 @@ function Login() {
 
         dispatch(checkPassword(payloadPassCheck))
             .then((res) => {
-                console.log("checkPassword-----",res);
+                console.log("checkPassword-----", res);
                 if (res.payload == undefined) {
                     setError(true);
                 } else {
@@ -47,18 +48,19 @@ function Login() {
             });
     }
     return (
-        <>
-            <form onSubmit={handleSubmit}>
+        <div className="container">
+            <form className="form-group" onSubmit={handleSubmit}>
                 <label htmlFor="txtPassword">
                     Password required to edit this document
                 </label>
                 <input
+                    id="txtPassword"
                     required="required"
                     placeholder="Password"
                     className="form-control input-lg"
                     type="password"
-                    id="txtPassword" />
-                {error && <p>Wrong password</p>}
+                     />
+                {error && <span id="spnChangePasswordError">Incorrect password</span>}
                 <button
                     className="btn btn-primary"
                     type="submit"
@@ -66,7 +68,7 @@ function Login() {
                     Submit
                 </button>
             </form>
-        </>
+        </div>
     );
 }
 

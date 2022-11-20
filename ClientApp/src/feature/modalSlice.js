@@ -9,8 +9,7 @@ const initialState = {
 
 export const modal = createSlice({
     name: 'note',
-    initialState,
-    reducers: {
+    initialState,    reducers: {
         ChangeLink: (state) => {
            
         }
