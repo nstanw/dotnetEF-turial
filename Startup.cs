@@ -1,3 +1,4 @@
+using NoteOnline.Middleware;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
@@ -26,17 +27,16 @@ namespace NoteOnline
                      Configuration.GetConnectionString("DefaultConnection")
                 )
             );
-
             services.AddHealthChecks();
             services.AddControllers();
-
             services.AddControllersWithViews();
-
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
                 configuration.RootPath = "/ClientApp/build";
             });
+
+            services.AddTokenAuthentication(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -58,7 +58,8 @@ namespace NoteOnline
             app.UseSpaStaticFiles();
 
             app.UseRouting();
-
+            app.UseAuthentication();
+            app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

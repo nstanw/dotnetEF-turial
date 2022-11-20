@@ -1,38 +1,50 @@
 import React, { useEffect, useState } from "react";
-import { loginNote, noteActions, GetNote } from '../feature/NoteSlice';
+import { GetEditNoteStatus, GetNote, noteActions, checkPassword } from '../feature/NoteSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from "react-router-dom";
 
 function Login() {
+
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const NOTE = useSelector((state) => state.note.note);
+    const Store = useSelector((state) => state.note);
     const [error, setError] = useState(false);
 
+    //get url on address
     const Url = window.location.pathname.split('/')[1];
+
+    useEffect(() => {
+       if (Store.GetEditNoteStatus) {
+        navigate('/' + Url)
+       }
+    }, [Store.GetEditNoteStatus == null])
 
     const handleSubmit = (e) => {
         e.preventDefault();
+
+        //Get value input
         const value = e.target[0].value;
-        console.log(value);
-        const urlAndPass = {
+        const payloadPassCheck = {
             url: Url,
-            Password: value
+            Password: value,
+           
         }
-        console.log(urlAndPass);
-        dispatch(loginNote(urlAndPass))
+
+        console.log(value);
+        console.log(payloadPassCheck);
+
+        dispatch(checkPassword(payloadPassCheck))
             .then((res) => {
-                console.log(res);
+                console.log("checkPassword-----",res);
                 if (res.payload == undefined) {
                     setError(true);
                 } else {
-                    dispatch(noteActions.editNoteOn());
+                    localStorage.setItem('token', res.payload.token);
                     navigate('/' + Url)
+                    dispatch(noteActions.editNoteOn());
                 }
             });
-        //call api check passs. if match to run host/link 
-        // else incorect
-
-
     }
     return (
         <>

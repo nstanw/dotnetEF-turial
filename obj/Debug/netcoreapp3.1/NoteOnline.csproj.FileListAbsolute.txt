@@ -324,3 +324,8 @@ C:\Users\Administrator\Documents\CODE\dotnetEF-turial\obj\Debug\netcoreapp3.1\No
 C:\Users\Administrator\Documents\CODE\dotnetEF-turial\obj\Debug\netcoreapp3.1\NoteOnline.dll
 C:\Users\Administrator\Documents\CODE\dotnetEF-turial\obj\Debug\netcoreapp3.1\NoteOnline.pdb
 C:\Users\Administrator\Documents\CODE\dotnetEF-turial\obj\Debug\netcoreapp3.1\NoteOnline.genruntimeconfig.cache
+D:\NET\REDSAND\NoteOnline\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+D:\NET\REDSAND\NoteOnline\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Authorization.dll
+D:\NET\REDSAND\NoteOnline\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Metadata.dll
+D:\NET\REDSAND\NoteOnline\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Abstractions.dll
+D:\NET\REDSAND\NoteOnline\bin\Debug\netcoreapp3.1\System.Text.Json.dll

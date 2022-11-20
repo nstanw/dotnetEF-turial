@@ -5,7 +5,7 @@ import '../custom.css';
 import {
   UpdateNote,
   noteActions,
-  CreateNote,
+  GetEditNoteStatus,
   GetNote,
   checkURL,
 } from '../feature/NoteSlice';
@@ -21,10 +21,10 @@ function Note() {
   //get path thanh andress
   const pathname = window.location.pathname.split('/')[1];
   const origin = window.location.origin;
-  console.log(window.location);
 
   //get Note in Store
   const [afterInput, setAfterInput] = useState('');
+  const STORE = useSelector((state) => state.note);
   const NOTE = useSelector((state) => state.note.note);
   const getNOTE = useSelector((state) => state.note.GetNote);
   const editNote = useSelector((state) => state.note.editNote);
@@ -35,20 +35,32 @@ function Note() {
     if (pathname === "") {
       dispatch(checkURL())
         .then(res => {
-          console.log(res);
           navigate(res.payload.url);
         });
 
     } else {
       //GET '/:url'
-      dispatch(GetNote(pathname))
+      dispatch(GetNote(NOTE.url))
         //check onfulfilled and isSetpassword. if setPassword = true then navigate to login page
         .then((respose) => {
           console.log(respose);
-          console.log(respose.payload.setPassword);
-          console.log(editNote);
-          if (respose.payload.setPassword && !editNote) {
-            // navigate("/" + NOTE.url + "/login");
+
+          if (!respose.payload) {
+            return;
+          }
+
+          // if not login navigate to login page
+          if (respose.payload.url && respose.payload.setPassword) {
+            dispatch(GetEditNoteStatus(respose.payload.url))
+              .then(resJwt => {
+                console.log(resJwt);
+                //if not login navigate to login page
+                if (resJwt.pathname == undefined && STORE.GetEditNoteStatus == null) {
+                  navigate("/" + NOTE.url + "/login")
+                } else {
+                  navigate("/" + respose.payload.url)
+                }
+              })
           }
         })
     }
@@ -58,12 +70,11 @@ function Note() {
   useEffect(() => {
     // update address url 
     NOTE.url ? navigate('/' + NOTE.url) : null;
+  }, [NOTE.url])
 
-    //if note setPassword then navigate to login page
-    NOTE.setPassword ?  navigate("/" + NOTE.url + "/login") : null;
-  }, [NOTE])
 
-  //if get link exists
+
+  //if link exists
   useEffect(() => {
     // save link to store use late
     setAfterInput(NOTE.note)
@@ -72,17 +83,18 @@ function Note() {
   // UPDATE NOTE CONTENT AFTER TYING NOTE 1 seconds
   useEffect(() => {
 
-    if (NOTE.note || NOTE.url) {
+    if ( NOTE.note || NOTE.url) {
       const newTimer = setTimeout(() => {
         const payload = {
           ...NOTE,
           note: afterInput,
         }
-        delete payload.id;
-        console.log(payload);
-        dispatch(UpdateNote(payload))
-      }, 1000);
 
+        // delete payload.id;
+        console.log(payload);
+          dispatch(UpdateNote(payload))
+      }, 1000);
+      //clear for performance
       return () => clearTimeout(newTimer);
     }
   }, [afterInput])
