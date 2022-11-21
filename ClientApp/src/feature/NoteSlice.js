@@ -1,24 +1,8 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import { fetchGet, PREFIX } from '../util/fetchData';
+import { fetchGet, getAPI, patchAPI, PREFIX } from '../util/fetchData';
 
 
 const pathname = window.location.pathname.split('/')[1];
-
-export const CreateNote = createAsyncThunk(
-    "NOTE/POST_CREATE_NOTE",
-    async (content) => {
-        const endpoint = "api/Contents"
-        const response = await fetch(endpoint, {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(content),
-        })
-        const data = response.json();
-        return data;
-    }
-)
 
 export const UpdateNote = createAsyncThunk(
     "NOTE/PUT_UPDATE_NOTE",
@@ -36,89 +20,54 @@ export const UpdateNote = createAsyncThunk(
     }
 )
 
+
 export const UpdateUrl = createAsyncThunk(
     "NOTE/PATCH_UPDATE_URL",
     async (content) => {
         const endpoint = "api/Notes/" + content.url + "/url";
-        const response = await fetch(endpoint, {
-            method: "PATCH",
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(content),
-        })
-        const data = response.json();
+        const data = patchAPI(endpoint, content)
         return data;
     }
 )
-
+//#region PATCH PASSWORD
 export const UpdatePassword = createAsyncThunk(
     "NOTE/PATCH_UPDATE_PASSWORD",
     async (content) => {
         const endpoint = "api/Notes/" + content.url + "/password";
-        const response = await fetch(endpoint, {
-            method: "PATCH",
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(content),
-        })
-        const data = await response.json();
-        console.log(data);
+        const data = patchAPI(endpoint, content)
         return data;
     }
 )
-
 
 export const checkPassword = createAsyncThunk(
     "NOTE/PATCH_CHECK_PASSWORD",
     async (content) => {
         const endpoint = "api/Notes/" + content.url + "/check-password";
-        const response = await fetch(endpoint, {
-            method: "PATCH",
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(content),
-        })
-        const data = await response.json();
-        console.log(data);
+        const data = patchAPI(endpoint, content)
         return data;
     }
 )
 
 export const resetPassword = createAsyncThunk(
     "NOTE/PATCH_RESET_PASSWORD",
-    async (URL) => {
-        const endpoint = "api/Notes/" + URL + "/reset-password";
-        const response = await fetch(endpoint, {
-            method: "PATCH",
-            headers: {
-                'Content-Type': 'application/json'
-            },
-        })
-        const data = await response.json();
-        console.log(data);
+    async (content) => {
+        const endpoint = "api/Notes/" + content.url + "/check-password";
+        const data = patchAPI(endpoint, content)
         return data;
     }
 )
-
-
 export const loginNote = createAsyncThunk(
     "NOTE/PATCH_Login_NOTE",
     async (urlAndPass) => {
-        const endpoint = "api/Notes/" + "login";
-        const response = await fetch(endpoint, {
-            method: "PATCH",
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(urlAndPass)
-        })
-        const data = response.json();
+        const endpoint = "api/Notes/login";
+        const data = patchAPI(endpoint, urlAndPass)
         return data;
     }
 )
+
+//#endregion 
+
+//#region GET API
 
 export const GetNote = createAsyncThunk(
     "NOTE/GET_NOTE",
@@ -171,15 +120,18 @@ export const GetEditNoteStatus = createAsyncThunk(
     }
 )
 
-
 export const checkURL = createAsyncThunk(
-    'NOTE/GET_CHECK_URL', async () => {
+    'NOTE/GET_CHECK_URL',
+    async () => {
         const endpoint = PREFIX + "newPath";
         const response = await fetch(endpoint)
         const data = response.json();
         return data;
     }
 )
+
+//#endregion
+
 
 
 const initialState = {
@@ -195,7 +147,6 @@ const initialState = {
     UpdateNote: null,
     checkURL: null,
     GetNote: null,
-    CreateNote: null,
     editNote: false,
     loginNote: null,
     UpdateUrl: {
@@ -227,14 +178,7 @@ export const noteSlice = createSlice({
         },
     },
     extraReducers: {
-        [CreateNote.fulfilled]: (state, action) => {
-            state.CreateNote = action.payload;
-            state.note = action.payload;
-        },
-        [CreateNote.rejected]: (state, action) => {
-            state.CreateNote = action.error;
-        },
-
+        
         [GetNote.fulfilled]: (state, action) => {
             state.GetNote = action.payload.Note;
             state.note = action.payload;
