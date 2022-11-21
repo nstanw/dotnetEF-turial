@@ -97,37 +97,6 @@ namespace NoteOnline.Controllers
             }
         }
 
-        //GET flow authorize
-        // GET: api/Notes/URL/authorize
-        [Authorize]
-        [HttpGet("{Url}/authorize")]
-        public async Task<ActionResult<Content>> GetContentByAuthorize(string Url)
-        {
-            var findURL = await _context.Contents.FirstOrDefaultAsync(c => c.url.Contains(Url));
-
-            if (findURL == null)
-            {
-                return NotFound();
-            }
-
-            var checkSetPassWordOfNoteInDataBase = findURL.setPassword;
-            if (!checkSetPassWordOfNoteInDataBase)
-            {
-                return Ok(findURL);
-            }
-            else
-            {
-                var needPassWord = new
-                {
-                    //return status setpassword for check FE
-                    SetPassword = findURL.setPassword,
-                    Url = findURL.url,
-
-                };
-                return Ok(needPassWord);
-            }
-        }
-
         // GET: api/Notes
         // GET all Note in database
         [HttpGet]
@@ -140,9 +109,9 @@ namespace NoteOnline.Controllers
 
         #region UPDATE API
 
-        // PUT /api/notes/update
+        // PUT /api/notes/update/Url
         // update NOTE content
-        [HttpPut]
+        [HttpPut("{Url}")]
         public async Task<IActionResult> PutUpdate(Content content)
         {
             var exit = await _context.Contents.FirstOrDefaultAsync(c => c.url.Contains(content.url));
