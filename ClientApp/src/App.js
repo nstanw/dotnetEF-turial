@@ -5,12 +5,22 @@ import Note from './components/Note';
 import { useSelector } from 'react-redux';
 import Login from './components/Login';
 import Share from './components/Share';
+import TestSignalR from './components/TestSignalR';
+import CloneTest from './components/CloneTest';
 
 export default function App() {
   const getUrlRedux = useSelector((state) => state.note.checkURL);
   return (
     <>
       <Routes>
+        <Route
+          path='/CloneTest'
+          element={< CloneTest />}
+        />
+        <Route
+          path='/test'
+          element={< TestSignalR />}
+        />
         <Route
           path='/:url/login'
           element={<Login />}

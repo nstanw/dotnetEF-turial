@@ -96,6 +96,23 @@ namespace NoteOnline.Controllers
                 return Ok(needPassWord);
             }
         }
+     
+     
+        //GET share
+        // GET: api/Notes/URL
+       
+        [HttpGet("{Url}/Share")]
+        public async Task<ActionResult<Content>> GetShare(string Url)
+        {
+            var findURL = await _context.Contents.FirstOrDefaultAsync(c => c.url.Contains(Url));
+
+            if (findURL == null)
+            {
+                return NotFound();
+            }
+                return Ok(findURL);
+            
+        }
 
         // GET: api/Notes
         // GET all Note in database
@@ -234,7 +251,6 @@ namespace NoteOnline.Controllers
 
         private string JwtToken(string url, string password)
         {
-
             var tokenhandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_secret);
             // add description to token

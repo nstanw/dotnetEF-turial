@@ -7,7 +7,6 @@ import { UpdatePassword, UpdateUrl, resetPassword, GetNote } from '../feature/No
 function ModalShow(props) {
 
   let dataModal;
-  const GetNoteFromRedux = useSelector((state) => state.note.GetNote);
   const Note = useSelector((state) => state.note.note);
   const STORE = useSelector((state) => state.note);
   const dispatch = useDispatch();

@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useFormik } from 'formik';
+import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr'
 import '../custom.css';
 import {
   UpdateNote,
-  noteActions,
   GetEditNoteStatus,
   GetNote,
   checkURL,
+  noteActions,
 } from '../feature/NoteSlice';
 import ModalShow from './ModalShow';
 import { useNavigate } from "react-router-dom";
@@ -26,10 +26,45 @@ function Note() {
   const [afterInput, setAfterInput] = useState('');
   const STORE = useSelector((state) => state.note);
   const NOTE = useSelector((state) => state.note.note);
-  const getNOTE = useSelector((state) => state.note.GetNote);
-  const editNote = useSelector((state) => state.note.editNote);
 
-  //Check URL random is used ?
+
+  //#region read time
+  const [connection, setConnection] = useState(null);
+
+  useEffect(() => {
+    let connection = new HubConnectionBuilder()
+      .withUrl('/note-hub')
+      .withAutomaticReconnect()
+      .build();
+
+    // listen server
+    connection.on("ReceiveMessage", (user, message) => {
+      setAfterInput(message)
+      console.log(`${user} says ${message}`);
+    })
+
+    //start connection
+    connection.start()
+      .then(() => {
+        console.log("successfully connected to hub");
+      }).catch(err => console.log(err));
+
+    setConnection(connection);
+  }, [])
+
+  const sendMessage = async (url, note) => {
+    try {
+      await connection.invoke("SendMessage", url, note)
+        .catch(function (err) {
+          return console.error(err.toString());
+        });
+    } catch (err) {
+      console.error(err);
+    }
+  };
+  //#endregion
+
+  //#region Check URL random is used ?
   useEffect(() => {
     //GET '/'
     if (pathname === "") {
@@ -65,14 +100,13 @@ function Note() {
         })
     }
   }, []);
+  //#endregion
 
   //change location pathname
   useEffect(() => {
     // update address url 
     NOTE.url ? navigate('/' + NOTE.url) : null;
   }, [NOTE.url])
-
-
 
   //if link exists
   useEffect(() => {
@@ -83,16 +117,21 @@ function Note() {
   // UPDATE NOTE CONTENT AFTER TYING NOTE 1 seconds
   useEffect(() => {
 
-    if ( NOTE.note || NOTE.url) {
+    if (NOTE.note || NOTE.url) {
+
       const newTimer = setTimeout(() => {
+
         const payload = {
           ...NOTE,
           note: afterInput,
         }
 
+        sendMessage(NOTE.url, afterInput)
+
+
         // delete payload.id;
         console.log(payload);
-          dispatch(UpdateNote(payload))
+        dispatch(UpdateNote(payload))
       }, 1000);
       //clear for performance
       return () => clearTimeout(newTimer);

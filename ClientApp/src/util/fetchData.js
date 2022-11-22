@@ -5,6 +5,7 @@ export const patchAPI = async (endpoint, data) => {
             method: "PATCH",
             headers: {
                 'Content-Type': 'application/json'
+                
             },
             body: JSON.stringify(data),
         })

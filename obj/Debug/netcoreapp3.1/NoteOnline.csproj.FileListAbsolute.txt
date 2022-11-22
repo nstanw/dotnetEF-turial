@@ -329,3 +329,9 @@ D:\NET\REDSAND\NoteOnline\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Authoriza
 D:\NET\REDSAND\NoteOnline\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Metadata.dll
 D:\NET\REDSAND\NoteOnline\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Abstractions.dll
 D:\NET\REDSAND\NoteOnline\bin\Debug\netcoreapp3.1\System.Text.Json.dll
+D:\NET\REDSAND\NoteOnline\bin\Debug\netcoreapp3.1\Microsoft.AspNet.SignalR.Client.dll
+D:\NET\REDSAND\NoteOnline\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.SignalR.MsgPack.dll
+D:\NET\REDSAND\NoteOnline\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.SignalR.Protocols.MsgPack.dll
+D:\NET\REDSAND\NoteOnline\bin\Debug\netcoreapp3.1\MsgPack.dll
+D:\NET\REDSAND\NoteOnline\bin\Debug\netcoreapp3.1\System.Net.WebSockets.WebSocketProtocol.dll
+D:\NET\REDSAND\NoteOnline\bin\Debug\netcoreapp3.1\libman.json

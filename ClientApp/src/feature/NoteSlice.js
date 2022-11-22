@@ -20,7 +20,6 @@ export const UpdateNote = createAsyncThunk(
     }
 )
 
-
 export const UpdateUrl = createAsyncThunk(
     "NOTE/PATCH_UPDATE_URL",
     async (content) => {
@@ -68,7 +67,6 @@ export const loginNote = createAsyncThunk(
 //#endregion 
 
 //#region GET API
-
 export const GetNote = createAsyncThunk(
     "NOTE/GET_NOTE",
     async (Url) => {
@@ -120,6 +118,22 @@ export const GetEditNoteStatus = createAsyncThunk(
     }
 )
 
+export const GetShare = createAsyncThunk(
+    "NOTE/GET_SHARE_NOTE",
+    async (Url) => {
+        const token = localStorage.getItem("token");
+        const PREFIX = "https://localhost:5001/api/"
+        const endpoint = PREFIX + Url + "/Share";
+        const response = await fetch(endpoint, {
+            method: "GET",
+            headers: {
+                Authorization: 'Bearer ' + token,
+            }
+        })
+        return response.json();
+    }
+)
+
 export const checkURL = createAsyncThunk(
     'NOTE/GET_CHECK_URL',
     async () => {
@@ -157,6 +171,7 @@ const initialState = {
     checkPassword: null,
     GetEditNoteStatus: null,
     pending: null,
+    UpdatePassword: null,
 }
 
 export const noteSlice = createSlice({
@@ -164,6 +179,9 @@ export const noteSlice = createSlice({
     initialState,
     reducers: {
 
+        realTimeEdit: (state, action) => {
+            state.note.note = action.payload;
+        },
         editNoteOn: (state) => {
             state.editNote = true;
         },

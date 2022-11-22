@@ -23,6 +23,9 @@
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.25.0"/>
     <PackageReference Include="Microsoft.AspNetCore.Authorization" Version="3.1.30"/>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.30"/>
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.MsgPack" Version="1.0.0-preview2-final"/>
+    <PackageReference Include="Microsoft.AspNet.SignalR.Client" Version="2.4.3"/>
+    <PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.1.0"/>
   </ItemGroup>
   <ItemGroup>
     <Content Remove="$(SpaRoot)**"/>
