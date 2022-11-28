@@ -2,8 +2,11 @@ import React, { useRef, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from "react-router-dom";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { UpdatePassword, UpdateUrl, resetPassword, GetNote } from '../feature/NoteSlice';
+import { UpdatePassword, UpdateUrl, resetPassword, GetNote, GetAuth, GetEditNoteStatus } from '../feature/NoteSlice';
+import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr'
 
+let count = 0;
+let countReset = 0;
 function ModalShow(props) {
 
   let dataModal;
@@ -26,6 +29,75 @@ function ModalShow(props) {
       setValueInput(Note.url)
     }
   }, [Note.url])
+
+  const [connection, setConnection] = useState(null);
+
+  useEffect(() => {
+    let connection = new HubConnectionBuilder()
+      .withUrl('/note-hub')
+      .withAutomaticReconnect()
+      .build();
+
+    //start connection
+    connection.start()
+      .then(() => {
+        console.log("successfully connected to hub");
+
+        connection.on("SendLogout", (SendLogout) => {
+          count++;
+          console.log("SendLogout, count: ", count);
+          if (count >= 3) {
+            count = 0;
+            console.log("SendLogout, count > 3: ", count);
+            dispatch(GetNote(Note.url))
+              .then((res) => {
+                console.log(res);
+                navigate("/" + res.payload.url)
+              })
+          }
+        })
+
+        connection.on("SendReset", (SendReset) => {
+          countReset++;
+          if (countReset >= 3) {
+            console.log("sau khi bam SendReset, countReset: " + countReset);
+            countReset = 0;
+            dispatch(GetNote(Note.url))
+              .then(() => {
+                navigate("/" + Note.url)
+              });
+          }
+        })
+
+
+      }).catch(err => console.log(err));
+
+    setConnection(connection);
+  }, [])
+
+
+  // người dùng setpassword
+  const UpdatePasswordReadTime = async (SendLogout) => {
+    try {
+      await connection.invoke("SendLogout", SendLogout)
+        .catch(function (err) {
+          return console.error(err.toString());
+        });
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const SendReset = async (SendReset) => {
+    try {
+      await connection.invoke("SendReset", SendReset)
+        .catch(function (err) {
+          return console.error(err.toString());
+        });
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   //#region check open modal
   if (props.changeUrl) {
@@ -81,7 +153,7 @@ function ModalShow(props) {
       dispatch(UpdateUrl(payloadUpdateUrl))
         .then(res => {
           console.log(res);
-          navigate("/" + Note.url)
+           navigate("/" + Note.url)
 
           if (res.payload.use) {
             setErrorChangeUrl(true)
@@ -91,7 +163,6 @@ function ModalShow(props) {
           if (res.payload.id) {
             return setShow(false);
           }
-
         })
       STORE.UpdateUrl.loading ? setShow(true) : null;
     }
@@ -109,13 +180,12 @@ function ModalShow(props) {
         password: passUser,
         setPassword: SetPassword,
       }
-      console.log(payloadUpdatePassword);
 
       dispatch(UpdatePassword(payloadUpdatePassword))
         .then((res) => {
+          UpdatePasswordReadTime(true)
           setShow(!show);
-          console.log("res-----UpdatePassword", res);
-          dispatch(GetNote(Note.url))
+          dispatch(GetAuth(Note.url))
         })
     }
   }
@@ -128,9 +198,14 @@ function ModalShow(props) {
         password: null,
         setPassword: false,
       }
-      console.log(payloadRemovePassword);
-      dispatch(resetPassword(Note.url))
-      dispatch(GetNote(Note.url))
+      const Url = window.location.pathname.split('/')[1];
+      dispatch(resetPassword(Url))
+        .then(res => {
+          SendReset(true)
+          console.log(res)
+          // dispatch(GetNote(Note.url))
+        })
+
       return;
     }
 

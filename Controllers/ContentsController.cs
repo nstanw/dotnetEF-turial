@@ -13,6 +13,7 @@ using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 using System.Dynamic;
+using Microsoft.AspNetCore.Http;
 
 namespace NoteOnline.Controllers
 {
@@ -72,35 +73,55 @@ namespace NoteOnline.Controllers
         [HttpGet("{Url}")]
         public async Task<ActionResult<Content>> GetContentByUrl(string Url)
         {
-            var findURL = await _context.Contents.FirstOrDefaultAsync(c => c.url.Contains(Url));
+            var findURL = await _context.Contents.FirstOrDefaultAsync(c => c.url == (Url));
 
+            bool sessionPasswordFE = HttpContext.Session.GetString("password") == findURL.password;
+            bool sessionFE =  HttpContext.Session.GetString($"{Url}") == Url;
+            bool isAuthenticated = sessionFE && sessionPasswordFE ;
             if (findURL == null)
             {
                 return NotFound();
             }
 
             var checkSetPassWordOfNoteInDataBase = findURL.setPassword;
+
             if (!checkSetPassWordOfNoteInDataBase)
             {
                 return Ok(findURL);
             }
             else
             {
-                var needPassWord = new
+                if (isAuthenticated)
                 {
-                    //return status setpassword for check FE
-                    SetPassword = findURL.setPassword,
-                    Url = findURL.url,
-
-                };
-                return Ok(needPassWord);
+                    return Ok(findURL);
+                }
+                else
+                {
+                    findURL.url = Url + "/login";
+                    return Ok(findURL);
+                }
             }
         }
-     
-     
+
+        //GET flow Url
+        // GET: api/Notes/URL/auth
+        [Authorize]
+        [HttpGet("{Url}/auth")]
+        public async Task<ActionResult<Content>> GetAuth(string Url)
+        {
+            var findURL = await _context.Contents.FirstOrDefaultAsync(c => c.url == (Url));
+
+            if (findURL == null)
+            {
+                return NotFound();
+            }
+            return Ok(findURL);
+        }
+
+
         //GET share
         // GET: api/Notes/URL
-       
+
         [HttpGet("{Url}/Share")]
         public async Task<ActionResult<Content>> GetShare(string Url)
         {
@@ -110,17 +131,17 @@ namespace NoteOnline.Controllers
             {
                 return NotFound();
             }
-                return Ok(findURL);
-            
+            return Ok(findURL);
+
         }
 
-        // GET: api/Notes
-        // GET all Note in database
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Content>>> GetContents()
-        {
-            return await _context.Contents.ToListAsync();
-        }
+        // // GET: api/Notes
+        // // GET all Note in database
+        // [HttpGet]
+        // public async Task<ActionResult<IEnumerable<Content>>> GetContents()
+        // {
+        //     return await _context.Contents.ToListAsync();
+        // }
 
         #endregion
 
@@ -249,49 +270,23 @@ namespace NoteOnline.Controllers
 
         #region API Password
 
-        private string JwtToken(string url, string password)
-        {
-            var tokenhandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_secret);
-            // add description to token
-            var tokenDescription = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(new[]
-                {
-                    new Claim(ClaimTypes.Uri, url),
-                    new Claim(ClaimTypes.Hash, password),
-                }),
-                Expires = DateTime.UtcNow.AddMilliseconds(double.Parse(_expDate)),
-                SigningCredentials = new SigningCredentials(
-                    new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-            };
-            var token = tokenhandler.CreateToken(tokenDescription);
-
-            return tokenhandler.WriteToken(token);
-        }
-
         // PUT /api/notes/Url/password
         // update password and send token to FE
         [HttpPatch("{Url}/password")]
         public async Task<IActionResult> UpdatePassword(string url, Content content)
         {
-            var exit = await _context.Contents.FirstOrDefaultAsync(c => c.url.Contains(url));
+            var exit = await _context.Contents.FirstOrDefaultAsync(c => c.url == (url));
 
             // note not saved in the database
             if (exit == null)
             {
                 _context.Add(content);
-                await _context.SaveChangesAsync();
-
-                var Response = new
-                {
-                    token = JwtToken(content.url, content.password)
-                };
-
                 try
                 {
                     await _context.SaveChangesAsync();
-                    return Ok(Response);
+                    HttpContext.Session.SetString($"{url}", $"{url}");
+                    HttpContext.Session.SetString("password", $"{content.password}");
+                    return Ok(content);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -312,14 +307,13 @@ namespace NoteOnline.Controllers
                 exit.setPassword = content.setPassword;
                 exit.password = content.password;
                 _context.Update(exit);
-                var Response = new
-                {
-                    token = JwtToken(content.url, content.password)
-                };
+
                 try
                 {
                     await _context.SaveChangesAsync();
-                    return Ok(Response);
+                    HttpContext.Session.SetString($"{url}", $"{url}");
+                    HttpContext.Session.SetString("password", $"{content.password}");
+                    return Ok(content);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -339,15 +333,10 @@ namespace NoteOnline.Controllers
             // lúc get note về  thì nếu có mật khẩu sẽ xuất hiện loggin
             if (exit.password == content.password)
             {
-                var JwtTokenResponse = new
-                {
-                    token = JwtToken(content.url, content.password)
-                };
-
                 try
                 {
                     await _context.SaveChangesAsync();
-                    return Ok(JwtTokenResponse);
+                    return Ok(content);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -368,15 +357,12 @@ namespace NoteOnline.Controllers
                 exit.password = content.password;
                 exit.setPassword = content.setPassword;
 
-                var JwtTokenResponse = new
-                {
-                    token = JwtToken(content.url, content.password)
-                };
-
                 try
                 {
                     await _context.SaveChangesAsync();
-                    return Ok(JwtTokenResponse);
+                    HttpContext.Session.SetString($"{url}", $"{url}");
+                    HttpContext.Session.SetString("password", $"{content.password}");
+                    return Ok(exit);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -400,7 +386,7 @@ namespace NoteOnline.Controllers
         [HttpPatch("{Url}/check-password")]
         public async Task<IActionResult> CheckPassword(string url, Content content)
         {
-            var exit = await _context.Contents.FirstOrDefaultAsync(c => c.url.Contains(url));
+            var exit = await _context.Contents.FirstOrDefaultAsync(c => c.url == (url));
 
             if (exit == null)
             {
@@ -409,11 +395,9 @@ namespace NoteOnline.Controllers
 
             if (exit.password == content.password)
             {
-                var JwtTokenResponse = new
-                {
-                    token = JwtToken(content.url, content.password)
-                };
-                return Ok(JwtTokenResponse);
+                HttpContext.Session.SetString($"{url}", $"{url}");
+                HttpContext.Session.SetString("password", $"{content.password}");
+                return Ok(exit);
             }
             else
             {
@@ -438,11 +422,12 @@ namespace NoteOnline.Controllers
             {
                 exit.setPassword = false;
                 exit.password = null;
-
+                HttpContext.Session.Remove($"{url}");
+                HttpContext.Session.Remove("password");
+                
                 _context.Contents.Update(exit);
                 await _context.SaveChangesAsync();
                 return Ok(exit);
-
             }
             else
             {

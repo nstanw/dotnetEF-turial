@@ -23,6 +23,12 @@ namespace NoteOnline
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDistributedMemoryCache();
+            services.AddSession(option =>
+            {
+                option.Cookie.Name = "nsta";
+                option.IdleTimeout = new System.TimeSpan(1, 0, 0);
+            });
             services.AddDbContext<ContentContext>(options =>
                  options.UseNpgsql(
                      Configuration.GetConnectionString("DefaultConnection")
@@ -61,6 +67,8 @@ namespace NoteOnline
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
+
+            app.UseSession();
 
             app.UseRouting();
             app.UseAuthentication();

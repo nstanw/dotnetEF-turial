@@ -49,9 +49,9 @@ export const checkPassword = createAsyncThunk(
 
 export const resetPassword = createAsyncThunk(
     "NOTE/PATCH_RESET_PASSWORD",
-    async (content) => {
-        const endpoint = "api/Notes/" + content.url + "/check-password";
-        const data = patchAPI(endpoint, content)
+    async (url) => {
+        const endpoint = "api/Notes/" + url  + "/reset-password";
+        const data = patchAPI(endpoint)
         return data;
     }
 )
@@ -70,15 +70,8 @@ export const loginNote = createAsyncThunk(
 export const GetNote = createAsyncThunk(
     "NOTE/GET_NOTE",
     async (Url) => {
-        const token = localStorage.getItem("token");
-        console.log(token);
         const endpoint = PREFIX + Url;
-        const response = await fetch(endpoint, {
-            method: "GET",
-            headers: {
-                Authorization: 'Bearer ' + token,
-            }
-        })
+        const response = await fetch(endpoint)
         if (response.status === 404) {
             return {
                 url: Url,
@@ -105,9 +98,25 @@ export const GetEditNoteStatus = createAsyncThunk(
     "NOTE/GET_STATUS_lOCK_NOTE",
     async (Url) => {
         const token = localStorage.getItem("token");
-        console.log("GET STATUS JWT, TOKEN : ", token);
         const PREFIX = "https://localhost:5001/api/token/"
         const endpoint = PREFIX + Url + "/jwt";
+        const response = await fetch(endpoint, {
+            method: "GET",
+            headers: {
+                Authorization: 'Bearer ' + token,
+            }
+        })
+        return response.json();
+    }
+)
+
+//Check jwt
+export const GetAuth = createAsyncThunk(
+    "NOTE/GET_AUTH_lOCK_NOTE",
+    async (Url) => {
+        const token = localStorage.getItem("token");
+        const PREFIX = "https://localhost:5001/api/token/"
+        const endpoint = PREFIX + Url + "/auth";
         const response = await fetch(endpoint, {
             method: "GET",
             headers: {
@@ -172,6 +181,7 @@ const initialState = {
     GetEditNoteStatus: null,
     pending: null,
     UpdatePassword: null,
+    setPasswordToHubState : false,
 }
 
 export const noteSlice = createSlice({
@@ -193,6 +203,9 @@ export const noteSlice = createSlice({
         },
         setNote: (state, action) => {
             state.note = action.payload;
+        },
+        setPasswordToHubState: (state, action) => {
+            state.setPasswordToHubState = action.payload;
         },
     },
     extraReducers: {
@@ -254,10 +267,8 @@ export const noteSlice = createSlice({
         },
 
         [UpdatePassword.fulfilled]: (state, action) => {
-            if (action.payload.token) {
-                localStorage.setItem('token', action.payload.token);
-            }
             state.UpdatePassword = action.payload;
+            state.note = action.payload;
             state.pending = false;
         },
         [UpdatePassword.pending]: (state, action) => {
@@ -281,11 +292,18 @@ export const noteSlice = createSlice({
         [resetPassword.fulfilled]: (state, action) => {
             state.resetPassword = action.payload;
             state.note = action.payload;
-            localStorage.clear();
         },
         [resetPassword.rejected]: (state, action) => {
-            state.resetPassword.err = action.error;
+            state.err = action.error;
         },
+      
+        // [GetAuth.fulfilled]: (state, action) => {
+        //     state.note = action.payload;
+        //     // localStorage.clear();
+        // },
+        // [GetAuth.rejected]: (state, action) => {
+        //     state.err = action.error;
+        // },
     }
 })
 

@@ -10,9 +10,14 @@ namespace NoteOnline.Hubs
             await Clients.All.SendAsync("ReceiveMessage", user, message);
         }
         
-        public async Task SendPrivateMessage(string url, string note)
+        public async Task SendLogout( bool SendLogout)
         {
-            await Clients.User(url).SendAsync("Receivenote", note);
+            await Clients.Others.SendAsync("SendLogout", SendLogout);
+        }
+    
+        public async Task SendReset( bool SendReset)
+        {
+            await Clients.Others.SendAsync("SendReset", SendReset);
         }
     }
 }

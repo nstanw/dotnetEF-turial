@@ -12,21 +12,24 @@ import {
 import ModalShow from './ModalShow';
 import { useNavigate } from "react-router-dom";
 
+var count = 0;
 function Note() {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-
   //get path thanh andress
   const pathname = window.location.pathname.split('/')[1];
   const origin = window.location.origin;
+
 
   //get Note in Store
   const [afterInput, setAfterInput] = useState('');
   const STORE = useSelector((state) => state.note);
   const NOTE = useSelector((state) => state.note.note);
 
+  let urlFix = NOTE.url.includes("/login") ? NOTE.url.replace("/login", "") : NOTE.url;
+  console.log("urlFix", urlFix);
 
   //#region read time
   const [connection, setConnection] = useState(null);
@@ -46,10 +49,13 @@ function Note() {
     //start connection
     connection.start()
       .then(() => {
+        setConnection(connection);
         console.log("successfully connected to hub");
+
       }).catch(err => console.log(err));
 
-    setConnection(connection);
+
+    // console.log(connection);
   }, [])
 
   const sendMessage = async (url, note) => {
@@ -79,34 +85,21 @@ function Note() {
         //check onfulfilled and isSetpassword. if setPassword = true then navigate to login page
         .then((respose) => {
           console.log(respose);
-
           if (!respose.payload) {
             return;
           }
+          navigate('/' + respose.payload.url);
 
-          // if not login navigate to login page
-          if (respose.payload.url && respose.payload.setPassword) {
-            dispatch(GetEditNoteStatus(respose.payload.url))
-              .then(resJwt => {
-                console.log(resJwt);
-                //if not login navigate to login page
-                if (resJwt.pathname == undefined && STORE.GetEditNoteStatus == null) {
-                  navigate("/" + NOTE.url + "/login")
-                } else {
-                  navigate("/" + respose.payload.url)
-                }
-              })
-          }
         })
     }
-  }, []);
+  }, [NOTE.url == '']);
   //#endregion
 
-  //change location pathname
-  useEffect(() => {
-    // update address url 
-    NOTE.url ? navigate('/' + NOTE.url) : null;
-  }, [NOTE.url])
+  // //change location pathname
+  // useEffect(() => {
+  //   // update address url 
+  //   NOTE.url ? navigate('/' + NOTE.url) : null;
+  // }, [NOTE.url])
 
   //if link exists
   useEffect(() => {
@@ -116,21 +109,17 @@ function Note() {
 
   // UPDATE NOTE CONTENT AFTER TYING NOTE 1 seconds
   useEffect(() => {
+    setAfterInput(afterInput);
+    sendMessage(NOTE.url, afterInput);
 
     if (NOTE.note || NOTE.url) {
-
       const newTimer = setTimeout(() => {
 
         const payload = {
           ...NOTE,
           note: afterInput,
         }
-
-        sendMessage(NOTE.url, afterInput)
-
-
         // delete payload.id;
-        console.log(payload);
         dispatch(UpdateNote(payload))
       }, 1000);
       //clear for performance
@@ -150,7 +139,7 @@ function Note() {
             {NOTE == null ? (
               <a href={origin} >{origin}</a>
             ) : (
-              <a href={origin + '/' + NOTE.url} >{origin + '/' + NOTE.url}</a>
+              <a href={origin + '/' + pathname} >{origin + '/' + urlFix}</a>
             )}
           </span>
         </div>
@@ -174,10 +163,12 @@ function Note() {
             changUrl={false}
             setPassword={true}
             share={false}
+
           />
           <span className='divider'>|</span>
 
           <ModalShow
+
             changUrl={false}
             setPassword={false}
             share={true}

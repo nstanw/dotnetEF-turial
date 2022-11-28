@@ -3,6 +3,7 @@ import { GetEditNoteStatus, GetNote, noteActions, checkPassword } from '../featu
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from "react-router-dom";
 import './loginStyle.css';
+import { Alert } from "reactstrap";
 
 function Login() {
 
@@ -11,15 +12,26 @@ function Login() {
     const NOTE = useSelector((state) => state.note.note);
     const Store = useSelector((state) => state.note);
     const [error, setError] = useState(false);
+    const [WrongPass, setWrongPass] = useState(false);
 
     //get url on address
+    const origin = window.location.origin;
     const Url = window.location.pathname.split('/')[1];
 
     useEffect(() => {
-        if (Store.GetEditNoteStatus) {
-            navigate('/' + Url)
-        }
-    }, [Store.GetEditNoteStatus == null])
+        dispatch(GetNote( Url))
+            .then(res => {
+                console.log(res);
+                console.log(res.payload === undefined);
+                if (res.payload === undefined) {
+                    navigate('/'+ Url)
+                }
+           
+                if (!res.payload.setPassword) {
+                    navigate('/'+ Url)
+                }
+            })
+    },[]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -29,21 +41,21 @@ function Login() {
         const payloadPassCheck = {
             url: Url,
             Password: value,
-
         }
-
-        console.log(value);
-        console.log(payloadPassCheck);
 
         dispatch(checkPassword(payloadPassCheck))
             .then((res) => {
-                console.log("checkPassword-----", res);
+                console.log(res);
                 if (res.payload == undefined) {
                     setError(true);
                 } else {
-                    localStorage.setItem('token', res.payload.token);
-                    navigate('/' + Url)
-                    dispatch(noteActions.editNoteOn());
+                    if (res.payload.id) {
+
+                        navigate('/' + res.payload.url);
+                    }
+                    if (!res.payload.matchPass) {
+                        setWrongPass(true);
+                    }
                 }
             });
     }
@@ -59,8 +71,11 @@ function Login() {
                     placeholder="Password"
                     className="form-control input-lg"
                     type="password"
-                     />
-                {error && <span id="spnChangePasswordError">Incorrect password</span>}
+                />
+
+                {error && <span id="spnChangePasswordError">Something Wrong!!!</span>}
+                {WrongPass && <span id="spnChangePasswordError"> Wrong Password!!!</span>}
+                <div></div>
                 <button
                     className="btn btn-primary"
                     type="submit"
